@@ -4,7 +4,7 @@ import './Memo.css';
 
 const Memo = (props) => (
     <div className='Memo' onClick={props.clicked}>
-        <h1>{props.title}</h1>
+        <h4>{props.title}</h4>
         <p>{props.content}</p>
     </div>
 );

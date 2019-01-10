@@ -40,12 +40,12 @@ class AddMemo extends Component {
 		})
 	}
 
-	confirmMemoClicked = () => {
+	saveMemoClicked = () => {
 		this.toggle();
 		this.addMemo();
 	}
 
-	newMemo = () => {
+	initMemo = () => {
 		this.toggle();
 		this.deleteInput();
 	}
@@ -82,7 +82,7 @@ class AddMemo extends Component {
 		return (
 			<div>
 				
-        <Button color="warning" onClick={this.newMemo}>New Memo</Button>
+        <Button color="warning" onClick={this.initMemo}>New Memo</Button>
 
 				<Modal isOpen={this.state.modal} toggle={this.toggle} modalTransition={{ timeout: 0 }} size='lg'>
           <ModalBody>
@@ -104,9 +104,11 @@ class AddMemo extends Component {
 							className='TextArea' />
           </ModalBody>
           <ModalFooter>
+						<Button color="danger" 
+							onClick={this.initMemo}>CANCEL</Button>
 						<Button color="primary" 
-							onClick={this.confirmMemoClicked}
-							disabled={!atLeastOneInputHasValue}>Confirm</Button>
+							onClick={this.saveMemoClicked}
+							disabled={!atLeastOneInputHasValue}>SAVE</Button>
           </ModalFooter>
         </Modal>
 

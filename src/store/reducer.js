@@ -1,5 +1,7 @@
 const initialState = {
-  memos: []
+  memos: [],
+  selectedMemoTitle: null,
+  selectedMemoContent: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +23,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         memos: state.memos.filter(memo => memo.id !== action.memoId)
       }
+
+    case 'SELECT_MEMO':
+      // const memoData = {
+      //   title: action.memoTitle,
+      //   content: action.memoContent
+      // }
+      
+      return { 
+        ...state,
+        selectedMemoTitle: action.memoTitle,
+        selectedMemoContent: action.memoContent
+      }
+
     default:
       return state;
   }

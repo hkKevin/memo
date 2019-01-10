@@ -1,16 +1,17 @@
 .Memo {
-  padding: 10px;
-  margin: 20px 20px;
+  padding: 30px;
+  margin: 10px 10px;
   border: 1px solid #eee;
   box-shadow: 0 2px 2px #ccc;
   box-sizing: border-box;
   display: inline-block;
   text-align: center;
+  background-color: #fde144;
 }
 
 @media (max-width: 500px) {
   .Memo {
-    margin: 20px 10px;
+    margin: 20px 20px;
     display: block;
   }
 }
