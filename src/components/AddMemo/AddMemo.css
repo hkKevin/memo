@@ -1,0 +1,11 @@
+.InputField, .TextArea {
+  border: none;
+  box-shadow: none;
+}
+
+.InputField:focus, .TextArea:focus {
+  /* outline: 1px solid green !important; 
+  outline-offset: none !important;  */
+  border: 1px solid lightgrey;
+  box-shadow: none;
+}
