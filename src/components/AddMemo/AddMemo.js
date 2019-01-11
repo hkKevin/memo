@@ -6,54 +6,78 @@ import './AddMemo.css';
 
 class AddMemo extends Component {
 
+	// state = {
+	// 	showModal: false
+	// }
 	constructor(props) {
     super(props);
     this.state = {
-			modal: false,
+			// modal: false,
 			title: '',
 			content: '',
 			hasTitle: false,
-			hasContent: false,
-			hasTitleAndContent: false,
-			showConfirmBtn: false
+			hasContent: false
+			// hasTitleAndContent: false,
+			// showConfirmBtn: false
     };
 
-    this.toggle = this.toggle.bind(this);
+    //this.toggle = this.toggle.bind(this);
 	}
 
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
+  toggle = () => {
+    this.props.onToggleModal();
 	}
 
-	addMemo() {
-		this.props.onAddMemo(this.state.title, this.state.content);
+	// toggle() {
+  //   this.setState({
+  //     modal: !this.state.modal
+  //   });
+  // }
+
+	saveMemo = () => {
+		this.props.onSaveMemo(this.state.title, this.state.content);
 	}
 
 	deleteInput() {
 		this.setState({
 			title: '',
-			hasTitle: '',
+			hasTitle: false,
 			content: '',
-			hasContent: ''
+			hasContent: false
 		})
 	}
 
 	saveMemoClicked = () => {
 		this.toggle();
-		this.addMemo();
+		this.saveMemo();
 	}
 
 	initMemo = () => {
 		this.toggle();
 		this.deleteInput();
+		//this.props.onDeleteInput();
 	}
 
 
+	// titleChangedHandler = (event) => {
+	// 	if (event.target.value === null || event.target.value === '') {
+	// 		this.setState({hasTitle: false});
+	// 	} else {
+	// 		this.setState({hasTitle: true});
+	// 	}
 
+	// 	this.setState({title: event.target.value});
+	// }
 
+	// contentChangedHandler = (event) => {
+	// 	if (event.target.value === null || event.target.value === '') {
+	// 		this.setState({hasContent: false});
+	// 	} else {
+	// 		this.setState({hasContent: true});
+	// 	}
 
+	// 	this.setState({content: event.target.value});
+	// }
 
 	titleChangedHandler = (event) => {
 		if (event.target.value === null || event.target.value === '') {
@@ -62,6 +86,7 @@ class AddMemo extends Component {
 			this.setState({hasTitle: true});
 		}
 
+    //this.props.onChangeTitle(event.target.value);
 		this.setState({title: event.target.value});
 	}
 
@@ -72,19 +97,27 @@ class AddMemo extends Component {
 			this.setState({hasContent: true});
 		}
 
+    //this.props.onChangeContent(event.target.value);
 		this.setState({content: event.target.value});
+  }
+
+	newMemoClicked = () => {
+		this.initMemo();
+		this.props.onNewMemo();
 	}
 
 	render () {
 
 		let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
-		return (
-			<div>
-				
-        <Button color="warning" onClick={this.initMemo}>New Memo</Button>
-
-				<Modal isOpen={this.state.modal} toggle={this.toggle} modalTransition={{ timeout: 0 }} size='lg'>
+		let modal = null;
+		if (!this.props.showStoredMemo) {
+			modal = (
+				<Modal 
+					isOpen={this.props.showModal} 
+					toggle={this.toggle} 
+					modalTransition={{ timeout: 1 }} 
+					size='lg'>
           <ModalBody>
 						<Input 
 							onChange={this.titleChangedHandler} 
@@ -108,23 +141,46 @@ class AddMemo extends Component {
 							onClick={this.initMemo}>CANCEL</Button>
 						<Button color="primary" 
 							onClick={this.saveMemoClicked}
-							disabled={!atLeastOneInputHasValue}>SAVE</Button>
+							disabled={!atLeastOneInputHasValue}
+							className='saveBtn'>SAVE</Button>
           </ModalFooter>
         </Modal>
+			);
+		}
+
+		return (
+			<div>
+				
+        <Button color="warning" onClick={this.newMemoClicked}>New Memo</Button>
+				
+				{modal}
 
 				<button 
-					onClick={() => this.props.onAddMemo(this.state.title, this.state.content)}
-					disabled={!atLeastOneInputHasValue}>Add Memo</button>
+					onClick={() => this.props.onAddMemo(this.state.title, this.state.content)}>+</button>
 
 			</div>
 		);
 	}
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = state => {
   return {
-    onAddMemo: (title, content) => dispatch({type: 'ADD_MEMO', memoData: {title: title, content: content}})
+		showModal: state.showModal,
+		title: state.title,
+		content: state.content,
+		showStoredMemo: state.showStoredMemo
   };
 };
 
-export default connect(null, mapDispatchToProps)(AddMemo);
+const mapDispatchToProps = dispatch => {
+  return {
+		onSaveMemo: (title, content) => dispatch({type: 'SAVE_MEMO', memoData: {title: title, content: content}}),
+		onNewMemo: () => dispatch({type: 'NEW_MEMO'}),
+		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'}),
+		onDeleteInput: () => dispatch({type: 'DELETE_INPUT'}),
+		onChangeTitle: (title) => dispatch({type: 'CHANGE_TITLE'}, {title: title}),
+    onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT'}, {content: content})
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddMemo);

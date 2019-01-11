@@ -4,8 +4,10 @@
 }
 
 .InputField:focus, .TextArea:focus {
-  /* outline: 1px solid green !important; 
-  outline-offset: none !important;  */
-  border: 1px solid lightgrey;
+  border: 1px solid #fff;
   box-shadow: none;
+}
+
+.saveBtn:disabled {
+  cursor: not-allowed;
 }

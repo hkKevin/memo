@@ -4,7 +4,7 @@ import './Header.css'
 
 const Header = () => (
   <div>
-    <header className='header'>MEMO</header>
+    <header className='header'><b>&lt; MEMO /&gt;</b></header>
   </div>
 );
 
