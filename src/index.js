@@ -9,7 +9,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reducer from './store/reducer';
 
-// Enable the Chrome Redux plug in, while available only in development mode (not available in production/ deployed mode)
+// Enable the Chrome Redux plug in, while available only in development mode (not available in production/ deployment mode)
 const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
 
 const store = createStore(reducer, composeEnhancers());

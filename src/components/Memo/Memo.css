@@ -1,15 +1,15 @@
 .Memo {
-  padding: 30px;
+  padding: 0px;
   margin: 10px 10px;
-  border: 1px solid #fde144;
+  border: 30px solid #fde144;
   box-shadow: 3px 3px 2px #ccc;
   box-sizing: border-box;
   display: inline-block;
   text-align: center;
   background-color: #fde144;
+  max-width: 500px;
+  overflow: hidden;
 }
-
-
 
 @media (max-width: 500px) {
   .Memo {

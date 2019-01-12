@@ -3,11 +3,7 @@ const initialState = {
   selectedMemoTitle: null,
   selectedMemoContent: null,
   selectedId: null,
-  // title: '',
-  // hasTitle: false,
-  content: '',
-  // hasContent: false,
-  // showModal: false,
+  showModal: false,
   showStoredMemo: false
 }
 
@@ -17,8 +13,6 @@ const reducer = (state = initialState, action) => {
       return { 
         ...state,
         showModal: true,
-        // title: '',
-        // content: '',
         showStoredMemo: false
       }
 
@@ -39,15 +33,6 @@ const reducer = (state = initialState, action) => {
         memos: state.memos.filter(memo => memo.id !== action.memoId)
       }
 
-    case 'DELETE_INPUT':
-      return { 
-        ...state,
-        title: '',
-        // hasTitle: false,
-        content: ''
-        // hasContent: false
-      }
-
     case 'TOGGLE_MODAL':
       return { 
         ...state,
@@ -66,18 +51,6 @@ const reducer = (state = initialState, action) => {
       return { 
         ...state,
         selectedId: action.memoId
-      }
-
-    case 'CHANGE_TITLE':      
-      return { 
-        ...state,
-        title: action.title
-      }
-
-    case 'CHANGE_CONTENT':      
-      return { 
-        ...state,
-        content: action.content
       }
 
     default:

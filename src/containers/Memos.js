@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, Button, Input} from 'reactstrap';
 
 import Memo from '../components/Memo/Memo';
 import AddMemo from '../components/AddMemo/AddMemo';
@@ -56,7 +56,6 @@ class Memos extends Component {
                 value={this.props.selectedMemoTitle} 
                 type='text' 
                 placeholder='Title'
-                name='title'
                 className='inputField' />
               <hr />
               <Input 
@@ -65,7 +64,6 @@ class Memos extends Component {
                 type='textarea'
                 rows='8' 
                 placeholder='Content'
-                name='content'
                 className='textArea' />
             </ModalBody>
             <ModalFooter className='modalFooter'>
@@ -111,8 +109,6 @@ const mapStateToProps = state => {
     addedMemos: state.memos,
     selectedMemoTitle: state.selectedMemoTitle,
     selectedMemoContent: state.selectedMemoContent,
-    title: state.title,
-    content: state.content,
     showStoredMemo: state.showStoredMemo,
     selectedId: state.selectedId
   };

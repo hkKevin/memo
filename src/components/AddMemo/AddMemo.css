@@ -10,6 +10,7 @@
 
 .newMemoBtn {
   margin-bottom: 20px;
+  color: black;
 }
 
 .saveBtn:disabled {

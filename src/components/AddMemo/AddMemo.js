@@ -6,33 +6,16 @@ import './AddMemo.css';
 
 class AddMemo extends Component {
 
-	// state = {
-	// 	showModal: false
-	// }
-	constructor(props) {
-    super(props);
-    this.state = {
-			// modal: false,
+	state = {
 			title: '',
 			content: '',
 			hasTitle: false,
 			hasContent: false
-			// hasTitleAndContent: false,
-			// showConfirmBtn: false
-    };
-
-    //this.toggle = this.toggle.bind(this);
 	}
 
   toggle = () => {
     this.props.onToggleModal();
 	}
-
-	// toggle() {
-  //   this.setState({
-  //     modal: !this.state.modal
-  //   });
-  // }
 
 	saveMemo = () => {
 		this.props.onSaveMemo(this.state.title, this.state.content);
@@ -41,8 +24,8 @@ class AddMemo extends Component {
 	deleteInput() {
 		this.setState({
 			title: '',
-			hasTitle: false,
 			content: '',
+			hasTitle: false,
 			hasContent: false
 		})
 	}
@@ -55,29 +38,7 @@ class AddMemo extends Component {
 	initMemo = () => {
 		this.toggle();
 		this.deleteInput();
-		//this.props.onDeleteInput();
 	}
-
-
-	// titleChangedHandler = (event) => {
-	// 	if (event.target.value === null || event.target.value === '') {
-	// 		this.setState({hasTitle: false});
-	// 	} else {
-	// 		this.setState({hasTitle: true});
-	// 	}
-
-	// 	this.setState({title: event.target.value});
-	// }
-
-	// contentChangedHandler = (event) => {
-	// 	if (event.target.value === null || event.target.value === '') {
-	// 		this.setState({hasContent: false});
-	// 	} else {
-	// 		this.setState({hasContent: true});
-	// 	}
-
-	// 	this.setState({content: event.target.value});
-	// }
 
 	titleChangedHandler = (event) => {
 		if (event.target.value === null || event.target.value === '') {
@@ -85,8 +46,6 @@ class AddMemo extends Component {
 		} else {
 			this.setState({hasTitle: true});
 		}
-
-    //this.props.onChangeTitle(event.target.value);
 		this.setState({title: event.target.value});
 	}
 
@@ -96,8 +55,6 @@ class AddMemo extends Component {
 		} else {
 			this.setState({hasContent: true});
 		}
-
-    //this.props.onChangeContent(event.target.value);
 		this.setState({content: event.target.value});
   }
 
@@ -156,17 +113,13 @@ class AddMemo extends Component {
 
 		return (
 			<div>
-				
 				<Button 
 					color="warning" 
 					onClick={this.newMemoClicked}
-					className='newMemoBtn'>NEW MEMO</Button>
-				
+					className='newMemoBtn'>
+					NEW MEMO
+				</Button>
 				{modal}
-
-				{/* <button 
-					onClick={() => this.props.onAddMemo(this.state.title, this.state.content)}>+</button> */}
-
 			</div>
 		);
 	}
@@ -185,10 +138,7 @@ const mapDispatchToProps = dispatch => {
   return {
 		onSaveMemo: (title, content) => dispatch({type: 'SAVE_MEMO', memoData: {title: title, content: content}}),
 		onNewMemo: () => dispatch({type: 'NEW_MEMO'}),
-		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'}),
-		onDeleteInput: () => dispatch({type: 'DELETE_INPUT'}),
-		onChangeTitle: (title) => dispatch({type: 'CHANGE_TITLE'}, {title: title}),
-    onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT'}, {content: content})
+		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'})
   };
 };
 
