@@ -114,6 +114,8 @@ class AddMemo extends Component {
 		if (!this.props.showStoredMemo) {
 			modal = (
 				<Modal 
+					autoFocus
+					centered
 					isOpen={this.props.showModal} 
 					toggle={this.toggle} 
 					modalTransition={{ timeout: 1 }} 

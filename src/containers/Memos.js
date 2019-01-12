@@ -45,6 +45,7 @@ class Memos extends Component {
       modal = (
         <div>
           <Modal 
+            centered
             isOpen={this.props.showModal} 
             toggle={this.toggle} 
             modalTransition={{ timeout: 1 }} 
