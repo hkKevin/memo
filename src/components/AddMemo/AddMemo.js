@@ -125,7 +125,7 @@ class AddMemo extends Component {
 							type='text' 
 							placeholder='Title'
 							name='title'
-							className='InputField' />
+							className='inputField' />
 						<hr />
 						<Input 
 							onChange={this.contentChangedHandler} 
@@ -134,12 +134,16 @@ class AddMemo extends Component {
 							rows='8' 
 							placeholder='Content'
 							name='content'
-							className='TextArea' />
+							className='textArea' />
           </ModalBody>
           <ModalFooter>
-						<Button color="danger" 
+						<Button 
+							outline
+							color="secondary" 
 							onClick={this.initMemo}>CANCEL</Button>
-						<Button color="primary" 
+						<Button 
+							outline
+							color="primary" 
 							onClick={this.saveMemoClicked}
 							disabled={!atLeastOneInputHasValue}
 							className='saveBtn'>SAVE</Button>
@@ -151,12 +155,15 @@ class AddMemo extends Component {
 		return (
 			<div>
 				
-        <Button color="warning" onClick={this.newMemoClicked}>New Memo</Button>
+				<Button 
+					color="warning" 
+					onClick={this.newMemoClicked}
+					className='newMemoBtn'>NEW MEMO</Button>
 				
 				{modal}
 
-				<button 
-					onClick={() => this.props.onAddMemo(this.state.title, this.state.content)}>+</button>
+				{/* <button 
+					onClick={() => this.props.onAddMemo(this.state.title, this.state.content)}>+</button> */}
 
 			</div>
 		);

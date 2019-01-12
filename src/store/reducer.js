@@ -2,6 +2,7 @@ const initialState = {
   memos: [],
   selectedMemoTitle: null,
   selectedMemoContent: null,
+  selectedId: null,
   // title: '',
   // hasTitle: false,
   content: '',
@@ -59,6 +60,12 @@ const reducer = (state = initialState, action) => {
         selectedMemoTitle: action.memoTitle,
         selectedMemoContent: action.memoContent,
         showStoredMemo: true
+      }
+
+    case 'STORE_ID':      
+      return { 
+        ...state,
+        selectedId: action.memoId
       }
 
     case 'CHANGE_TITLE':      

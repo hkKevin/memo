@@ -9,6 +9,8 @@
   background-color: #fde144;
 }
 
+
+
 @media (max-width: 500px) {
   .Memo {
     margin: 20px 20px;
@@ -19,4 +21,8 @@
 .Memo:hover {
   cursor: pointer;
   box-shadow: 5px 5px 5px #ccc;
+}
+
+.Memo:active {
+  box-shadow: 10px 10px 10px #ccc;
 }

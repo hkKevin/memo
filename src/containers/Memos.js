@@ -1,54 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 import Memo from '../components/Memo/Memo';
 import AddMemo from '../components/AddMemo/AddMemo';
+import './Memos.css'
 
 class Memos extends Component {
-
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-	// 		modal: false,
-	// 		title: '',
-	// 		content: '',
-	// 		hasTitle: false,
-	// 		hasContent: false,
-	// 		hasTitleAndContent: false,
-	// 		showConfirmBtn: false
-  //   };
-
-  //   this.toggle = this.toggle.bind(this);
-	// }
-
-  // toggle() {
-  //   this.setState({
-  //     modal: !this.state.modal
-  //   });
-  // }
   
-  // deleteInput() {
-	// 	this.setState({
-	// 		title: '',
-	// 		hasTitle: '',
-	// 		content: '',
-	// 		hasContent: ''
-	// 	})
-	// }
-
-	// initMemo = () => {
-	// 	this.toggle();
-	// 	this.deleteInput();
-	// }
-
-  componentDidUpdate(){
-    console.log(this.props.addedMemos)
-  }
+  // componentDidUpdate(){
+  //   console.log(this.props.addedMemos)
+  // }
 
   memoClicked = (memo) => {
     this.toggle();
     this.selectMemo(memo);
+    this.storeId(memo);
+  }
+
+  deleteBtnClicked = () => {
+    this.toggle();
+    this.deleteMemo();
+  }
+
+  deleteMemo = () => {
+    this.props.onDeleteMemo(this.props.selectedId)
   }
 
   toggle = () => {
@@ -57,6 +33,10 @@ class Memos extends Component {
 
   selectMemo = (memo) => {
     this.props.onSelectMemo(memo.title, memo.content)
+  }
+
+  storeId = (memo) => {
+    this.props.onStoreId(memo.id)
   }
 
   render () {
@@ -76,7 +56,7 @@ class Memos extends Component {
                 type='text' 
                 placeholder='Title'
                 name='title'
-                className='InputField' />
+                className='inputField' />
               <hr />
               <Input 
                 onChange={this.contentChangedHandler} 
@@ -85,11 +65,22 @@ class Memos extends Component {
                 rows='8' 
                 placeholder='Content'
                 name='content'
-                className='TextArea' />
+                className='textArea' />
             </ModalBody>
-            <ModalFooter>
-              <Button color="danger" 
+            <ModalFooter className='modalFooter'>
+            <Button 
+                outline
+                color="danger" 
+                onClick={this.deleteBtnClicked}
+                className='deleteMemoBtn'>DELETE</Button>
+              <Button 
+                outline
+                color="secondary" 
                 onClick={this.toggle}>CANCEL</Button>
+              <Button 
+                outline
+                color="primary" 
+                onClick={this.toggle}>UPDATE</Button>
             </ModalFooter>
           </Modal>
         </div>
@@ -121,7 +112,8 @@ const mapStateToProps = state => {
     selectedMemoContent: state.selectedMemoContent,
     title: state.title,
     content: state.content,
-    showStoredMemo: state.showStoredMemo
+    showStoredMemo: state.showStoredMemo,
+    selectedId: state.selectedId
   };
 };
 
@@ -129,7 +121,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onDeleteMemo: (id) => dispatch({type: 'DELETE_MEMO', memoId: id}),
     onSelectMemo: (title, content) => dispatch({type: 'SELECT_MEMO', memoTitle: title, memoContent: content}),
-    onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'})
+    onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'}),
+    onStoreId: (id) => dispatch({type: 'STORE_ID', memoId: id})
   };
 };
 

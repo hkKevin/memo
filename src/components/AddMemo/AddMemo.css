@@ -1,11 +1,15 @@
-.InputField, .TextArea {
+.inputField, .textArea {
   border: none;
   box-shadow: none;
 }
 
-.InputField:focus, .TextArea:focus {
-  border: 1px solid #fff;
+.inputField:focus, .textArea:focus {
+  /* border: 1px solid #fff; */
   box-shadow: none;
+}
+
+.newMemoBtn {
+  margin-bottom: 20px;
 }
 
 .saveBtn:disabled {
