@@ -53,6 +53,33 @@ const reducer = (state = initialState, action) => {
         selectedId: action.memoId
       }
 
+    case 'CHANGE_TITLE':      
+      return { 
+        ...state,
+        selectedMemoTitle: action.memoTitle
+      }
+
+    case 'CHANGE_CONTENT':      
+      return { 
+        ...state,
+        selectedMemoContent: action.memoContent
+      }
+
+    case 'UPDATE_MEMO':
+      const updatedMemos = state.memos.map(memo => {
+        if (memo.id === state.selectedId) {
+          memo.title =  state.selectedMemoTitle;
+          memo.content = state.selectedMemoContent;
+        }
+        return memo;
+      })
+      return {
+        ...state,
+        memos: updatedMemos
+      }
+
+    
+
     default:
       return state;
   }

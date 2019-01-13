@@ -39,6 +39,35 @@ class Memos extends Component {
     this.props.onStoreId(memo.id)
   }
 
+  titleChangedHandler = (event) => {
+		// if (event.target.value === null || event.target.value === '') {
+		// 	this.setState({hasTitle: false});
+		// } else {
+		// 	this.setState({hasTitle: true});
+		// }
+    //this.setState({title: event.target.value});
+    this.props.onChangeTitle(event.target.value);
+	}
+
+	contentChangedHandler = (event) => {
+		// if (event.target.value === null || event.target.value === '') {
+		// 	this.setState({hasContent: false});
+		// } else {
+		// 	this.setState({hasContent: true});
+		// }
+    //this.setState({content: event.target.value});
+    this.props.onChangeContent(event.target.value);
+  }
+
+  updateMemoClicked = () => {
+    this.toggle();
+    this.updateMemo();
+  }
+
+  updateMemo = () => {
+    this.props.onUpdateMemo();
+  }
+
   render () {
     let modal = null;
     if (this.props.showStoredMemo) {
@@ -79,7 +108,7 @@ class Memos extends Component {
               <Button 
                 outline
                 color="primary" 
-                onClick={this.toggle}>UPDATE</Button>
+                onClick={this.updateMemoClicked}>UPDATE</Button>
             </ModalFooter>
           </Modal>
         </div>
@@ -119,7 +148,10 @@ const mapDispatchToProps = dispatch => {
     onDeleteMemo: (id) => dispatch({type: 'DELETE_MEMO', memoId: id}),
     onSelectMemo: (title, content) => dispatch({type: 'SELECT_MEMO', memoTitle: title, memoContent: content}),
     onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'}),
-    onStoreId: (id) => dispatch({type: 'STORE_ID', memoId: id})
+    onStoreId: (id) => dispatch({type: 'STORE_ID', memoId: id}),
+    onChangeTitle: (title) => dispatch({type: 'CHANGE_TITLE', memoTitle: title}),
+    onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT', memoContent: content}),
+    onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'})
   };
 };
 
