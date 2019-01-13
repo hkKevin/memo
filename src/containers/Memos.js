@@ -12,6 +12,11 @@ class Memos extends Component {
   //   console.log(this.props.addedMemos)
   // }
 
+  state = {
+    hasTitle: false,
+    hasContent: false
+  }
+
   memoClicked = (memo) => {
     this.toggle();
     this.selectMemo(memo);
@@ -32,30 +37,43 @@ class Memos extends Component {
 	}
 
   selectMemo = (memo) => {
+    this.checkInput(memo);
     this.props.onSelectMemo(memo.title, memo.content)
   }
+
+  checkInput = (memo) => {
+    if (memo.title === null || memo.title === '') {
+      this.setState({hasTitle: false});
+    } else {
+      this.setState({hasTitle: true});
+    }
+
+		if (memo.content === null || memo.content === '') {
+      this.setState({hasContent: false});
+    } else {
+      this.setState({hasContent: true});
+    }
+	}
 
   storeId = (memo) => {
     this.props.onStoreId(memo.id)
   }
 
   titleChangedHandler = (event) => {
-		// if (event.target.value === null || event.target.value === '') {
-		// 	this.setState({hasTitle: false});
-		// } else {
-		// 	this.setState({hasTitle: true});
-		// }
-    //this.setState({title: event.target.value});
+		if (event.target.value === null || event.target.value === '') {
+			this.setState({hasTitle: false});
+		} else {
+			this.setState({hasTitle: true});
+		}
     this.props.onChangeTitle(event.target.value);
 	}
 
 	contentChangedHandler = (event) => {
-		// if (event.target.value === null || event.target.value === '') {
-		// 	this.setState({hasContent: false});
-		// } else {
-		// 	this.setState({hasContent: true});
-		// }
-    //this.setState({content: event.target.value});
+		if (event.target.value === null || event.target.value === '') {
+			this.setState({hasContent: false});
+		} else {
+			this.setState({hasContent: true});
+		}
     this.props.onChangeContent(event.target.value);
   }
 
@@ -68,7 +86,11 @@ class Memos extends Component {
     this.props.onUpdateMemo();
   }
 
+  
+
   render () {
+    let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
+    
     let modal = null;
     if (this.props.showStoredMemo) {
       modal = (
@@ -108,7 +130,9 @@ class Memos extends Component {
               <Button 
                 outline
                 color="primary" 
-                onClick={this.updateMemoClicked}>UPDATE</Button>
+                onClick={this.updateMemoClicked}
+                disabled={!atLeastOneInputHasValue}
+                className='updateBtn'>UPDATE</Button>
             </ModalFooter>
           </Modal>
         </div>

@@ -6,3 +6,7 @@
 .modalFooter {
   justify-content: space-between;
 }
+
+.updateBtn:disabled {
+  cursor: not-allowed;
+}
