@@ -5,9 +5,9 @@ import './Memo.css';
 const Memo = (props) => (
 
 	<div className='Memo' onClick={props.clicked}>
-		<h4>{props.title}</h4>
+		<h3>{props.title}</h3>
 		<hr />
-		<p>{props.content}</p>
+		<div>{props.content}</div>
 	</div>
 				
 );

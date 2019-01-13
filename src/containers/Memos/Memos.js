@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input} from 'reactstrap';
 
-import Memo from '../components/Memo/Memo';
-import AddMemo from '../components/AddMemo/AddMemo';
+import Memo from '../../components/Memo/Memo';
+import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css'
 
 class Memos extends Component {
@@ -113,7 +113,7 @@ class Memos extends Component {
                 onChange={this.contentChangedHandler} 
                 value={this.props.selectedMemoContent} 
                 type='textarea'
-                rows='8' 
+                rows='10' 
                 placeholder='Content'
                 className='textArea' />
             </ModalBody>
@@ -121,8 +121,7 @@ class Memos extends Component {
             <Button 
                 outline
                 color="danger" 
-                onClick={this.deleteBtnClicked}
-                className='deleteMemoBtn'>DELETE</Button>
+                onClick={this.deleteBtnClicked}>DELETE</Button>
               <Button 
                 outline
                 color="secondary" 

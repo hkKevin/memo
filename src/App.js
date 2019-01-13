@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Memos from './containers/Memos';
+import Memos from './containers/Memos/Memos';
 import Header from './components/UI/Header/Header';
 
 class App extends Component {

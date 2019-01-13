@@ -90,12 +90,12 @@ class AddMemo extends Component {
 							onChange={this.contentChangedHandler} 
 							value={this.state.content} 
 							type='textarea'
-							rows='8' 
+							rows='10' 
 							placeholder='Content'
 							name='content'
 							className='textArea' />
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter className='modalFooter'>
 						<Button 
 							outline
 							color="secondary" 
@@ -116,7 +116,7 @@ class AddMemo extends Component {
 				<Button 
 					color="warning" 
 					onClick={this.newMemoClicked}
-					className='newMemoBtn'>NEW MEMO</Button>
+					className='newMemoBtn'>NEW</Button>
 				{modal}
 			</div>
 		);

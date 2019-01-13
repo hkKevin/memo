@@ -5,10 +5,12 @@
   box-shadow: 3px 3px 2px #ccc;
   box-sizing: border-box;
   display: inline-block;
-  text-align: center;
+  text-align: left;
   background-color: #fde144;
-  max-width: 500px;
+  max-width: 800px;
+  max-height: 800px;
   overflow: hidden;
+  white-space: pre-wrap;
 }
 
 @media (max-width: 500px) {

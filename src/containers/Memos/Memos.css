@@ -1,0 +1,23 @@
+.modalFooter {
+  justify-content: space-between;
+}
+
+.updateBtn:disabled {
+  cursor: not-allowed;
+}
+
+.updateBtn:not(:disabled) {
+  animation: enable 0.3s linear;
+}
+
+@keyframes enable {
+  0% {
+      transform: scale(1);
+  }
+  60% {
+      transform: scale(1.1);
+  }
+  100% {
+      transform: scale(1);
+  }
+}
