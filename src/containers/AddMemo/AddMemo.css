@@ -8,10 +8,31 @@
 }
 
 .newMemoBtn {
-  margin-bottom: 20px;
-  color: black;
+  color: rgb(253,225,68);
   font-weight: normal;
-  animation: newMemoEnable 0.2s linear;
+  background-color: black;
+  border-color: black;
+  opacity: 0.1;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  animation: newMemoEnable 0.7s linear;
+  animation-delay: 0.5s;
+  animation-iteration-count: 2;
+}
+
+.newMemoBtn:hover {
+  color: rgb(253,225,68);
+  background-color: black;
+  border-color: black;
+  opacity: 1;
+}
+
+.btn-warning:not(:disabled):not(.disabled):active,
+.newMemoBtn:active {
+  color: rgb(253,225,68);
+  background-color: black;
+  border-color: black;
 }
 
 .saveBtn:disabled {
@@ -23,22 +44,23 @@
 }
 
 .saveBtn:not(:disabled) {
-  animation: enable 0.3s linear;
+  animation: saveBtnEnable 0.3s linear;
 }
 
 @keyframes newMemoEnable {
   0% {
-      transform: scale(0);
+      transform: scale(1);
   }
   60% {
-      transform: scale(0.6);
+      transform: scale(1.1);
+      opacity: 1;
   }
   100% {
       transform: scale(1);
   }
 }
 
-@keyframes enable {
+@keyframes saveBtnEnable {
   0% {
       transform: scale(1);
   }
