@@ -1,12 +1,12 @@
-.Memo {
+/* .Memo {
   padding: 0px;
   margin: 10px 10px;
-  border: 30px solid #fde144;
+  border: 30px solid #4460FD;
+  background-color: #4460FD;
   box-shadow: 3px 3px 2px #ccc;
   box-sizing: border-box;
   display: inline-block;
   text-align: left;
-  background-color: #fde144;
   max-width: 800px;
   max-height: 800px;
   overflow: hidden;
@@ -28,4 +28,4 @@
 .Memo:active {
   box-shadow: 10px 10px 10px #ccc;
 }
-
+ */

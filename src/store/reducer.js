@@ -9,6 +9,15 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch ( action.type ) {
+
+    // Within both AddMemo.js & Memos.js:
+    case 'TOGGLE_MODAL':
+      return { 
+        ...state,
+        showModal: !state.showModal
+      }
+
+    // Within AddMemo.js:
     case 'NEW_MEMO':
       return { 
         ...state,
@@ -26,17 +35,12 @@ const reducer = (state = initialState, action) => {
         ...state,
          memos: state.memos.concat(newMemo)
       }
-      
+
+    // Within Memos.js:
     case 'DELETE_MEMO':
       return { 
         ...state,
         memos: state.memos.filter(memo => memo.id !== action.memoId)
-      }
-
-    case 'TOGGLE_MODAL':
-      return { 
-        ...state,
-        showModal: !state.showModal
       }
 
     case 'SELECT_MEMO':      
@@ -77,8 +81,6 @@ const reducer = (state = initialState, action) => {
         ...state,
         memos: updatedMemos
       }
-
-    
 
     default:
       return state;

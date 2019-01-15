@@ -12,13 +12,16 @@
   font-weight: normal;
   background-color: black;
   border-color: black;
-  opacity: 0.1;
+  opacity: 0.3;
   position: fixed;
   bottom: 20px;
   right: 20px;
-  animation: newMemoEnable 0.7s linear;
+  /* animation-name: newMemoEnable;
+  animation-duration: 0.7;
+  animation-timing-function: linear;
   animation-delay: 0.5s;
-  animation-iteration-count: 2;
+  animation-iteration-count: 2; */
+  animation: newMemoEnable 0.7s linear 0.5s 2;
 }
 
 .newMemoBtn:hover {

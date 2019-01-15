@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input} from 'reactstrap';
+import Radium, { StyleRoot } from 'radium';
 
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -14,7 +15,8 @@ class Memos extends Component {
 
   state = {
     hasTitle: false,
-    hasContent: false
+    hasContent: false,
+    defaultColor: true
   }
 
   memoClicked = (memo) => {
@@ -86,7 +88,11 @@ class Memos extends Component {
     this.props.onUpdateMemo();
   }
 
-  
+  changeColor = () => {
+    this.setState(prevState => ({
+      defaultColor: !prevState.defaultColor
+    }));
+  }
 
   render () {
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
@@ -138,19 +144,58 @@ class Memos extends Component {
       );
     } 
 
-    return (
-      <div>
-        <AddMemo />
-        {this.props.addedMemos.map(memo => (
-          <Memo 
-            key={memo.id}
-            title={memo.title} 
-            content={memo.content} 
-            clicked={() => this.memoClicked(memo)}/>
-        ))}
+    const memoStyle = {
+      padding: '0px',
+      margin: '10px 10px',
+      boxShadow: '3px 3px 2px #ccc',
+      boxSizing: 'border-box',
+      display: 'inline-block',
+      textAlign: 'left',
+      maxWidth: '800px',
+      maxHeight: '800px',
+      overflow: 'hidden',
+      whiteSpace: 'pre-wrap',
+      ':hover': {
+        cursor: 'pointer',
+        boxShadow: '5px 5px 5px #ccc'
+      },
+      ':active': {
+        boxShadow: '10px 10px 10px #ccc'
+      },
+      '@media (max-width: 500px)': {
+        margin: '20px 20px',
+        display: 'block'
+      }
+    };
 
-        {modal}
-      </div>
+    if (this.state.defaultColor) {
+      memoStyle.border = '30px solid #FEE976';
+      memoStyle.backgroundColor = '#FEE976';
+    } else {
+      memoStyle.border ='30px solid #DCDFFF';
+      memoStyle.backgroundColor = '#DCDFFF'
+    }
+
+    return (
+      <StyleRoot>
+        <div>
+          <AddMemo />
+
+          <button
+            onClick={this.changeColor}>Change Color</button>
+
+          {this.props.addedMemos.map(memo => (
+            <Memo 
+              key={memo.id}
+              title={memo.title} 
+              content={memo.content} 
+              clicked={() => this.memoClicked(memo)}
+              style={ memoStyle }/>
+          ))}
+
+          {modal}
+        </div>
+      </StyleRoot>
     );
   }
 }
@@ -178,4 +223,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Memos);
+export default Radium(connect(mapStateToProps, mapDispatchToProps)(Memos));
