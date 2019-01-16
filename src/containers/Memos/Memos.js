@@ -6,7 +6,6 @@ import Radium, { StyleRoot } from 'radium';
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css'
-import colorWheel from '../../color-wheel.png';
 
 class Memos extends Component {
   
@@ -135,11 +134,13 @@ class Memos extends Component {
               <Button 
                 outline
                 color="secondary" 
-                onClick={this.toggle}>CANCEL</Button>
+                onClick={this.toggle}
+                title='Cancel update'>CANCEL</Button>
               <Button 
                 outline
                 color="info" 
-                onClick={this.changeColor}>COLOR</Button>
+                onClick={this.changeColor}
+                title='Change memo color'>COLOR</Button>
               <Button 
                 outline
                 color="primary" 

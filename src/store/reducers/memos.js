@@ -8,7 +8,7 @@ const initialState = {
   selectedMemoColor: null
 }
 
-const reducer = (state = initialState, action) => {
+const memos = (state = initialState, action) => {
   switch ( action.type ) {
 
     // Within both AddMemo.js & Memos.js:
@@ -113,4 +113,4 @@ const reducer = (state = initialState, action) => {
   }
 }
 
-export default reducer;
+export default memos;

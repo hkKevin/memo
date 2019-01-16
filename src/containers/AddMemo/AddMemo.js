@@ -116,7 +116,8 @@ class AddMemo extends Component {
 				<Button 
 					color="warning" 
 					onClick={this.newMemoClicked}
-					className='newMemoBtn'>NEW</Button>
+					className='newMemoBtn'
+					title='Create new memo'>NEW</Button>
 				{modal}
 			</div>
 		);
