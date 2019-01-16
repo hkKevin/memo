@@ -4,7 +4,8 @@ const initialState = {
   selectedMemoContent: null,
   selectedId: null,
   showModal: false,
-  showStoredMemo: false
+  showStoredMemo: false,
+  selectedMemoColor: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -28,8 +29,9 @@ const reducer = (state = initialState, action) => {
     case 'SAVE_MEMO':
       const newMemo = {
           id: new Date().getTime(),
-          title: action.memoData.title,
-          content: action.memoData.content
+          title: action.memoTitle,
+          content: action.memoContent,
+          color: 'yellow'
       }
       return {
         ...state,
@@ -37,6 +39,12 @@ const reducer = (state = initialState, action) => {
       }
 
     // Within Memos.js:
+    case 'STORE_COLOR':
+      return {
+        ...state,
+        selectedMemoColor: action.memoColor
+      }
+
     case 'DELETE_MEMO':
       return { 
         ...state,
@@ -80,6 +88,24 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         memos: updatedMemos
+      }
+
+    case 'CHANGE_COLOR':
+      const changedColor = state.memos.map(memo => {
+        if (memo.id === state.selectedId) {
+          if (state.selectedMemoColor === 'yellow'){
+            memo.color =  'blue';
+            state.selectedMemoColor = 'blue';
+          } else {
+            memo.color =  'yellow';
+            state.selectedMemoColor = 'yellow';
+          }
+        }
+        return memo;
+      })
+      return {
+        ...state,
+        memos: changedColor
       }
 
     default:

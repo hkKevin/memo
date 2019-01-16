@@ -6,6 +6,7 @@ import Radium, { StyleRoot } from 'radium';
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css'
+import colorWheel from '../../color-wheel.png';
 
 class Memos extends Component {
   
@@ -23,6 +24,7 @@ class Memos extends Component {
     this.toggle();
     this.selectMemo(memo);
     this.storeId(memo);
+    this.storeColor(memo);
   }
 
   deleteBtnClicked = () => {
@@ -88,10 +90,12 @@ class Memos extends Component {
     this.props.onUpdateMemo();
   }
 
+  storeColor = (memo) => {
+    this.props.onStoreColor(memo.color)
+  }
+
   changeColor = () => {
-    this.setState(prevState => ({
-      defaultColor: !prevState.defaultColor
-    }));
+    this.props.onChangeColor();
   }
 
   render () {
@@ -124,7 +128,7 @@ class Memos extends Component {
                 className='textArea' />
             </ModalBody>
             <ModalFooter className='modalFooter'>
-            <Button 
+              <Button 
                 outline
                 color="danger" 
                 onClick={this.deleteBtnClicked}>DELETE</Button>
@@ -132,6 +136,10 @@ class Memos extends Component {
                 outline
                 color="secondary" 
                 onClick={this.toggle}>CANCEL</Button>
+              <Button 
+                outline
+                color="info" 
+                onClick={this.changeColor}>COLOR</Button>
               <Button 
                 outline
                 color="primary" 
@@ -145,44 +153,70 @@ class Memos extends Component {
     } 
 
     const memoStyle = {
-      padding: '0px',
-      margin: '10px 10px',
-      boxShadow: '3px 3px 2px #ccc',
-      boxSizing: 'border-box',
-      display: 'inline-block',
-      textAlign: 'left',
-      maxWidth: '800px',
-      maxHeight: '800px',
-      overflow: 'hidden',
-      whiteSpace: 'pre-wrap',
-      ':hover': {
-        cursor: 'pointer',
-        boxShadow: '5px 5px 5px #ccc'
+      'yellow': {
+        border: '30px solid #FEE976',
+        backgroundColor: '#FEE976',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
       },
-      ':active': {
-        boxShadow: '10px 10px 10px #ccc'
-      },
-      '@media (max-width: 500px)': {
-        margin: '20px 20px',
-        display: 'block'
+      'blue': {
+        border: '30px solid #DCDFFF',
+        backgroundColor: '#DCDFFF',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
       }
     };
 
-    if (this.state.defaultColor) {
-      memoStyle.border = '30px solid #FEE976';
-      memoStyle.backgroundColor = '#FEE976';
-    } else {
-      memoStyle.border ='30px solid #DCDFFF';
-      memoStyle.backgroundColor = '#DCDFFF'
-    }
+    // if (this.state.defaultColor) {
+    //   memoStyle.border = '30px solid #FEE976';
+    //   memoStyle.backgroundColor = '#FEE976';
+    // } else {
+    //   memoStyle.border ='30px solid #DCDFFF';
+    //   memoStyle.backgroundColor = '#DCDFFF'
+    // }
 
     return (
       <StyleRoot>
         <div>
           <AddMemo />
-
-          <button
-            onClick={this.changeColor}>Change Color</button>
 
           {this.props.addedMemos.map(memo => (
             <Memo 
@@ -190,7 +224,7 @@ class Memos extends Component {
               title={memo.title} 
               content={memo.content} 
               clicked={() => this.memoClicked(memo)}
-              style={ memoStyle }/>
+              style={memoStyle[memo.color]}/>
           ))}
 
           {modal}
@@ -219,7 +253,9 @@ const mapDispatchToProps = dispatch => {
     onStoreId: (id) => dispatch({type: 'STORE_ID', memoId: id}),
     onChangeTitle: (title) => dispatch({type: 'CHANGE_TITLE', memoTitle: title}),
     onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT', memoContent: content}),
-    onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'})
+    onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'}),
+    onStoreColor: (color) => dispatch({type: 'STORE_COLOR', memoColor: color}),
+    onChangeColor: () => dispatch({type: 'CHANGE_COLOR'})
   };
 };
 

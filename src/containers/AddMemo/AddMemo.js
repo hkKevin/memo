@@ -134,7 +134,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-		onSaveMemo: (title, content) => dispatch({type: 'SAVE_MEMO', memoData: {title: title, content: content}}),
+		onSaveMemo: (title, content) => dispatch({type: 'SAVE_MEMO', memoTitle: title, memoContent: content}),
 		onNewMemo: () => dispatch({type: 'NEW_MEMO'}),
 		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'})
   };
