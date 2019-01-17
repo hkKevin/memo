@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap';
+import axios from '../../axios-orders';
 
 import './AddMemo.css';
+import * as actions from '../../store/actions/index';
 
 class AddMemo extends Component {
 
@@ -18,7 +20,13 @@ class AddMemo extends Component {
 	}
 
 	saveMemo = () => {
-		this.props.onSaveMemo(this.state.title, this.state.content);
+		const memoData = {
+			id: new Date().getTime(),
+			title: this.state.title,
+			content: this.state.content,
+			color: 'yellow'
+		}
+		this.props.onSaveMemo(memoData);
 	}
 
 	deleteInput() {
@@ -127,18 +135,19 @@ class AddMemo extends Component {
 const mapStateToProps = state => {
   return {
 		showModal: state.showModal,
-		title: state.title,
-		content: state.content,
+		// title: state.title,
+		// content: state.content,
 		showStoredMemo: state.showStoredMemo
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-		onSaveMemo: (title, content) => dispatch({type: 'SAVE_MEMO', memoTitle: title, memoContent: content}),
+		// onSaveMemo: (memoData) => dispatch({type: 'SAVE_MEMO', memoData: memoData}),
+		onSaveMemo: (memoData) => dispatch(actions.saveMemo(memoData)),
 		onNewMemo: () => dispatch({type: 'NEW_MEMO'}),
 		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'})
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddMemo);
+export default connect(mapStateToProps, mapDispatchToProps)(AddMemo, axios);

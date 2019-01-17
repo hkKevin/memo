@@ -26,16 +26,26 @@ const memos = (state = initialState, action) => {
         showStoredMemo: false
       }
 
-    case 'SAVE_MEMO':
-      const newMemo = {
-          id: new Date().getTime(),
-          title: action.memoTitle,
-          content: action.memoContent,
-          color: 'yellow'
-      }
+    // case 'SAVE_MEMO':
+    //   // const newMemo = {
+    //   //     id: new Date().getTime(),
+    //   //     title: action.memoTitle,
+    //   //     content: action.memoContent,
+    //   //     color: 'yellow'
+    //   // }
+    //   return {
+    //     ...state,
+    //      memos: state.memos.concat(action.memoData)
+    //   }
+
+    case 'SAVE_MEMO_SUCCESS':
+      // const newMemo = {
+      //   ...action.memoData,
+      //   id: action.memoId
+      // }
       return {
         ...state,
-         memos: state.memos.concat(newMemo)
+        memos: state.memos.concat(action.memoData)
       }
 
     // Within Memos.js:
