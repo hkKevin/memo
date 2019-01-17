@@ -1,3 +1,4 @@
 export {
-  saveMemo
+  saveMemo,
+  fetchMemos
 } from './memos';

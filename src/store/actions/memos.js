@@ -17,5 +17,31 @@ export const saveMemo = (memoData)  => {
         // console.log(response.data);
         dispatch(saveMemoSuccess(memoData));
       })
+      .catch(error => {
+        console.log(error);
+      })
+  };
+};
+
+export const fetchMemosSuccess = (memos) => {
+  return {
+    type: 'FETCH_MEMOS_SUCCESS',
+    memos: memos
+  }
+}
+
+export const fetchMemos = () => {
+  return dispatch => {
+    axios.get('/memos.json')
+      .then(response => {
+        const fetchedMemos = [];
+        for (let key in response.data) {
+          fetchedMemos.push( response.data[key] );
+        }
+        dispatch(fetchMemosSuccess(fetchedMemos));
+      })
+      .catch(error => {
+        console.log(error);
+      })
   };
 };

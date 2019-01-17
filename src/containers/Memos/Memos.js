@@ -5,13 +5,15 @@ import Radium, { StyleRoot } from 'radium';
 
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
-import './Memos.css'
+import './Memos.css';
+import * as actions from '../../store/actions/index';
 
 class Memos extends Component {
   
-  // componentDidUpdate(){
-  //   console.log(this.props.addedMemos)
-  // }
+  componentDidMount(){
+    // console.log(this.props.addedMemos)
+    this.props.onFetchMemos();
+  }
 
   state = {
     hasTitle: false,
@@ -256,7 +258,8 @@ const mapDispatchToProps = dispatch => {
     onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT', memoContent: content}),
     onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'}),
     onStoreColor: (color) => dispatch({type: 'STORE_COLOR', memoColor: color}),
-    onChangeColor: () => dispatch({type: 'CHANGE_COLOR'})
+    onChangeColor: () => dispatch({type: 'CHANGE_COLOR'}),
+    onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };
 

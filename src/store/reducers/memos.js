@@ -48,6 +48,12 @@ const memos = (state = initialState, action) => {
         memos: state.memos.concat(action.memoData)
       }
 
+    case 'FETCH_MEMOS_SUCCESS':
+      return {
+        ...state,
+        memos: action.memos
+      }
+
     // Within Memos.js:
     case 'STORE_COLOR':
       return {
