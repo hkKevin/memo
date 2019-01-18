@@ -1,3 +1,5 @@
+import firebase from 'firebase';
+
 const initialState = {
   memos: [],
   selectedMemoTitle: null,
@@ -5,10 +7,12 @@ const initialState = {
   selectedId: null,
   showModal: false,
   showStoredMemo: false,
-  selectedMemoColor: null
+  selectedMemoColor: null,
+  arrIndex: 0
 }
 
 const memos = (state = initialState, action) => {
+
   switch ( action.type ) {
 
     // Within both AddMemo.js & Memos.js:
@@ -26,26 +30,14 @@ const memos = (state = initialState, action) => {
         showStoredMemo: false
       }
 
-    // case 'SAVE_MEMO':
-    //   // const newMemo = {
-    //   //     id: new Date().getTime(),
-    //   //     title: action.memoTitle,
-    //   //     content: action.memoContent,
-    //   //     color: 'yellow'
-    //   // }
-    //   return {
-    //     ...state,
-    //      memos: state.memos.concat(action.memoData)
-    //   }
-
     case 'SAVE_MEMO_SUCCESS':
-      // const newMemo = {
-      //   ...action.memoData,
-      //   id: action.memoId
-      // }
+      const newMemo = {
+        ...action.memoData,
+        id: action.firebaseItemId
+      }
       return {
         ...state,
-        memos: state.memos.concat(action.memoData)
+        memos: state.memos.concat(newMemo)
       }
 
     case 'FETCH_MEMOS_SUCCESS':
@@ -94,17 +86,31 @@ const memos = (state = initialState, action) => {
       }
 
     case 'UPDATE_MEMO':
-      const updatedMemos = state.memos.map(memo => {
-        if (memo.id === state.selectedId) {
-          memo.title =  state.selectedMemoTitle;
-          memo.content = state.selectedMemoContent;
-        }
-        return memo;
-      })
-      return {
-        ...state,
-        memos: updatedMemos
+      const updatedmemo = state.memos.map( (memo, index) => {
+      // Only edit the selected memo in the memos array
+      if (memo.id === state.selectedId) {
+        memo.id = state.selectedId;
+        memo.title =  state.selectedMemoTitle;
+        memo.content = state.selectedMemoContent;
+        memo.color = state.selectedMemoColor;
+        state.arrIndex = index
       }
+      return memo;
+      })
+      
+      const db = firebase.database();
+      const updates = {};
+      // Update the selected array element to specific child node of Firebase
+      updates['/memos/' + state.selectedId] = updatedmemo[state.arrIndex];
+      db.ref()
+        .update(updates)
+        .then(() => {
+          // memo updated in firebase.
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      return state;    
 
     case 'CHANGE_COLOR':
       const changedColor = state.memos.map(memo => {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input} from 'reactstrap';
 import Radium, { StyleRoot } from 'radium';
+import firebase from 'firebase/app';
 
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -13,6 +14,14 @@ class Memos extends Component {
   componentDidMount(){
     // console.log(this.props.addedMemos)
     this.props.onFetchMemos();
+
+    // Set up Firebase config here once, for connecting to the db.
+    var config = {
+      apiKey: 'AIzaSyDgZKmgW7LpUpJmHkMpF0II4AcfHyfZFuo',
+      authDomain: 'memo-a117b.firebaseapp.com',
+      databaseURL: 'https://memo-a117b.firebaseio.com/'
+    };
+    firebase.initializeApp(config);
   }
 
   state = {
@@ -221,14 +230,18 @@ class Memos extends Component {
         <div>
           <AddMemo />
 
-          {this.props.addedMemos.map(memo => (
-            <Memo 
-              key={memo.id}
-              title={memo.title} 
-              content={memo.content} 
-              clicked={() => this.memoClicked(memo)}
-              style={memoStyle[memo.color]}/>
-          ))}
+          {this.props.addedMemos
+            ? (
+              this.props.addedMemos.map(memo => (
+                <Memo 
+                  key={memo.id}
+                  title={memo.title} 
+                  content={memo.content} 
+                  clicked={() => this.memoClicked(memo)}
+                  style={memoStyle[memo.color]}/>
+              ))
+            )
+            : 'Memos array not found!'}
 
           {modal}
         </div>
