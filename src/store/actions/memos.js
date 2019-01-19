@@ -1,12 +1,20 @@
 import axios from '../../axios-orders';
 
-// ActionCreators:
+// Action Creators:
 
 export const saveMemoSuccess = (memoData, firebaseItemId) => {
   return {
     type: 'SAVE_MEMO_SUCCESS',
-    firebaseItemId: firebaseItemId,
     memoData: memoData,
+    firebaseItemId: firebaseItemId,
+  };
+};
+
+export const updateId = (memoData, firebaseItemId) => {
+  return {
+    type: 'UPDATE_ID',
+    memoData: memoData,
+    firebaseItemId: firebaseItemId,
   };
 };
 
@@ -14,8 +22,9 @@ export const saveMemo = (memoData)  => {
   return dispatch => {
     axios.post('/memos.json', memoData)
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         dispatch(saveMemoSuccess(memoData, response.data.name));
+        dispatch(updateId(memoData, response.data.name));
       })
       .catch(error => {
         console.log(error);

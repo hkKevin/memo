@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 
+// Action Reducer
+
 const initialState = {
   memos: [],
   selectedMemoTitle: null,
@@ -16,6 +18,7 @@ const memos = (state = initialState, action) => {
   switch ( action.type ) {
 
     // Within both AddMemo.js & Memos.js:
+
     case 'TOGGLE_MODAL':
       return { 
         ...state,
@@ -23,6 +26,7 @@ const memos = (state = initialState, action) => {
       }
 
     // Within AddMemo.js:
+
     case 'NEW_MEMO':
       return { 
         ...state,
@@ -37,7 +41,8 @@ const memos = (state = initialState, action) => {
       }
       return {
         ...state,
-        memos: state.memos.concat(newMemo)
+        memos: state.memos.concat(newMemo),
+        selectedId: newMemo.id
       }
 
     case 'FETCH_MEMOS_SUCCESS':
@@ -47,6 +52,32 @@ const memos = (state = initialState, action) => {
       }
 
     // Within Memos.js:
+
+    case 'UPDATE_ID':
+    const editedmemos = state.memos.map( (memo, index) => {
+    // Only edit the newly added memo in the memos array
+    if (memo.id === state.selectedId) {
+      memo.id = state.selectedId;
+      state.arrIndex = index
+    }
+    return memo;
+    })
+    
+    const db2 = firebase.database();
+    const updates2 = {};
+    // Update the selected array element to specific child node of Firebase
+    updates2['/memos/' + state.selectedId] = editedmemos[state.arrIndex];
+    db2.ref()
+      .update(updates2)
+      .then(() => {
+        // memo updated in firebase.
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    return state;
+      
+
     case 'STORE_COLOR':
       return {
         ...state,
@@ -54,10 +85,30 @@ const memos = (state = initialState, action) => {
       }
 
     case 'DELETE_MEMO':
+      const renewMemos = state.memos.map( (memo, index) => {
+        // Only delete selected memo that is in the memos array
+        if (memo.id === action.memoId) {
+          memo = null
+          state.arrIndex = index
+        }
+        return memo;
+        })
+
+      const db3 = firebase.database();
+      let updates3 = {};
+      updates3['/memos/' + action.memoId] = renewMemos[state.arrIndex];
+      // db3.ref('/memos/').child(action.memoId).update(updates3)
+      db3.ref().update(updates3)
+        .then(() => {
+          // memo deleted in firebase.       
+        })
+        .catch((error) => {
+          console.error(error);
+        })
       return { 
         ...state,
         memos: state.memos.filter(memo => memo.id !== action.memoId)
-      }
+      }      
 
     case 'SELECT_MEMO':      
       return { 
@@ -86,7 +137,7 @@ const memos = (state = initialState, action) => {
       }
 
     case 'UPDATE_MEMO':
-      const updatedmemo = state.memos.map( (memo, index) => {
+      const updatedmemos = state.memos.map( (memo, index) => {
       // Only edit the selected memo in the memos array
       if (memo.id === state.selectedId) {
         memo.id = state.selectedId;
@@ -101,7 +152,7 @@ const memos = (state = initialState, action) => {
       const db = firebase.database();
       const updates = {};
       // Update the selected array element to specific child node of Firebase
-      updates['/memos/' + state.selectedId] = updatedmemo[state.arrIndex];
+      updates['/memos/' + state.selectedId] = updatedmemos[state.arrIndex];
       db.ref()
         .update(updates)
         .then(() => {
