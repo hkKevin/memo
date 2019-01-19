@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, Button, Input} from 'reactstrap';
+import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import Radium, { StyleRoot } from 'radium';
 import firebase from 'firebase/app';
 
@@ -10,7 +10,20 @@ import './Memos.css';
 import * as actions from '../../store/actions/index';
 
 class Memos extends Component {
-  
+
+  constructor(props) {
+    super(props);
+
+    this.btnDropdownToggle = this.btnDropdownToggle.bind(this);
+    this.btnDropdownSelect = this.btnDropdownSelect.bind(this);
+    this.state = {
+      hasTitle: false,
+      hasContent: false,
+      dropdownOpen: false
+      // dropdownValue: ''
+    };
+  }  
+
   componentDidMount(){
     // console.log(this.props.addedMemos)
     this.props.onFetchMemos();
@@ -24,10 +37,24 @@ class Memos extends Component {
     firebase.initializeApp(config);
   }
 
-  state = {
-    hasTitle: false,
-    hasContent: false,
-    defaultColor: true
+  // state = {
+  //   hasTitle: false,
+  //   hasContent: false,
+  //   defaultColor: true
+  // }
+
+  btnDropdownToggle() {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+    });
+  }
+
+  btnDropdownSelect(event) {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen
+      // dropdownValue: event.target.innerText
+    });
+    this.changeColor(event.target.innerText);
   }
 
   memoClicked = (memo) => {
@@ -104,8 +131,8 @@ class Memos extends Component {
     this.props.onStoreColor(memo.color)
   }
 
-  changeColor = () => {
-    this.props.onChangeColor();
+  changeColor = (color) => {
+    this.props.onChangeColor(color);
   }
 
   render () {
@@ -147,11 +174,28 @@ class Memos extends Component {
                 color="secondary" 
                 onClick={this.toggle}
                 title='Cancel update'>CANCEL</Button>
-              <Button 
+
+              <ButtonDropdown
+                isOpen={this.state.dropdownOpen} 
+                toggle={this.btnDropdownToggle}>
+                <DropdownToggle caret outline color="info">
+                  COLOR
+                </DropdownToggle>
+                <DropdownMenu>
+                  <DropdownItem onClick={this.btnDropdownSelect}>YELLOW</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>BLUE</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>color3</DropdownItem>
+                </DropdownMenu>
+              </ButtonDropdown>
+
+              {/* <Button 
                 outline
                 color="info" 
                 onClick={this.changeColor}
-                title='Change memo color'>COLOR</Button>
+                title='Change memo color'>COLOR</Button> */}
+
               <Button 
                 outline
                 color="primary" 
@@ -165,7 +209,7 @@ class Memos extends Component {
     } 
 
     const memoStyle = {
-      'yellow': {
+      'YELLOW': {
         border: '30px solid #FEE976',
         backgroundColor: '#FEE976',
         padding: '0px',
@@ -190,7 +234,7 @@ class Memos extends Component {
           display: 'block'
         }
       },
-      'blue': {
+      'BLUE': {
         border: '30px solid #DCDFFF',
         backgroundColor: '#DCDFFF',
         padding: '0px',
@@ -271,7 +315,7 @@ const mapDispatchToProps = dispatch => {
     onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT', memoContent: content}),
     onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'}),
     onStoreColor: (color) => dispatch({type: 'STORE_COLOR', memoColor: color}),
-    onChangeColor: () => dispatch({type: 'CHANGE_COLOR'}),
+    onChangeColor: (color) => dispatch({type: 'CHANGE_COLOR', memoColor: color}),
     onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };

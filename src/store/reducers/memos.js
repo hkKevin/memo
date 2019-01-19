@@ -7,9 +7,9 @@ const initialState = {
   selectedMemoTitle: null,
   selectedMemoContent: null,
   selectedId: null,
+  selectedMemoColor: null,
   showModal: false,
   showStoredMemo: false,
-  selectedMemoColor: null,
   arrIndex: 0
 }
 
@@ -165,53 +165,50 @@ const memos = (state = initialState, action) => {
 
     case 'CHANGE_COLOR':
       const colorChangedMemos = state.memos.map( (memo, index) => {
-      // Only edit selected memo in the memos array
-      if (memo.id === state.selectedId) {
-        if (state.selectedMemoColor === 'yellow') {
-          memo.color = 'blue';
-          state.selectedMemoColor = 'blue';
-        } else {
-          memo.color = 'yellow';
-          state.selectedMemoColor = 'yellow';
+        // Only edit selected memo in the memos array
+        if (memo.id === state.selectedId) {
+          memo.color = action.memoColor
+          state.arrIndex = index
         }
-        state.arrIndex = index
-      }
-      return memo;
+        return memo;
       })
-      
-      const db4 = firebase.database();
-      const updates4 = {};
-      // Update the selected array element to specific child node of Firebase
-      updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
-      db4.ref()
-        .update(updates4)
-        .then(() => {
-          // memo updated in firebase.
-        })
-        .catch((error) => {
-          console.log(error);
-        })
       return {
         ...state,
         memos: colorChangedMemos
       }
 
-      // const colorChangedMemos = state.memos.map(memo => {
-      //   if (memo.id === state.selectedId) {
-      //     if (state.selectedMemoColor === 'yellow'){
-      //       memo.color =  'blue';
-      //       state.selectedMemoColor = 'blue';
-      //     } else {
-      //       memo.color =  'yellow';
-      //       state.selectedMemoColor = 'yellow';
-      //     }
+      // const colorChangedMemos = state.memos.map( (memo, index) => {
+      // // Only edit selected memo in the memos array
+      // if (memo.id === state.selectedId) {
+      //   if (state.selectedMemoColor === 'yellow') {
+      //     memo.color = 'blue';
+      //     state.selectedMemoColor = 'blue';
+      //   } else {
+      //     memo.color = 'yellow';
+      //     state.selectedMemoColor = 'yellow';
       //   }
-      //   return memo;
+      //   state.arrIndex = index
+      // }
+      // return memo;
       // })
+      
+      // const db4 = firebase.database();
+      // const updates4 = {};
+      // // Update the selected array element to specific child node of Firebase
+      // updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
+      // db4.ref()
+      //   .update(updates4)
+      //   .then(() => {
+      //     // memo updated in firebase.
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   })
       // return {
       //   ...state,
       //   memos: colorChangedMemos
       // }
+
 
     default:
       return state;

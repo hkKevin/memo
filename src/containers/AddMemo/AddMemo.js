@@ -24,7 +24,7 @@ class AddMemo extends Component {
 			id: new Date().getTime(),
 			title: this.state.title,
 			content: this.state.content,
-			color: 'yellow'
+			color: 'YELLOW'
 		}
 		this.props.onSaveMemo(memoData);
 	}
