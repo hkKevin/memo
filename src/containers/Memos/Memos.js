@@ -174,7 +174,6 @@ class Memos extends Component {
                 color="secondary" 
                 onClick={this.toggle}
                 title='Cancel update'>CANCEL</Button>
-
               <ButtonDropdown
                 isOpen={this.state.dropdownOpen} 
                 toggle={this.btnDropdownToggle}>
@@ -182,20 +181,19 @@ class Memos extends Component {
                   COLOR
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem onClick={this.btnDropdownSelect}>YELLOW</DropdownItem>
-                  <DropdownItem divider />
                   <DropdownItem onClick={this.btnDropdownSelect}>BLUE</DropdownItem>
                   <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>color3</DropdownItem>
+                  <DropdownItem onClick={this.btnDropdownSelect}>GREEN</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>ORANGE</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>PINK</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>PURPLE</DropdownItem>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={this.btnDropdownSelect}>YELLOW</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
-
-              {/* <Button 
-                outline
-                color="info" 
-                onClick={this.changeColor}
-                title='Change memo color'>COLOR</Button> */}
-
               <Button 
                 outline
                 color="primary" 
@@ -234,9 +232,109 @@ class Memos extends Component {
           display: 'block'
         }
       },
-      'BLUE': {
+      'PURPLE': {
         border: '30px solid #DCDFFF',
         backgroundColor: '#DCDFFF',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
+      },
+      'ORANGE': {
+        border: '30px solid #FEA576',
+        backgroundColor: '#FEA576',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
+      },
+      'GREEN': {
+        border: '30px solid #CFFE76',
+        backgroundColor: '#CFFE76',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
+      },
+      'BLUE': {
+        border: '30px solid #76cffe',
+        backgroundColor: '#76cffe',
+        padding: '0px',
+        margin: '10px 10px',
+        boxShadow: '3px 3px 2px #ccc',
+        boxSizing: 'border-box',
+        display: 'inline-block',
+        textAlign: 'left',
+        maxWidth: '800px',
+        maxHeight: '800px',
+        overflow: 'hidden',
+        whiteSpace: 'pre-wrap',
+        ':hover': {
+          cursor: 'pointer',
+          boxShadow: '5px 5px 5px #ccc'
+        },
+        ':active': {
+          boxShadow: '10px 10px 10px #ccc'
+        },
+        '@media (max-width: 500px)': {
+          margin: '20px 20px',
+          display: 'block'
+        }
+      },
+      'PINK': {
+        border: '30px solid #fe768b',
+        backgroundColor: '#fe768b',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
