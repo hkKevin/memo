@@ -164,22 +164,54 @@ const memos = (state = initialState, action) => {
       return state;    
 
     case 'CHANGE_COLOR':
-      const changedColor = state.memos.map(memo => {
-        if (memo.id === state.selectedId) {
-          if (state.selectedMemoColor === 'yellow'){
-            memo.color =  'blue';
-            state.selectedMemoColor = 'blue';
-          } else {
-            memo.color =  'yellow';
-            state.selectedMemoColor = 'yellow';
-          }
+      const colorChangedMemos = state.memos.map( (memo, index) => {
+      // Only edit selected memo in the memos array
+      if (memo.id === state.selectedId) {
+        if (state.selectedMemoColor === 'yellow') {
+          memo.color = 'blue';
+          state.selectedMemoColor = 'blue';
+        } else {
+          memo.color = 'yellow';
+          state.selectedMemoColor = 'yellow';
         }
-        return memo;
+        state.arrIndex = index
+      }
+      return memo;
       })
+      
+      const db4 = firebase.database();
+      const updates4 = {};
+      // Update the selected array element to specific child node of Firebase
+      updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
+      db4.ref()
+        .update(updates4)
+        .then(() => {
+          // memo updated in firebase.
+        })
+        .catch((error) => {
+          console.log(error);
+        })
       return {
         ...state,
-        memos: changedColor
+        memos: colorChangedMemos
       }
+
+      // const colorChangedMemos = state.memos.map(memo => {
+      //   if (memo.id === state.selectedId) {
+      //     if (state.selectedMemoColor === 'yellow'){
+      //       memo.color =  'blue';
+      //       state.selectedMemoColor = 'blue';
+      //     } else {
+      //       memo.color =  'yellow';
+      //       state.selectedMemoColor = 'yellow';
+      //     }
+      //   }
+      //   return memo;
+      // })
+      // return {
+      //   ...state,
+      //   memos: colorChangedMemos
+      // }
 
     default:
       return state;
