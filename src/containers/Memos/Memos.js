@@ -181,17 +181,30 @@ class Memos extends Component {
                   COLOR
                 </DropdownToggle>
                 <DropdownMenu>
-                  <DropdownItem onClick={this.btnDropdownSelect}>BLUE</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>GREEN</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>ORANGE</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>PINK</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>PURPLE</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem onClick={this.btnDropdownSelect}>YELLOW</DropdownItem>
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='blueItem'>BLUE</DropdownItem><DropdownItem divider />
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='greenItem'>GREEN</DropdownItem><DropdownItem divider />
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='orangeItem'>ORANGE</DropdownItem><DropdownItem divider />
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='pinkItem'>PINK</DropdownItem><DropdownItem divider />
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='purpleItem'>PURPLE</DropdownItem><DropdownItem divider />
+                  <DropdownItem 
+                    onClick={this.btnDropdownSelect} 
+                    className='DropdownItem' 
+                    id='yellowItem'>YELLOW</DropdownItem>
                 </DropdownMenu>
               </ButtonDropdown>
               <Button 
@@ -208,8 +221,8 @@ class Memos extends Component {
 
     const memoStyle = {
       'YELLOW': {
-        border: '30px solid #FEE976',
-        backgroundColor: '#FEE976',
+        border: '30px solid #FEEC89',
+        backgroundColor: '#FEEC89',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -258,8 +271,8 @@ class Memos extends Component {
         }
       },
       'ORANGE': {
-        border: '30px solid #FEA576',
-        backgroundColor: '#FEA576',
+        border: '30px solid #feb289',
+        backgroundColor: '#feb289',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -283,8 +296,8 @@ class Memos extends Component {
         }
       },
       'GREEN': {
-        border: '30px solid #CFFE76',
-        backgroundColor: '#CFFE76',
+        border: '30px solid #E3FEB0',
+        backgroundColor: '#E3FEB0',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -308,8 +321,8 @@ class Memos extends Component {
         }
       },
       'BLUE': {
-        border: '30px solid #76cffe',
-        backgroundColor: '#76cffe',
+        border: '30px solid #C4EAFF',
+        backgroundColor: '#C4EAFF',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -333,8 +346,8 @@ class Memos extends Component {
         }
       },
       'PINK': {
-        border: '30px solid #fe768b',
-        backgroundColor: '#fe768b',
+        border: '30px solid #fe899b',
+        backgroundColor: '#fe899b',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',

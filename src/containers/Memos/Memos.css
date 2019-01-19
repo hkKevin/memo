@@ -10,6 +10,34 @@
   animation: enable 0.3s linear;
 }
 
+.DropdownItem:hover {
+  cursor: pointer;
+}
+
+#blueItem:hover {
+  background-color: #C4EAFF;
+}
+
+#yellowItem:hover {
+  background-color: #FEEC89;
+}
+
+#purpleItem:hover {
+  background-color: #DCDFFF;
+}
+
+#orangeItem:hover {
+  background-color: #feb289;
+}
+
+#greenItem:hover {
+  background-color: #E3FEB0;
+}
+
+#pinkItem:hover {
+  background-color: #fe899b;
+}
+
 @keyframes enable {
   0% {
       transform: scale(1);
