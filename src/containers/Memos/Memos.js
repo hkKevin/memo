@@ -221,8 +221,8 @@ class Memos extends Component {
 
     const memoStyle = {
       'YELLOW': {
-        border: '30px solid #FEEC89',
-        backgroundColor: '#FEEC89',
+        border: '30px solid #feef9c',
+        backgroundColor: '#feef9c',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -271,8 +271,8 @@ class Memos extends Component {
         }
       },
       'ORANGE': {
-        border: '30px solid #feb289',
-        backgroundColor: '#feb289',
+        border: '30px solid #feccaf',
+        backgroundColor: '#feccaf',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -296,8 +296,8 @@ class Memos extends Component {
         }
       },
       'GREEN': {
-        border: '30px solid #E3FEB0',
-        backgroundColor: '#E3FEB0',
+        border: '30px solid #b1ffb1',
+        backgroundColor: '#b1ffb1',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -321,8 +321,8 @@ class Memos extends Component {
         }
       },
       'BLUE': {
-        border: '30px solid #C4EAFF',
-        backgroundColor: '#C4EAFF',
+        border: '30px solid #d8f1ff',
+        backgroundColor: '#d8f1ff',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',
@@ -346,8 +346,8 @@ class Memos extends Component {
         }
       },
       'PINK': {
-        border: '30px solid #fe899b',
-        backgroundColor: '#fe899b',
+        border: '30px solid #feb0bc',
+        backgroundColor: '#feb0bc',
         padding: '0px',
         margin: '10px 10px',
         boxShadow: '3px 3px 2px #ccc',

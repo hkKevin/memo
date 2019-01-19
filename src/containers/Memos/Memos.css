@@ -15,11 +15,11 @@
 }
 
 #blueItem:hover {
-  background-color: #C4EAFF;
+  background-color: #d8f1ff;
 }
 
 #yellowItem:hover {
-  background-color: #FEEC89;
+  background-color: #feef9c;
 }
 
 #purpleItem:hover {
@@ -27,15 +27,15 @@
 }
 
 #orangeItem:hover {
-  background-color: #feb289;
+  background-color: #feccaf;
 }
 
 #greenItem:hover {
-  background-color: #E3FEB0;
+  background-color: #b1ffb1;
 }
 
 #pinkItem:hover {
-  background-color: #fe899b;
+  background-color: #feb0bc;
 }
 
 @keyframes enable {

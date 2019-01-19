@@ -51,6 +51,7 @@ const memos = (state = initialState, action) => {
         memos: action.memos
       }
 
+      
     // Within Memos.js:
 
     case 'UPDATE_ID':
@@ -84,6 +85,7 @@ const memos = (state = initialState, action) => {
         selectedMemoColor: action.memoColor
       }
 
+
     case 'DELETE_MEMO':
       const renewMemos = state.memos.map( (memo, index) => {
         // Only delete selected memo that is in the memos array
@@ -109,6 +111,7 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: state.memos.filter(memo => memo.id !== action.memoId)
       }      
+
 
     case 'SELECT_MEMO':      
       return { 
@@ -136,6 +139,7 @@ const memos = (state = initialState, action) => {
         selectedMemoContent: action.memoContent
       }
 
+
     case 'UPDATE_MEMO':
       const updatedmemos = state.memos.map( (memo, index) => {
       // Only edit the selected memo in the memos array
@@ -143,7 +147,6 @@ const memos = (state = initialState, action) => {
         memo.id = state.selectedId;
         memo.title =  state.selectedMemoTitle;
         memo.content = state.selectedMemoContent;
-        memo.color = state.selectedMemoColor;
         state.arrIndex = index
       }
       return memo;
@@ -163,6 +166,7 @@ const memos = (state = initialState, action) => {
         })
       return state;    
 
+
     case 'CHANGE_COLOR':
       const colorChangedMemos = state.memos.map( (memo, index) => {
         // Only edit selected memo in the memos array
@@ -172,10 +176,30 @@ const memos = (state = initialState, action) => {
         }
         return memo;
       })
+
+      const db4 = firebase.database();
+      const updates4 = {};
+      // Update the selected array element to specific child node of Firebase
+      updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
+      db4.ref()
+        .update(updates4)
+        .then(() => {
+          // memo updated in firebase.
+        })
+        .catch((error) => {
+          console.log(error);
+        })
       return {
         ...state,
         memos: colorChangedMemos
       }
+
+
+
+      // return {
+      //   ...state,
+      //   memos: colorChangedMemos
+      // }
 
       // const colorChangedMemos = state.memos.map( (memo, index) => {
       // // Only edit selected memo in the memos array
