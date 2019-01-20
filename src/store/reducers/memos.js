@@ -51,7 +51,7 @@ const memos = (state = initialState, action) => {
         memos: action.memos
       }
 
-      
+
     // Within Memos.js:
 
     case 'UPDATE_ID':
@@ -64,12 +64,12 @@ const memos = (state = initialState, action) => {
     return memo;
     })
     
-    const db2 = firebase.database();
-    const updates2 = {};
+    const firebaseDb = firebase.database();
+    const updateIdUpdates = {};
     // Update the selected array element to specific child node of Firebase
-    updates2['/memos/' + state.selectedId] = editedmemos[state.arrIndex];
-    db2.ref()
-      .update(updates2)
+    updateIdUpdates['/memos/' + state.selectedId] = editedmemos[state.arrIndex];
+    firebaseDb.ref()
+      .update(updateIdUpdates)
       .then(() => {
         // memo updated in firebase.
       })
@@ -96,11 +96,9 @@ const memos = (state = initialState, action) => {
         return memo;
         })
 
-      const db3 = firebase.database();
-      let updates3 = {};
-      updates3['/memos/' + action.memoId] = renewMemos[state.arrIndex];
-      // db3.ref('/memos/').child(action.memoId).update(updates3)
-      db3.ref().update(updates3)
+      let deleteMemoUpdates = {};
+      deleteMemoUpdates['/memos/' + action.memoId] = renewMemos[state.arrIndex];
+      action.firebaseDb.ref().update(deleteMemoUpdates)
         .then(() => {
           // memo deleted in firebase.       
         })
@@ -152,12 +150,11 @@ const memos = (state = initialState, action) => {
       return memo;
       })
       
-      const db = firebase.database();
-      const updates = {};
+      const updateMemoUpdates = {};
       // Update the selected array element to specific child node of Firebase
-      updates['/memos/' + state.selectedId] = updatedmemos[state.arrIndex];
-      db.ref()
-        .update(updates)
+      updateMemoUpdates['/memos/' + state.selectedId] = updatedmemos[state.arrIndex];
+      action.firebaseDb.ref()
+        .update(updateMemoUpdates)
         .then(() => {
           // memo updated in firebase.
         })
@@ -177,12 +174,11 @@ const memos = (state = initialState, action) => {
         return memo;
       })
 
-      const db4 = firebase.database();
-      const updates4 = {};
+      const changeColorUpdates = {};
       // Update the selected array element to specific child node of Firebase
-      updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
-      db4.ref()
-        .update(updates4)
+      changeColorUpdates['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
+      action.firebaseDb.ref()
+        .update(changeColorUpdates)
         .then(() => {
           // memo updated in firebase.
         })
@@ -193,45 +189,6 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: colorChangedMemos
       }
-
-
-
-      // return {
-      //   ...state,
-      //   memos: colorChangedMemos
-      // }
-
-      // const colorChangedMemos = state.memos.map( (memo, index) => {
-      // // Only edit selected memo in the memos array
-      // if (memo.id === state.selectedId) {
-      //   if (state.selectedMemoColor === 'yellow') {
-      //     memo.color = 'blue';
-      //     state.selectedMemoColor = 'blue';
-      //   } else {
-      //     memo.color = 'yellow';
-      //     state.selectedMemoColor = 'yellow';
-      //   }
-      //   state.arrIndex = index
-      // }
-      // return memo;
-      // })
-      
-      // const db4 = firebase.database();
-      // const updates4 = {};
-      // // Update the selected array element to specific child node of Firebase
-      // updates4['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
-      // db4.ref()
-      //   .update(updates4)
-      //   .then(() => {
-      //     // memo updated in firebase.
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   })
-      // return {
-      //   ...state,
-      //   memos: colorChangedMemos
-      // }
 
 
     default:

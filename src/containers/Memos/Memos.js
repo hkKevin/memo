@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import Radium, { StyleRoot } from 'radium';
-import firebase from 'firebase/app';
+import firebase from 'firebase';
 
 import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -19,8 +19,8 @@ class Memos extends Component {
     this.state = {
       hasTitle: false,
       hasContent: false,
-      dropdownOpen: false
-      // dropdownValue: ''
+      dropdownOpen: false,
+      db: null
     };
   }  
 
@@ -35,13 +35,9 @@ class Memos extends Component {
       databaseURL: 'https://memo-a117b.firebaseio.com/'
     };
     firebase.initializeApp(config);
+    // const db = firebase.database();
+    this.setState({db: firebase.database()});
   }
-
-  // state = {
-  //   hasTitle: false,
-  //   hasContent: false,
-  //   defaultColor: true
-  // }
 
   btnDropdownToggle() {
     this.setState({
@@ -52,7 +48,6 @@ class Memos extends Component {
   btnDropdownSelect(event) {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
-      // dropdownValue: event.target.innerText
     });
     this.changeColor(event.target.innerText);
   }
@@ -70,7 +65,7 @@ class Memos extends Component {
   }
 
   deleteMemo = () => {
-    this.props.onDeleteMemo(this.props.selectedId)
+    this.props.onDeleteMemo(this.props.selectedId, this.state.db)
   }
 
   toggle = () => {
@@ -124,7 +119,7 @@ class Memos extends Component {
   }
 
   updateMemo = () => {
-    this.props.onUpdateMemo();
+    this.props.onUpdateMemo(this.state.db);
   }
 
   storeColor = (memo) => {
@@ -132,7 +127,7 @@ class Memos extends Component {
   }
 
   changeColor = (color) => {
-    this.props.onChangeColor(color);
+    this.props.onChangeColor(color, this.state.db);
   }
 
   render () {
@@ -219,166 +214,6 @@ class Memos extends Component {
       );
     } 
 
-    const memoStyle = {
-      'YELLOW': {
-        border: '30px solid #feef9c',
-        backgroundColor: '#feef9c',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      },
-      'PURPLE': {
-        border: '30px solid #DCDFFF',
-        backgroundColor: '#DCDFFF',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      },
-      'ORANGE': {
-        border: '30px solid #feccaf',
-        backgroundColor: '#feccaf',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      },
-      'GREEN': {
-        border: '30px solid #b1ffb1',
-        backgroundColor: '#b1ffb1',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      },
-      'BLUE': {
-        border: '30px solid #d8f1ff',
-        backgroundColor: '#d8f1ff',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      },
-      'PINK': {
-        border: '30px solid #feb0bc',
-        backgroundColor: '#feb0bc',
-        padding: '0px',
-        margin: '10px 10px',
-        boxShadow: '3px 3px 2px #ccc',
-        boxSizing: 'border-box',
-        display: 'inline-block',
-        textAlign: 'left',
-        maxWidth: '800px',
-        maxHeight: '800px',
-        overflow: 'hidden',
-        whiteSpace: 'pre-wrap',
-        ':hover': {
-          cursor: 'pointer',
-          boxShadow: '5px 5px 5px #ccc'
-        },
-        ':active': {
-          boxShadow: '10px 10px 10px #ccc'
-        },
-        '@media (max-width: 500px)': {
-          margin: '20px 20px',
-          display: 'block'
-        }
-      }
-    };
-
-    // if (this.state.defaultColor) {
-    //   memoStyle.border = '30px solid #FEE976';
-    //   memoStyle.backgroundColor = '#FEE976';
-    // } else {
-    //   memoStyle.border ='30px solid #DCDFFF';
-    //   memoStyle.backgroundColor = '#DCDFFF'
-    // }
 
     return (
       <StyleRoot>
@@ -393,10 +228,10 @@ class Memos extends Component {
                   title={memo.title} 
                   content={memo.content} 
                   clicked={() => this.memoClicked(memo)}
-                  style={memoStyle[memo.color]}/>
+                  color={memo.color}/>
               ))
             )
-            : 'Memos array not found!'}
+            : 'Memos not found!'}
 
           {modal}
         </div>
@@ -418,15 +253,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteMemo: (id) => dispatch({type: 'DELETE_MEMO', memoId: id}),
+    onDeleteMemo: (id, db) => dispatch({type: 'DELETE_MEMO', memoId: id, firebaseDb: db}),
     onSelectMemo: (title, content) => dispatch({type: 'SELECT_MEMO', memoTitle: title, memoContent: content}),
     onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'}),
     onStoreId: (id) => dispatch({type: 'STORE_ID', memoId: id}),
     onChangeTitle: (title) => dispatch({type: 'CHANGE_TITLE', memoTitle: title}),
     onChangeContent: (content) => dispatch({type: 'CHANGE_CONTENT', memoContent: content}),
-    onUpdateMemo: () => dispatch({type: 'UPDATE_MEMO'}),
+    onUpdateMemo: (db) => dispatch({type: 'UPDATE_MEMO', firebaseDb: db}),
     onStoreColor: (color) => dispatch({type: 'STORE_COLOR', memoColor: color}),
-    onChangeColor: (color) => dispatch({type: 'CHANGE_COLOR', memoColor: color}),
+    onChangeColor: (color, db) => dispatch({type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db}),
     onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };
