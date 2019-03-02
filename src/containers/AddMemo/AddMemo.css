@@ -8,6 +8,7 @@
 }
 
 .newMemoBtn {
+  z-index: 99;
   color: #feef9c;
   font-weight: normal;
   background-color: black;

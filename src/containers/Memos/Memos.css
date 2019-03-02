@@ -72,7 +72,7 @@
 }
 
 .layout {
-  background: gray;
+  /* background: gray; */
   margin: 5px;
   position: relative;
   transition: height 100ms ease;
@@ -82,6 +82,19 @@
 .react-grid-item:not(.react-grid-placeholder) {
   background: #eee;
   border: 1px solid lightslategrey;
+
+  /* border: 30px solid #feef9c;
+  background-color: #feef9c;
+  padding: 0px;
+  margin: 10px 10px;
+  box-shadow: 3px 3px 2px #ccc;
+  box-sizing: border-box;
+  display: inline-block;
+  text-align: left;
+  max-width: 800px;
+  max-height: 800px;
+  overflow: hidden;
+  white-space: pre-wrap; */
 }
 
 .react-grid-item.react-draggable-dragging {

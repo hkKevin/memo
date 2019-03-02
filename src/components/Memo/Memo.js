@@ -2,9 +2,9 @@ import React from 'react';
 import Radium from 'radium';
 
 import './Memo.css';
-// style={memoStyle[props.color]}
+
 const Memo = (props) => (
-	<div data-radium="true" onClick={props.clicked}>
+	<div data-radium="true" onClick={props.clicked} style={memoStyle[props.color]}>
 		<h3>{props.title}</h3>
 		<hr />
 		<div>{props.content}</div>

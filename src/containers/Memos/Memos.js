@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-// import Radium, { StyleRoot } from 'radium';
+import Radium, { StyleRoot } from 'radium';
 import firebase from 'firebase';
 import axios from '../../axios-orders';
 //
@@ -49,7 +49,165 @@ class Memos extends React.PureComponent {
           title: 'Title and Content are getting from local array',
           content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
         }
-      ]
+      ],
+      memoStyle: {
+        'YELLOW': {
+          border: '30px solid #feef9c',
+          backgroundColor: '#feef9c',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        },
+        'PURPLE': {
+          border: '30px solid #DCDFFF',
+          backgroundColor: '#DCDFFF',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        },
+        'ORANGE': {
+          border: '30px solid #feccaf',
+          backgroundColor: '#feccaf',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        },
+        'GREEN': {
+          border: '30px solid #b1ffb1',
+          backgroundColor: '#b1ffb1',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        },
+        'BLUE': {
+          border: '30px solid #d8f1ff',
+          backgroundColor: '#d8f1ff',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        },
+        'PINK': {
+          border: '30px solid #feb0bc',
+          backgroundColor: '#feb0bc',
+          padding: '0px',
+          margin: '10px 10px',
+          boxShadow: '3px 3px 2px #ccc',
+          boxSizing: 'border-box',
+          display: 'block',
+          // display: 'inline-block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '5px 5px 5px #ccc'
+          },
+          ':active': {
+            boxShadow: '10px 10px 10px #ccc'
+          },
+          '@media (maxWidth: 500px)': {
+            margin: '20px 20px',
+            display: 'block'
+          }
+        }
+      }
     };
     console.log(this.state.layouts);
   }
@@ -200,25 +358,35 @@ class Memos extends React.PureComponent {
     this.props.onChangeColor(color, this.state.db);
   }
 
+  
+
   generateAddedMemos = () => {
     console.log('generateAddedMemos');
     console.log(this.props.addedMemos);
     if (this.props.addedMemos.length > 0) {
       return this.props.addedMemos.map(memo => (
-        <div key={memo.id}>
-          <div onClick={() => this.memoClicked(memo)}>
-            <h3>{memo.title}</h3>
-            <hr />
-            <div>{memo.content}</div>
-          </div>
+        // <div key={memo.id}>
+        //   <Memo
+        //     key={memo.id}
+        //     clicked={() => this.memoClicked(memo)}
+        //     title={memo.title}
+        //     content={memo.content}
+        //     color={memo.color}>
+        //   </Memo>
+        // </div>
+
+        <div
+          key={memo.id}
+          onClick={() => this.memoClicked(memo)}
+          style={this.state.memoStyle[memo.color]}>
+          <h3>{memo.title}</h3>
+          <hr />
+          <div>{memo.content}</div>
         </div>
       ));
     } else {
       console.error('no firebase widgets available yet.');
-
-      return(
-        <div>loading...</div>
-      );
+      return <div>loading...</div>;
     }
   }
 
@@ -241,11 +409,11 @@ class Memos extends React.PureComponent {
 
     var defaultLayout = { lg: [{ x: 0, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }] };
 
-    // if (this.state.layouts){
-    //   dataGrid = null;
-    // }
     
-    //
+    
+    
+
+
 
     let modal = null;
     if (this.props.showStoredMemo) {
@@ -356,29 +524,29 @@ class Memos extends React.PureComponent {
     //     content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
     //   }
     // ]
-    
+
 
     return (
       // <StyleRoot>
       <div>
         <AddMemo />
         {this.props.memosFetched
-        ?
-        <ResponsiveReactGridLayout
-          className="layout"
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
-          rowHeight={40}
-          layouts={this.state.layouts}
-          onLayoutChange={(layout, newLayout) =>
-            this.onLayoutChange(layout, newLayout)
-          }
-        >
+          ?
+          <ResponsiveReactGridLayout
+            className="layout"
+            breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
+            rowHeight={40}
+            layouts={this.state.layouts}
+            onLayoutChange={(layout, newLayout) =>
+              this.onLayoutChange(layout, newLayout)
+            }
+          >
 
-          {this.generateAddedMemos()}
-          {/* {this.generateDummyMemos(dummyMemos)} */}
+            {this.generateAddedMemos()}
+            {/* {this.generateDummyMemos(dummyMemos)} */}
 
-          {/* {this.props.addedMemos.map(memo => (
+            {/* {this.props.addedMemos.map(memo => (
               <div key={memo.id}>
                 <div
                   onClick={() => this.memoClicked(memo)}>
@@ -401,7 +569,7 @@ class Memos extends React.PureComponent {
               </div>
             ))} */}
 
-          {/* {this.props.addedMemos
+            {/* {this.props.addedMemos
             ? (
               this.props.addedMemos.map(memo => (
                 
@@ -417,8 +585,8 @@ class Memos extends React.PureComponent {
               ))
             )
             : 'Memos not found!'} */}
-        </ResponsiveReactGridLayout>
-        : null
+          </ResponsiveReactGridLayout>
+          : null
         }
 
         {modal}
@@ -504,4 +672,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Memos);
+export default Radium(connect(mapStateToProps, mapDispatchToProps)(Memos));
