@@ -4,13 +4,31 @@ import firebase from 'firebase';
 
 const initialState = {
   memos: [],
+  // tempMemos: [
+  //   {
+  //     id:'-LWdj7UbUPCiEyKe7ao3',
+  //     title: 'title-1',
+  //     content: 'content-1'
+  //   },
+  //   {
+  //     id:'-LWeEVMVd1KW7_g9TVOv',
+  //     title: 'title-2',
+  //     content: 'content-2'
+  //   },
+  //   {
+  //     id:'-LWeF2ziDRDBVQblR5Xb',
+  //     title: 'title-3',
+  //     content: 'content-3'
+  //   }
+  // ],
   selectedMemoTitle: null,
   selectedMemoContent: null,
   selectedId: null,
   selectedMemoColor: null,
   showModal: false,
   showStoredMemo: false,
-  arrIndex: 0
+  arrIndex: 0,
+  memosFetched: false
 }
 
 const memos = (state = initialState, action) => {
@@ -48,7 +66,8 @@ const memos = (state = initialState, action) => {
     case 'FETCH_MEMOS_SUCCESS':
       return {
         ...state,
-        memos: action.memos
+        memos: action.memos,
+        memosFetched: true
       }
 
 

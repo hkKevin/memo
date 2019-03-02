@@ -11,11 +11,16 @@ import * as serviceWorker from './serviceWorker';
 import reducer from './store/reducers/memos';
 
 // Enable the Chrome Redux plug in, while available only in development mode (not available in production/ deployment mode)
-const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
-
+// const composeEnhancers = process.env.NODE_ENV === 'development' ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : null || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+// composeEnhancers
 const store = createStore(reducer, composeEnhancers(
   applyMiddleware(thunk)
 ));
+
+// const store = createStore(reducer, composeEnhancers(
+//   applyMiddleware(thunk)
+// ));
 
 ReactDOM.render(
   <Provider store={store}>

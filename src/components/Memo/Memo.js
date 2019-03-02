@@ -2,15 +2,16 @@ import React from 'react';
 import Radium from 'radium';
 
 import './Memo.css';
-
+// style={memoStyle[props.color]}
 const Memo = (props) => (
-	<div style={memoStyle[props.color]} onClick={props.clicked}>
+	<div data-radium="true" onClick={props.clicked}>
 		<h3>{props.title}</h3>
 		<hr />
 		<div>{props.content}</div>
 	</div>
-);
-
+)
+	
+		
 const memoStyle = {
 	'YELLOW': {
 		border: '30px solid #feef9c',
@@ -32,7 +33,7 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
@@ -57,7 +58,7 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
@@ -82,7 +83,7 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
@@ -107,7 +108,7 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
@@ -132,7 +133,7 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
@@ -157,14 +158,11 @@ const memoStyle = {
 		':active': {
 			boxShadow: '10px 10px 10px #ccc'
 		},
-		'@media (max-width: 500px)': {
+		'@media (maxWidth: 500px)': {
 			margin: '20px 20px',
 			display: 'block'
 		}
 	}
 };
-		
-
-
 
 export default Radium(Memo);

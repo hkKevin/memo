@@ -41,11 +41,29 @@ export const fetchMemosSuccess = (memos) => {
 
 export const fetchMemos = () => {
   return dispatch => {
-    axios.get('/memos.json')
+    // axios.get('/memos.json')
+    //   .then(response => {
+    //     const fetchedMemos = [];
+    //     for (let key in response.data) {
+    //       fetchedMemos.push( response.data[key] );
+    //     }
+    //     dispatch(fetchMemosSuccess(fetchedMemos));
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   })
+    const fetchedMemos = []
+    fetch('https://memo-a117b.firebaseio.com/memos.json')
       .then(response => {
-        const fetchedMemos = [];
-        for (let key in response.data) {
-          fetchedMemos.push( response.data[key] );
+        if (!response.ok) {
+            throw Error(response.statusText);
+        }
+        return response.json();
+      })
+      .then(response => {
+        console.log(response);
+        for (let key in response) {
+          fetchedMemos.push( response[key] );
         }
         dispatch(fetchMemosSuccess(fetchedMemos));
       })
