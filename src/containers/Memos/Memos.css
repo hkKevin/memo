@@ -167,3 +167,50 @@
 .memo:active {
   box-shadow: 10px 10px 10px #ccc !important;
 }
+
+.dragMode {
+  font-size: 1.7em;
+  z-index: 99;
+  color: black;
+  font-weight: normal;
+  opacity: 0.3;
+  position: fixed;
+  bottom: 70px;
+  right: 22px;
+  /* animation-name: dragMode;
+  animation-duration: 0.8;
+  animation-timing-function: linear;
+  animation-delay: 0.2s;
+  animation-iteration-count: 1; */
+  animation: dragMode .8s linear 0.2s 1;
+}
+
+@media (max-width: 400px) {
+  .dragMode {
+    font-size: 1em;
+  }
+}
+
+.dragMode:hover {
+  color: black;
+  cursor: pointer;
+  opacity: 1;
+}
+
+/* .btn-warning:not(:disabled):not(.disabled):active, */
+.dragMode:active {
+  color: #555;
+}
+
+@keyframes dragMode {
+  0% {
+      transform: scale(1);
+  }
+  60% {
+      transform: scale(1.1);
+      opacity: 1;
+  }
+  100% {
+      transform: scale(1);
+  }
+}

@@ -6,7 +6,6 @@ import firebase from 'firebase';
 //
 import { WidthProvider, Responsive } from "react-grid-layout";
 
-import Memo from '../../components/Memo/Memo';
 import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css';
 import * as actions from '../../store/actions/index';
@@ -27,6 +26,7 @@ class Memos extends React.PureComponent {
       dropdownOpen: false,
       db: null,
       layouts: getFromLS('layouts'),
+      dragMode: false,
       memoStyle: {
         'YELLOW': {
           border: '1px solid #feef9c',
@@ -210,7 +210,7 @@ class Memos extends React.PureComponent {
     this.setState({ db: firebase.database() });
 
   }
-  
+
   onLayoutChange(layout, newLayout) {
     console.log('onLayoutChange');
     console.log(this.state.layouts); // correct first time
@@ -313,7 +313,13 @@ class Memos extends React.PureComponent {
     this.props.onChangeColor(color, this.state.db);
   }
 
-  
+  dragModeToggle = () => {
+    this.setState(prevState => ({ 
+      dragMode: !prevState.dragMode
+    }));
+  }
+
+
 
   generateAddedMemos = () => {
     console.log('generateAddedMemos');
@@ -325,12 +331,18 @@ class Memos extends React.PureComponent {
           onDoubleClick={() => this.memoClicked(memo)}
           style={this.state.memoStyle[memo.color]}
           className='memo'
-          data-grid={{ x: 0, y: 0, w:4, h: 7 }}>
+          data-grid={{ x: 0, y: 0, w: 4, h: 7 }}
+        >
+
           <h3>{memo.title}</h3>
           <hr />
           <div>{memo.content}</div>
-          <div className='dragHandle'></div>
+          {this.state.dragMode
+            ? <div className='dragHandle'></div>
+            : null}
         </div>
+
+
       ));
     } else {
       console.error('no firebase widgets available yet.');
@@ -428,6 +440,14 @@ class Memos extends React.PureComponent {
       // <StyleRoot>
       <div>
         <AddMemo />
+
+        <div className='dragMode'>
+          <i 
+            className="fas fa-grip-lines"
+            onClick={this.dragModeToggle}
+            title='Toggle Drag Mode'></i>
+        </div>
+
         {this.props.memosFetched
           ?
           <ResponsiveReactGridLayout
@@ -439,6 +459,7 @@ class Memos extends React.PureComponent {
             onLayoutChange={(layout, newLayout) =>
               this.onLayoutChange(layout, newLayout)
             }
+            isDraggable={this.state.dragMode}
           >
 
             {this.generateAddedMemos()}

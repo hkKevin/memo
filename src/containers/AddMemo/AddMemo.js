@@ -121,16 +121,11 @@ class AddMemo extends Component {
 
 		return (
 			<div>
-				{/* <Button 
-					color="warning" 
-					onClick={this.newMemoClicked}
-					className='newMemoBtn'
-					title='Create new memo'>NEW</Button> */}
 				<div className='newMemoBtn'>
 					<i
 						className="fas fa-plus"
 						onClick={this.newMemoClicked}
-						title='Create new memo'></i>
+						title='Create New Memo'></i>
 				</div>
 				{modal}
 			</div>
@@ -141,15 +136,12 @@ class AddMemo extends Component {
 const mapStateToProps = state => {
 	return {
 		showModal: state.showModal,
-		// title: state.title,
-		// content: state.content,
 		showStoredMemo: state.showStoredMemo
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		// onSaveMemo: (memoData) => dispatch({type: 'SAVE_MEMO', memoData: memoData}),
 		onSaveMemo: (memoData) => dispatch(actions.saveMemo(memoData)),
 		onNewMemo: () => dispatch({ type: 'NEW_MEMO' }),
 		onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' })

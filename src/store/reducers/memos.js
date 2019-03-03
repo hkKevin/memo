@@ -4,23 +4,6 @@ import firebase from 'firebase';
 
 const initialState = {
   memos: [],
-  // tempMemos: [
-  //   {
-  //     id:'-LWdj7UbUPCiEyKe7ao3',
-  //     title: 'title-1',
-  //     content: 'content-1'
-  //   },
-  //   {
-  //     id:'-LWeEVMVd1KW7_g9TVOv',
-  //     title: 'title-2',
-  //     content: 'content-2'
-  //   },
-  //   {
-  //     id:'-LWeF2ziDRDBVQblR5Xb',
-  //     title: 'title-3',
-  //     content: 'content-3'
-  //   }
-  // ],
   selectedMemoTitle: null,
   selectedMemoContent: null,
   selectedId: null,
