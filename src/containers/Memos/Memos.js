@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
 import Radium, { StyleRoot } from 'radium';
 import firebase from 'firebase';
-import axios from '../../axios-orders';
 //
 import { WidthProvider, Responsive } from "react-grid-layout";
 
@@ -12,18 +11,9 @@ import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css';
 import * as actions from '../../store/actions/index';
 
-//
-
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-// const originalLayouts = getFromLS("layouts") || {};
 
-
-
-//
 class Memos extends React.PureComponent {
-
-
-  //
 
   constructor(props) {
     super(props);
@@ -36,26 +26,14 @@ class Memos extends React.PureComponent {
       hasContent: false,
       dropdownOpen: false,
       db: null,
-      //
       layouts: getFromLS('layouts'),
-      dummyMemos: [
-        {
-          id: 'id-1',
-          title: 'Title and Content are getting from local array',
-          content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-        },
-        {
-          id: 'id-2',
-          title: 'Title and Content are getting from local array',
-          content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-        }
-      ],
       memoStyle: {
         'YELLOW': {
-          border: '30px solid #feef9c',
+          border: '1px solid #feef9c',
           backgroundColor: '#feef9c',
-          padding: '0px',
-          margin: '10px 10px',
+          // padding: '0px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -63,7 +41,7 @@ class Memos extends React.PureComponent {
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
-          overflow: 'hidden',
+          overflow: 'auto',
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
@@ -78,10 +56,10 @@ class Memos extends React.PureComponent {
           }
         },
         'PURPLE': {
-          border: '30px solid #DCDFFF',
+          border: '1px solid #DCDFFF',
           backgroundColor: '#DCDFFF',
-          padding: '0px',
-          margin: '10px 10px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -104,10 +82,10 @@ class Memos extends React.PureComponent {
           }
         },
         'ORANGE': {
-          border: '30px solid #feccaf',
+          border: '1px solid #feccaf',
           backgroundColor: '#feccaf',
-          padding: '0px',
-          margin: '10px 10px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -130,10 +108,10 @@ class Memos extends React.PureComponent {
           }
         },
         'GREEN': {
-          border: '30px solid #b1ffb1',
+          border: '1px solid #b1ffb1',
           backgroundColor: '#b1ffb1',
-          padding: '0px',
-          margin: '10px 10px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -156,10 +134,10 @@ class Memos extends React.PureComponent {
           }
         },
         'BLUE': {
-          border: '30px solid #d8f1ff',
+          border: '1px solid #d8f1ff',
           backgroundColor: '#d8f1ff',
-          padding: '0px',
-          margin: '10px 10px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -182,10 +160,10 @@ class Memos extends React.PureComponent {
           }
         },
         'PINK': {
-          border: '30px solid #feb0bc',
+          border: '1px solid #feb0bc',
           backgroundColor: '#feb0bc',
-          padding: '0px',
-          margin: '10px 10px',
+          padding: '30px',
+          // margin: '10px 10px',
           boxShadow: '3px 3px 2px #ccc',
           boxSizing: 'border-box',
           display: 'block',
@@ -219,9 +197,6 @@ class Memos extends React.PureComponent {
   }
 
   componentDidMount() {
-
-    //this.props.onFetchMemos();
-
     console.log('componentDidMount');
     console.log(this.state.layouts); // layout is correct here
 
@@ -235,25 +210,7 @@ class Memos extends React.PureComponent {
     this.setState({ db: firebase.database() });
 
   }
-  //
-
-  // static get defaultProps() {
-  //   return {
-  //     className: "layout",
-  //     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-  //     rowHeight: 30,
-  //     onLayoutChange: function () { },
-  //     defaultLayout: {
-  //       lg: [{ x: 2, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }],
-  //       md: [{ x: 2, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }],
-  //       sm: [{ x: 2, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }],
-  //       xs: [{ x: 2, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }],
-  //       xxs: [{ x: 2, y: 0, w: 2, h: 2, minW: 2, maxW: 8 }],
-  //     },
-  //   };
-  // }
-
-  //
+  
   onLayoutChange(layout, newLayout) {
     console.log('onLayoutChange');
     console.log(this.state.layouts); // correct first time
@@ -263,8 +220,6 @@ class Memos extends React.PureComponent {
     saveToLS("layouts", newLayout);
     this.setState({ layouts: newLayout });
   }
-  //
-
 
 
   btnDropdownToggle() {
@@ -365,23 +320,16 @@ class Memos extends React.PureComponent {
     console.log(this.props.addedMemos);
     if (this.props.addedMemos.length > 0) {
       return this.props.addedMemos.map(memo => (
-        // <div key={memo.id}>
-        //   <Memo
-        //     key={memo.id}
-        //     clicked={() => this.memoClicked(memo)}
-        //     title={memo.title}
-        //     content={memo.content}
-        //     color={memo.color}>
-        //   </Memo>
-        // </div>
-
         <div
           key={memo.id}
-          onClick={() => this.memoClicked(memo)}
-          style={this.state.memoStyle[memo.color]}>
+          onDoubleClick={() => this.memoClicked(memo)}
+          style={this.state.memoStyle[memo.color]}
+          className='memo'
+          data-grid={{ x: 0, y: 0, w:4, h: 7 }}>
           <h3>{memo.title}</h3>
           <hr />
           <div>{memo.content}</div>
+          <div className='dragHandle'></div>
         </div>
       ));
     } else {
@@ -390,30 +338,9 @@ class Memos extends React.PureComponent {
     }
   }
 
-  // generateDummyMemos = (dummyMemos) => {
-  //   console.log('generateDummyMemos');
-  //   return dummyMemos.map(memo => (
-  //     <div key={memo.id}>
-  //       <div onClick={() => this.memoClicked(memo)}>
-  //         <h3>{memo.title}</h3>
-  //         <hr />
-  //         <div>{memo.content}</div>
-  //       </div>
-  //     </div>
-  //   ));
-  // }
-
 
   render() {
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
-
-    var defaultLayout = { lg: [{ x: 0, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }] };
-
-    
-    
-    
-
-
 
     let modal = null;
     if (this.props.showStoredMemo) {
@@ -497,35 +424,6 @@ class Memos extends React.PureComponent {
     }
 
 
-    // const dummyMemos = [
-    //   {
-    //     id: 'id-1',
-    //     title: 'Title and Content are getting from local array',
-    //     content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-    //   },
-    //   {
-    //     id: 'id-2',
-    //     title: 'Title and Content are getting from local array',
-    //     content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-    //   }
-    // ]
-
-    // this.setState({storedMemos: this.props.addedMemos});
-
-    // const dummyMemos = [
-    //   {
-    //     id: 'id-1',
-    //     title: 'Title and Content are getting from local array',
-    //     content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-    //   },
-    //   {
-    //     id: 'id-2',
-    //     title: 'Title and Content are getting from local array',
-    //     content: 'ABLE to remain the old position after reloads. All grid-layout is saving on localStorage'
-    //   }
-    // ]
-
-
     return (
       // <StyleRoot>
       <div>
@@ -544,47 +442,6 @@ class Memos extends React.PureComponent {
           >
 
             {this.generateAddedMemos()}
-            {/* {this.generateDummyMemos(dummyMemos)} */}
-
-            {/* {this.props.addedMemos.map(memo => (
-              <div key={memo.id}>
-                <div
-                  onClick={() => this.memoClicked(memo)}>
-                  <h3>{memo.title}</h3>
-                  <hr />
-                  <div>{memo.content}</div>
-                </div>
-              </div>
-            ))}
-
-
-            {dummyMemos.map(memo => (
-              <div key={memo.id}>
-                <div
-                  onClick={() => this.memoClicked(memo)}>
-                  <h3>{memo.title}</h3>
-                  <hr />
-                  <div>{memo.content}</div>
-                </div>
-              </div>
-            ))} */}
-
-            {/* {this.props.addedMemos
-            ? (
-              this.props.addedMemos.map(memo => (
-                
-                <div key={memo.id}>
-                  <Memo
-                    key={memo.id}
-                    title={memo.title} 
-                    content={memo.content} 
-                    clicked={() => this.memoClicked(memo)}
-                    color={memo.color}/>
-                </div>
-                  
-              ))
-            )
-            : 'Memos not found!'} */}
           </ResponsiveReactGridLayout>
           : null
         }
@@ -595,22 +452,6 @@ class Memos extends React.PureComponent {
     );
   }
 }
-
-//
-
-// function generateLayout() {
-//   return _.map(_.range(0, 25), function(item, i) {
-//     var y = Math.ceil(Math.random() * 4) + 1;
-//     return {
-//       x: (_.random(0, 5) * 2) % 12,
-//       y: Math.floor(i / 6) * y,
-//       w: 2,
-//       h: y,
-//       i: i.toString(),
-//       static: Math.random() < 0.05
-//     };
-//   });
-// }
 
 export const emptyObject = (data) => {
   let isEmpty = true;
@@ -640,8 +481,6 @@ export function saveToLS(layoutName, value) {
     console.error('localStorage is not supported');
   }
 }
-//
-
 
 export const mapStateToProps = state => {
   return {

@@ -51,6 +51,26 @@
 }
 
 
+@media (max-width: 430px) {
+  .btn, .dropdown-menu {
+    font-size: 0.9rem;
+    padding: .3rem .5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .btn, .dropdown-menu {
+    font-size: 0.8rem;
+    padding: .3rem .5rem;
+  }
+}
+
+@media (max-width: 345px) {
+  .btn, .dropdown-menu {
+    font-size: 0.7rem;
+    padding: .3rem .3rem;
+  }
+}
 
 
 
@@ -82,19 +102,6 @@
 .react-grid-item:not(.react-grid-placeholder) {
   background: #eee;
   border: 1px solid lightslategrey;
-
-  /* border: 30px solid #feef9c;
-  background-color: #feef9c;
-  padding: 0px;
-  margin: 10px 10px;
-  box-shadow: 3px 3px 2px #ccc;
-  box-sizing: border-box;
-  display: inline-block;
-  text-align: left;
-  max-width: 800px;
-  max-height: 800px;
-  overflow: hidden;
-  white-space: pre-wrap; */
 }
 
 .react-grid-item.react-draggable-dragging {
@@ -126,8 +133,37 @@
   position: absolute;
   right: 3px;
   bottom: 3px;
-  width: 5px;
-  height: 5px;
-  border-right: 2px solid rgba(0, 0, 0, 0.4);
-  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid #999;
+  border-bottom: 2px solid #999;
+}
+
+.dragHandle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  bottom: 0;
+  left: 0;
+  cursor: -webkit-grab;
+}
+
+.dragHandle::after {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 14px;
+  height: 7px;
+  border-top: 2px solid #999;
+  border-bottom: 2px solid #999;
+}
+
+.memo:hover {
+  cursor: pointer;
+  box-shadow: 5px 5px 5px #ccc !important;
+}
+
+.memo:active {
+  box-shadow: 10px 10px 10px #ccc !important;
 }

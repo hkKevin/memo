@@ -8,35 +8,37 @@
 }
 
 .newMemoBtn {
+  font-size: 2em;
   z-index: 99;
-  color: #feef9c;
+  color: black;
   font-weight: normal;
-  background-color: black;
-  border-color: black;
   opacity: 0.3;
   position: fixed;
   bottom: 20px;
   right: 20px;
   /* animation-name: newMemoEnable;
-  animation-duration: 0.7;
+  animation-duration: 0.8;
   animation-timing-function: linear;
   animation-delay: 0.5s;
-  animation-iteration-count: 2; */
-  animation: newMemoEnable 0.7s linear 0.5s 2;
+  animation-iteration-count: 1; */
+  animation: newMemoEnable .8s linear 0.5s 1;
+}
+
+@media (max-width: 400px) {
+  .newMemoBtn {
+    font-size: 1.2em;
+  }
 }
 
 .newMemoBtn:hover {
-  color: rgb(253,225,68);
-  background-color: black;
-  border-color: black;
+  color: black;
+  cursor: pointer;
   opacity: 1;
 }
 
 .btn-warning:not(:disabled):not(.disabled):active,
 .newMemoBtn:active {
-  color: rgb(253,225,68);
-  background-color: black;
-  border-color: black;
+  color: #555;
 }
 
 .saveBtn:disabled {

@@ -9,14 +9,14 @@ import * as actions from '../../store/actions/index';
 class AddMemo extends Component {
 
 	state = {
-			title: '',
-			content: '',
-			hasTitle: false,
-			hasContent: false
+		title: '',
+		content: '',
+		hasTitle: false,
+		hasContent: false
 	}
 
-  toggle = () => {
-    this.props.onToggleModal();
+	toggle = () => {
+		this.props.onToggleModal();
 	}
 
 	saveMemo = () => {
@@ -50,82 +50,88 @@ class AddMemo extends Component {
 
 	titleChangedHandler = (event) => {
 		if (event.target.value === null || event.target.value === '') {
-			this.setState({hasTitle: false});
+			this.setState({ hasTitle: false });
 		} else {
-			this.setState({hasTitle: true});
+			this.setState({ hasTitle: true });
 		}
-		this.setState({title: event.target.value});
+		this.setState({ title: event.target.value });
 	}
 
 	contentChangedHandler = (event) => {
 		if (event.target.value === null || event.target.value === '') {
-			this.setState({hasContent: false});
+			this.setState({ hasContent: false });
 		} else {
-			this.setState({hasContent: true});
+			this.setState({ hasContent: true });
 		}
-		this.setState({content: event.target.value});
-  }
+		this.setState({ content: event.target.value });
+	}
 
 	newMemoClicked = () => {
 		this.initMemo();
 		this.props.onNewMemo();
 	}
 
-	render () {
+	render() {
 
 		let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
 		let modal = null;
 		if (!this.props.showStoredMemo) {
 			modal = (
-				<Modal 
+				<Modal
 					autoFocus
 					centered
-					isOpen={this.props.showModal} 
-					toggle={this.toggle} 
-					modalTransition={{ timeout: 1 }} 
+					isOpen={this.props.showModal}
+					toggle={this.toggle}
+					modalTransition={{ timeout: 1 }}
 					size='lg'>
-          <ModalBody>
-						<Input 
-							onChange={this.titleChangedHandler} 
-							value={this.state.title} 
-							type='text' 
+					<ModalBody>
+						<Input
+							onChange={this.titleChangedHandler}
+							value={this.state.title}
+							type='text'
 							placeholder='Title'
 							name='title'
 							className='inputField' />
 						<hr />
-						<Input 
-							onChange={this.contentChangedHandler} 
-							value={this.state.content} 
+						<Input
+							onChange={this.contentChangedHandler}
+							value={this.state.content}
 							type='textarea'
-							rows='10' 
+							rows='10'
 							placeholder='Content'
 							name='content'
 							className='textArea' />
-          </ModalBody>
-          <ModalFooter className='modalFooter'>
-						<Button 
+					</ModalBody>
+					<ModalFooter className='modalFooter'>
+						<Button
 							outline
-							color="secondary" 
+							color="secondary"
 							onClick={this.initMemo}>CANCEL</Button>
-						<Button 
+						<Button
 							outline
-							color="primary" 
+							color="primary"
 							onClick={this.saveMemoClicked}
 							disabled={!atLeastOneInputHasValue}
 							className='saveBtn'>SAVE</Button>
-          </ModalFooter>
-        </Modal>
+					</ModalFooter>
+				</Modal>
 			);
 		}
 
 		return (
 			<div>
-				<Button 
+				{/* <Button 
 					color="warning" 
 					onClick={this.newMemoClicked}
 					className='newMemoBtn'
-					title='Create new memo'>NEW</Button>
+					title='Create new memo'>NEW</Button> */}
+				<div className='newMemoBtn'>
+					<i
+						className="fas fa-plus"
+						onClick={this.newMemoClicked}
+						title='Create new memo'></i>
+				</div>
 				{modal}
 			</div>
 		);
@@ -133,21 +139,21 @@ class AddMemo extends Component {
 }
 
 const mapStateToProps = state => {
-  return {
+	return {
 		showModal: state.showModal,
 		// title: state.title,
 		// content: state.content,
 		showStoredMemo: state.showStoredMemo
-  };
+	};
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
+	return {
 		// onSaveMemo: (memoData) => dispatch({type: 'SAVE_MEMO', memoData: memoData}),
 		onSaveMemo: (memoData) => dispatch(actions.saveMemo(memoData)),
-		onNewMemo: () => dispatch({type: 'NEW_MEMO'}),
-		onToggleModal: () => dispatch({type: 'TOGGLE_MODAL'})
-  };
+		onNewMemo: () => dispatch({ type: 'NEW_MEMO' }),
+		onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' })
+	};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddMemo, axios);
