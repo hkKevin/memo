@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-import Radium, { StyleRoot } from 'radium';
+import Radium from 'radium';
 import firebase from 'firebase';
-//
 import { WidthProvider, Responsive } from "react-grid-layout";
 
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -187,18 +186,18 @@ class Memos extends React.PureComponent {
         }
       }
     };
-    console.log(this.state.layouts);
+    // console.log(this.state.layouts);
   }
 
   componentWillMount() {
-    console.log('componentWillMount');
-    console.log(this.state.layouts);
+    // console.log('componentWillMount');
+    // console.log(this.state.layouts);
     this.props.onFetchMemos();
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
-    console.log(this.state.layouts); // layout is correct here
+    // console.log('componentDidMount');
+    // console.log(this.state.layouts); // layout is correct here
 
     // Set up Firebase config here once, for connecting to the db.
     var config = {
@@ -212,10 +211,10 @@ class Memos extends React.PureComponent {
   }
 
   onLayoutChange(layout, newLayout) {
-    console.log('onLayoutChange');
-    console.log(this.state.layouts); // correct first time
+    // console.log('onLayoutChange');
+    // console.log(this.state.layouts); // correct first time
 
-    console.log(layout); // missing the firebase widget here
+    // console.log(layout); // missing the firebase widget here
 
     saveToLS("layouts", newLayout);
     this.setState({ layouts: newLayout });
@@ -322,8 +321,8 @@ class Memos extends React.PureComponent {
 
 
   generateAddedMemos = () => {
-    console.log('generateAddedMemos');
-    console.log(this.props.addedMemos);
+    // console.log('generateAddedMemos');
+    // console.log(this.props.addedMemos);
     if (this.props.addedMemos.length > 0) {
       return this.props.addedMemos.map(memo => (
         <div
@@ -437,7 +436,6 @@ class Memos extends React.PureComponent {
 
 
     return (
-      // <StyleRoot>
       <div>
         <AddMemo />
 
@@ -461,7 +459,6 @@ class Memos extends React.PureComponent {
             }
             isDraggable={this.state.dragMode}
           >
-
             {this.generateAddedMemos()}
           </ResponsiveReactGridLayout>
           : null
@@ -469,7 +466,6 @@ class Memos extends React.PureComponent {
 
         {modal}
       </div>
-      // </StyleRoot>
     );
   }
 }

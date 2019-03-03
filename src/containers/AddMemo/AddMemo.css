@@ -8,14 +8,14 @@
 }
 
 .newMemoBtn {
-  font-size: 2em;
+  font-size: 1.7em;
   z-index: 99;
   color: black;
   font-weight: normal;
   opacity: 0.3;
   position: fixed;
   bottom: 10px;
-  right: 20px;
+  right: 23px;
   /* animation-name: newMemoEnable;
   animation-duration: 0.8;
   animation-timing-function: linear;
@@ -27,6 +27,7 @@
 @media (max-width: 400px) {
   .newMemoBtn {
     font-size: 1.2em;
+    right: 21px;
   }
 }
 
