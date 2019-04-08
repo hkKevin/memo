@@ -1,3 +1,20 @@
+[Live Demo](https://vigilant-hawking-ade786.netlify.com/)
+
+![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/img/projects/memo-app.png)
+
+## Features
+
+* Resizes memos to adjust the width and height manually
+* Drags memos to reorder them
+* Stores memos layout on Local Storage
+* Sync. memos title, content and colors on Firebase
+* Sync. creation, update, and deletion of memos on Firebase
+* Supports responsive web design
+
+
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
