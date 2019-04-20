@@ -4,6 +4,7 @@ import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownM
 import Radium from 'radium';
 import firebase from 'firebase';
 import { WidthProvider, Responsive } from "react-grid-layout";
+import ReactTooltip from 'react-tooltip';
 
 import AddMemo from '../../containers/AddMemo/AddMemo';
 import './Memos.css';
@@ -399,23 +400,23 @@ class Memos extends React.PureComponent {
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
-                    id='blueItem'>BLUE</DropdownItem><DropdownItem divider />
+                    id='blueItem'>BLUE</DropdownItem>
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
-                    id='greenItem'>GREEN</DropdownItem><DropdownItem divider />
+                    id='greenItem'>GREEN</DropdownItem>
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
-                    id='orangeItem'>ORANGE</DropdownItem><DropdownItem divider />
+                    id='orangeItem'>ORANGE</DropdownItem>
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
-                    id='pinkItem'>PINK</DropdownItem><DropdownItem divider />
+                    id='pinkItem'>PINK</DropdownItem>
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
-                    id='purpleItem'>PURPLE</DropdownItem><DropdownItem divider />
+                    id='purpleItem'>PURPLE</DropdownItem>
                   <DropdownItem
                     onClick={this.btnDropdownSelect}
                     className='DropdownItem'
@@ -439,11 +440,12 @@ class Memos extends React.PureComponent {
       <div>
         <AddMemo />
 
+        <ReactTooltip effect="solid" className="tooltip" />
+
         <div className='dragMode'>
-          <i 
-            className="fas fa-grip-lines"
+          <i className="fas fa-grip-lines"
             onClick={this.dragModeToggle}
-            title='Toggle Drag Mode'></i>
+            data-tip='Toggle Drag Mode'></i>
         </div>
 
         {this.props.memosFetched

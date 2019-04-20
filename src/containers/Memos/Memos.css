@@ -7,7 +7,7 @@
 }
 
 .updateBtn:not(:disabled) {
-  animation: enable 0.3s linear;
+  animation: btn 0.5s linear 1s 1;
 }
 
 .DropdownItem:hover {
@@ -38,7 +38,7 @@
   background-color: #feb0bc;
 }
 
-@keyframes enable {
+@keyframes btn {
   0% {
       transform: scale(1);
   }
@@ -145,6 +145,7 @@
   height: 20px;
   bottom: 0;
   left: 0;
+  padding: 2rem;
   cursor: -webkit-grab;
 }
 
@@ -157,6 +158,10 @@
   height: 7px;
   border-top: 2px solid #999;
   border-bottom: 2px solid #999;
+}
+
+.dragHandle:active {
+  cursor: -webkit-grabbing;
 }
 
 .memo:hover {
@@ -178,11 +183,11 @@
   bottom: 70px;
   right: 22px;
   /* animation-name: dragMode;
-  animation-duration: 0.8;
+  animation-duration: 0.5;
   animation-timing-function: linear;
-  animation-delay: 0.2s;
+  animation-delay: 0.5s;
   animation-iteration-count: 1; */
-  animation: dragMode .8s linear 0.2s 1;
+  animation: dragMode .5s linear .5s 1;
 }
 
 @media (max-width: 400px) {
@@ -213,4 +218,8 @@
   100% {
       transform: scale(1);
   }
+}
+
+.tooltip {
+  font-size: 0.7rem;
 }

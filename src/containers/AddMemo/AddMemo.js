@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap';
 import axios from '../../axios-orders';
+import ReactTooltip from 'react-tooltip';
 
 import './AddMemo.css';
 import * as actions from '../../store/actions/index';
@@ -125,7 +126,7 @@ class AddMemo extends Component {
 					<i
 						className="fas fa-plus"
 						onClick={this.newMemoClicked}
-						title='Create New Memo'></i>
+						data-tip='Create New Memo'></i>
 				</div>
 				{modal}
 			</div>
