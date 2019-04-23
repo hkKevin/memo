@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 
 import './Header.css'
 
@@ -11,7 +10,7 @@ const Header = () => (
       </i>
       
       <div id='headerRight'>
-        <a href='https://github.com/hkKevin/memo' target='_blank' rel='noopener noreferrer' style={{ color: '#888' }} data-tip='GitHub Repo'>
+        <a id="githubLink" href='https://github.com/hkKevin/memo' target='_blank' rel='noopener noreferrer' style={{ color: '#888' }} data-tip='GitHub Repo'>
           <i id='githubIcon' className="fab fa-github"></i>
         </a>
         <div id='credit'>Developed By<br />

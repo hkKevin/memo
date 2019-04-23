@@ -1,19 +1,30 @@
 import React, { Component } from 'react';
+import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 
 import './App.css';
 import Memos from './containers/Memos/Memos';
-import Header from './components/UI/Header/Header';
+import FilteredMemos from './containers/FilteredMemos/FilteredMemos';
 
 class App extends Component {
   
   render() {
+
+    let routes = (
+      <Switch>
+        <Route path='/filtered' component={FilteredMemos} />
+        <Route path='/' exact component={Memos} />
+        <Redirect to='/' />
+      </Switch>
+    );
+
+
+
     return (
       <div className="App">
-        <Header />
-        <Memos />
+        {routes}
       </div>
     );
   }
 }
 
-export default App;
+export default withRouter(App);

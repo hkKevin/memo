@@ -1,36 +1,27 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react';
 import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-import Radium from 'radium';
-import firebase from 'firebase';
+import { connect } from 'react-redux';
 import { WidthProvider, Responsive } from "react-grid-layout";
-import ReactTooltip from 'react-tooltip';
+import firebase from 'firebase';
 
+import './FilteredMemos.css';
 import * as actions from '../../store/actions/index';
-import Header from '../../components/UI/Header/Header';
-import AddMemo from '../../containers/AddMemo/AddMemo';
-import FilterMemos from '../FilterMemos/FilterMemos';
-import SideNav from '../../components/UI/SideNav/SideNav';
-import './Memos.css';
-
-
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-class Memos extends React.PureComponent {
+class FilteredMemos extends Component {
 
-  constructor(props) {
+	constructor(props) {
     super(props);
 
     this.btnDropdownToggle = this.btnDropdownToggle.bind(this);
     this.btnDropdownSelect = this.btnDropdownSelect.bind(this);
-    this.onLayoutChange = this.onLayoutChange.bind(this);
+    // this.onLayoutChange = this.onLayoutChange.bind(this);
     this.state = {
       hasTitle: false,
       hasContent: false,
       dropdownOpen: false,
       db: null,
-      layouts: getFromLS('layouts'),
       dragMode: false,
       memoStyle: {
         'YELLOW': {
@@ -195,12 +186,6 @@ class Memos extends React.PureComponent {
     // console.log(this.state.layouts);
   }
 
-  componentWillMount() {
-    // console.log('componentWillMount');
-    // console.log(this.state.layouts);
-    this.props.onFetchMemos();
-  }
-
   componentDidMount() {
     // Set up Firebase config here once, for connecting to the db.
     var config = {
@@ -208,38 +193,13 @@ class Memos extends React.PureComponent {
       authDomain: 'memo-a117b.firebaseapp.com',
       databaseURL: 'https://memo-a117b.firebaseio.com/'
     };
-
     // Prevent duplicate firebase app
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
     }
     // firebase.initializeApp(config);
     this.setState({ db: firebase.database() });
-
-    
   }
-
-  onLayoutChange(layout, newLayout) {
-    // console.log('onLayoutChange');
-    // console.log(this.state.layouts); // correct first time
-
-    // console.log(layout); // missing the firebase widget here
-
-    // console.log(this.props.showAllMemos);
-    // console.log(this.state.layouts);
-    // if (this.props.showAllMemos === true) {
-      // setTimeout(()=>{}, 3000);
-      saveToLS("layouts", newLayout);
-      this.setState({ layouts: newLayout })
-        
-      // console.log("Inside:");
-      // console.log(this.state.layouts);
-      
-    // }
-    // saveToLS("layouts", newLayout);
-    // this.setState({ layouts: newLayout })
-  }
-
 
   btnDropdownToggle() {
     this.setState({
@@ -338,10 +298,8 @@ class Memos extends React.PureComponent {
     }));
   }
 
-
-
   generateAddedMemos = () => {
-    // let outputMemos = "";
+    let outputMemos = "";
     // console.log('generateAddedMemos');
     console.log(this.props.addedMemos);
     if (this.props.addedMemos.length > 0) {
@@ -353,27 +311,10 @@ class Memos extends React.PureComponent {
       //   outputMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
       // }
 
-      // return outputMemos.map(memo => (
-      //   <div
-      //     key={memo.id}
-      //     onDoubleClick={() => this.memoClicked(memo)}
-      //     style={this.state.memoStyle[memo.color]}
-      //     className='memo'
-      //     data-grid={{ x: 0, y: 0, w: 4, h: 7 }}
-      //   >
+      // Show filtered memos
+      outputMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
 
-      //     <h3>{memo.title}</h3>
-      //     <hr />
-      //     <div>{memo.content}</div>
-      //     {this.state.dragMode
-      //       ? <div className='dragHandle'></div>
-      //       : null}
-      //   </div>
-
-      // ));
-
-
-      return this.props.addedMemos.map(memo => (
+      return outputMemos.map(memo => (
         <div
           key={memo.id}
           onDoubleClick={() => this.memoClicked(memo)}
@@ -398,7 +339,7 @@ class Memos extends React.PureComponent {
   }
 
 
-  render() {
+	render() {
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
@@ -483,15 +424,13 @@ class Memos extends React.PureComponent {
       );
     }
 
-
-    return (
-      <div>
-        <Header />
-        {/* <SideNav /> */}
-        <AddMemo />
-        <FilterMemos history={this.props.history} />
-
-        <ReactTooltip effect="solid" className="tooltip" />
+		return (
+			<div>
+				<div id='backBtn'>
+					<i className="fas fa-arrow-circle-left"
+						onClick={() => this.props.history.goBack()}
+						data-tip='BACK'></i>
+				</div>
 
         <div className='dragMode'>
           <i className="fas fa-grip-lines"
@@ -507,9 +446,9 @@ class Memos extends React.PureComponent {
             cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
             rowHeight={40}
             layouts={this.state.layouts}
-            onLayoutChange={(layout, newLayout) =>
-              this.onLayoutChange(layout, newLayout)
-            }
+            // onLayoutChange={(layout, newLayout) =>
+            //   this.onLayoutChange(layout, newLayout)
+            // }
             isDraggable={this.state.dragMode}
           >
             {this.generateAddedMemos()}
@@ -518,41 +457,13 @@ class Memos extends React.PureComponent {
         }
 
         {modal}
-      </div>
-    );
-  }
+        {/* FilteredMemos page */}
+			</div>
+		);
+	}
 }
 
-export const emptyObject = (data) => {
-  let isEmpty = true;
-
-  if (data && data !== 'undefined' && data !== null) {
-    isEmpty = Object.keys(data).length === 0 && data.constructor === Object;
-  }
-
-  return isEmpty;
-}
-
-function getFromLS(layoutName) {
-  if (global.localStorage) {
-    let savedLayout = global.localStorage.getItem(layoutName);
-    if (savedLayout && !emptyObject(savedLayout)) {
-      return JSON.parse(savedLayout).layouts;
-    } else {
-      return { lg: [{ x: 0, y: 0, w: 4, h: 4, minW: 4, maxW: 8 }] };
-    }
-  }
-}
-
-export function saveToLS(layoutName, value) {
-  if (global.localStorage) {
-    global.localStorage.setItem(layoutName, JSON.stringify({ layouts: value }));
-  } else {
-    console.error('localStorage is not supported');
-  }
-}
-
-export const mapStateToProps = state => {
+const mapStateToProps = state => {
   return {
     showModal: state.showModal,
     addedMemos: state.memos,
@@ -579,8 +490,10 @@ const mapDispatchToProps = dispatch => {
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
     onFetchMemos: () => dispatch(actions.fetchMemos())
+    // onFilterMemos: (filterColor) => dispatch({ type: 'FILTER_MEMOS', filterColor: filterColor }),
+    // onResetFilter: () => dispatch({ type: 'RESET_FILTER' })
+    // onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };
 
-
-export default Radium(connect(mapStateToProps, mapDispatchToProps)(Memos));
+export default connect(mapStateToProps, mapDispatchToProps)(FilteredMemos);

@@ -1,0 +1,17 @@
+#backBtn {
+  left: 1em;
+  top: 1em;
+  z-index: 99;
+  opacity: 0.6;
+  position: fixed;
+}
+
+#backBtn:hover {
+  color: black;
+  cursor: pointer;
+  opacity: 1;
+}
+
+#backBtn:active {
+  color: #555;
+}

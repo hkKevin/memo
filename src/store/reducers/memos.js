@@ -10,6 +10,8 @@ const initialState = {
   selectedMemoColor: null,
   showModal: false,
   showStoredMemo: false,
+  showAllMemos: true,
+  filterColor: "",
   arrIndex: 0,
   memosFetched: false
 }
@@ -50,7 +52,8 @@ const memos = (state = initialState, action) => {
       return {
         ...state,
         memos: action.memos,
-        memosFetched: true
+        memosFetched: true,
+        showAllMemos: true
       }
 
 
@@ -191,6 +194,23 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: colorChangedMemos
       }
+    
+    // Only show memos with selected color
+    case 'FILTER_MEMOS':      
+      return { 
+        ...state,
+        showAllMemos: false,
+        filterColor: action.filterColor
+      }
+
+    // Reset filter and show all memos
+    // case 'RESET_FILTER':      
+    //   return { 
+    //     ...state,
+    //     showAllMemos: true
+    //   }
+
+
 
 
     default:

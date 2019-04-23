@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap';
 import axios from '../../axios-orders';
-import ReactTooltip from 'react-tooltip';
 
 import './AddMemo.css';
 import * as actions from '../../store/actions/index';
@@ -13,11 +12,14 @@ class AddMemo extends Component {
 		title: '',
 		content: '',
 		hasTitle: false,
-		hasContent: false
+		hasContent: false,
+		openModal: false
 	}
 
 	toggle = () => {
-		this.props.onToggleModal();
+		this.setState(prevState => ({
+      openModal: !prevState.openModal
+    }));
 	}
 
 	saveMemo = () => {
@@ -82,7 +84,7 @@ class AddMemo extends Component {
 				<Modal
 					autoFocus
 					centered
-					isOpen={this.props.showModal}
+					isOpen={this.state.openModal}
 					toggle={this.toggle}
 					modalTransition={{ timeout: 1 }}
 					size='lg'>
@@ -136,7 +138,6 @@ class AddMemo extends Component {
 
 const mapStateToProps = state => {
 	return {
-		showModal: state.showModal,
 		showStoredMemo: state.showStoredMemo
 	};
 };
@@ -144,8 +145,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
 	return {
 		onSaveMemo: (memoData) => dispatch(actions.saveMemo(memoData)),
-		onNewMemo: () => dispatch({ type: 'NEW_MEMO' }),
-		onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' })
+		onNewMemo: () => dispatch({ type: 'NEW_MEMO' })
 	};
 };
 
