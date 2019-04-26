@@ -1,9 +1,16 @@
 #backBtn {
-  left: 1em;
-  top: 1em;
+  left: .6em;
+  top: .3em;
   z-index: 99;
   opacity: 0.6;
   position: fixed;
+  font-size: 1.5em;
+}
+
+@media (max-width: 400px) {
+  #backBtn {
+    font-size: 1.2em;
+  }
 }
 
 #backBtn:hover {

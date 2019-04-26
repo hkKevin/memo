@@ -9,11 +9,13 @@ const initialState = {
   selectedId: null,
   selectedMemoColor: null,
   showModal: false,
+  showNewMemoDialog: false,
   showStoredMemo: false,
   showAllMemos: true,
   filterColor: "",
   arrIndex: 0,
-  memosFetched: false
+  memosFetched: false,
+  draggable: false
 }
 
 const memos = (state = initialState, action) => {
@@ -29,13 +31,6 @@ const memos = (state = initialState, action) => {
       }
 
     // Within AddMemo.js:
-
-    case 'NEW_MEMO':
-      return { 
-        ...state,
-        showModal: true,
-        showStoredMemo: false
-      }
 
     case 'SAVE_MEMO_SUCCESS':
       const newMemo = {
@@ -192,7 +187,8 @@ const memos = (state = initialState, action) => {
         })
       return {
         ...state,
-        memos: colorChangedMemos
+        memos: colorChangedMemos,
+        selectedMemoColor: action.memoColor
       }
     
     // Only show memos with selected color
@@ -203,12 +199,18 @@ const memos = (state = initialState, action) => {
         filterColor: action.filterColor
       }
 
-    // Reset filter and show all memos
-    // case 'RESET_FILTER':      
-    //   return { 
-    //     ...state,
-    //     showAllMemos: true
-    //   }
+    case 'TOGGLE_DRAGGABLE':      
+      return { 
+        ...state,
+        draggable: action.isDraggable
+      }
+
+    case 'CREATE_MEMO':
+      return { 
+        ...state,
+        showModal: true,
+        showStoredMemo: false
+      }
 
 
 

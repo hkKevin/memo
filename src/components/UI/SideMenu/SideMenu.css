@@ -38,3 +38,12 @@
 .transform-bar-3 {
   transform: rotate(45deg) translate(-5px, -5px);
 }
+
+.sidenav {
+  width: 250px;
+}
+
+.burgerIcon{
+  right: 0;
+  bottom: 0;
+}

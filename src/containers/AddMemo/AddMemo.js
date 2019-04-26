@@ -1,25 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, Button, Input } from 'reactstrap';
 import axios from '../../axios-orders';
+import { withStyles } from '@material-ui/core/styles';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, Button } from '@material-ui/core';
 
 import './AddMemo.css';
 import * as actions from '../../store/actions/index';
 
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  }
+});
+
 class AddMemo extends Component {
 
 	state = {
-		title: '',
-		content: '',
+		title: "",
+		content: "",
 		hasTitle: false,
-		hasContent: false,
-		openModal: false
+		hasContent: false
 	}
 
 	toggle = () => {
-		this.setState(prevState => ({
-      openModal: !prevState.openModal
-    }));
+		this.props.onToggleModal();
+		this.deleteInput();	// Clear previous input fields
 	}
 
 	saveMemo = () => {
@@ -32,6 +44,7 @@ class AddMemo extends Component {
 		this.props.onSaveMemo(memoData);
 	}
 
+	// Clear previous input fields
 	deleteInput() {
 		this.setState({
 			title: '',
@@ -44,11 +57,6 @@ class AddMemo extends Component {
 	saveMemoClicked = () => {
 		this.toggle();
 		this.saveMemo();
-	}
-
-	initMemo = () => {
-		this.toggle();
-		this.deleteInput();
 	}
 
 	titleChangedHandler = (event) => {
@@ -69,68 +77,66 @@ class AddMemo extends Component {
 		this.setState({ content: event.target.value });
 	}
 
-	newMemoClicked = () => {
-		this.initMemo();
-		this.props.onNewMemo();
-	}
-
 	render() {
 
 		let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
-		let modal = null;
+    const { classes } = this.props;
+
+    let dialog = null;
 		if (!this.props.showStoredMemo) {
-			modal = (
-				<Modal
-					autoFocus
-					centered
-					isOpen={this.state.openModal}
-					toggle={this.toggle}
-					modalTransition={{ timeout: 1 }}
-					size='lg'>
-					<ModalBody>
-						<Input
-							onChange={this.titleChangedHandler}
-							value={this.state.title}
-							type='text'
-							placeholder='Title'
-							name='title'
-							className='inputField' />
-						<hr />
-						<Input
-							onChange={this.contentChangedHandler}
-							value={this.state.content}
-							type='textarea'
-							rows='10'
-							placeholder='Content'
-							name='content'
-							className='textArea' />
-					</ModalBody>
-					<ModalFooter className='modalFooter'>
-						<Button
-							outline
-							color="secondary"
-							onClick={this.initMemo}>CANCEL</Button>
-						<Button
-							outline
-							color="primary"
-							onClick={this.saveMemoClicked}
-							disabled={!atLeastOneInputHasValue}
-							className='saveBtn'>SAVE</Button>
-					</ModalFooter>
-				</Modal>
-			);
+      dialog = (
+        <div>
+          <Dialog
+            open={this.props.showModal}
+            onClose={this.toggle}
+            fullWidth={true}
+            maxWidth="sm"
+          >
+            <DialogTitle id="form-dialog-title">Create New Memo</DialogTitle>
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="normal"
+                id="memoTitle"
+                label="Title"
+                type="text"
+                fullWidth
+                required
+                onChange={this.titleChangedHandler}
+                value={this.state.title}
+              />
+              <TextField
+                margin="normal"
+                id="memoContent"
+                label="Content"
+                type="text"
+                fullWidth
+                required
+                multiline
+                rows='10'
+                onChange={this.contentChangedHandler}
+                value={this.state.content}
+              />
+            </DialogContent>
+            <DialogActions className={classes.root}>
+              <Button 
+                onClick={this.saveMemoClicked} 
+                variant="text" 
+                color="primary" 
+                className={classes.button} 
+                disabled={!atLeastOneInputHasValue}>
+                SAVE
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      );
 		}
 
 		return (
 			<div>
-				<div className='newMemoBtn'>
-					<i
-						className="fas fa-plus"
-						onClick={this.newMemoClicked}
-						data-tip='Create New Memo'></i>
-				</div>
-				{modal}
+        {dialog}
 			</div>
 		);
 	}
@@ -138,15 +144,16 @@ class AddMemo extends Component {
 
 const mapStateToProps = state => {
 	return {
-		showStoredMemo: state.showStoredMemo
+    showStoredMemo: state.showStoredMemo,
+		showModal: state.showModal
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		onSaveMemo: (memoData) => dispatch(actions.saveMemo(memoData)),
-		onNewMemo: () => dispatch({ type: 'NEW_MEMO' })
+    onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' })
 	};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddMemo, axios);
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddMemo, axios));

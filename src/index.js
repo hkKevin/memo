@@ -4,8 +4,9 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
+import { MultiThemeProvider, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -22,10 +23,24 @@ const store = createStore(reducer, composeEnhancers(
 //   applyMiddleware(thunk)
 // ));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#880e4f',
+    },
+    secondary: {
+      main: '#1a237e',
+    }
+  },
+  
+})
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <App />
+      <MuiThemeProvider theme={theme}>
+        <App />
+      </MuiThemeProvider>
     </BrowserRouter>
   </Provider>, 
   document.getElementById('root'));

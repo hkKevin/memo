@@ -92,11 +92,9 @@
 }
 
 .layout {
-  /* background: gray; */
-  margin: 5px;
+  margin: 4rem 0 0 0;
   position: relative;
-  transition: height 100ms ease;
-  /* padding: 10px; */
+  transition: all .1s ease-out;
 }
 
 .react-grid-item:not(.react-grid-placeholder) {
@@ -141,23 +139,11 @@
 
 .dragHandle {
   position: absolute;
-  width: 20px;
-  height: 20px;
   bottom: 0;
   left: 0;
-  padding: 2rem;
+  padding: 2rem 2rem 0.2rem 0.2rem;
   cursor: -webkit-grab;
-}
-
-.dragHandle::after {
-  content: "";
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  width: 14px;
-  height: 7px;
-  border-top: 2px solid #999;
-  border-bottom: 2px solid #999;
+  color: #999;
 }
 
 .dragHandle:active {
@@ -223,3 +209,17 @@
 .tooltip {
   font-size: 0.7rem;
 }
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #ccc;
+}
+
+/* Widen the modal/ dialog on small screen */
+@media screen and (max-width: 500px) {
+  .MuiDialog-paper-127 {
+    margin: 0 2vw !important;
+  }
+}
+

@@ -78,3 +78,10 @@
       transform: scale(1);
   }
 }
+
+/* Widen the modal/ dialog on small screen */
+@media screen and (max-width: 500px) {
+  .MuiDialog-paper-123 {
+    margin: 0 2vw !important;
+  }
+}

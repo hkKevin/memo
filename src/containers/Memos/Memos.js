@@ -1,19 +1,43 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Modal, ModalBody, ModalFooter, Button, Input, ButtonDropdown, DropdownMenu, DropdownItem, DropdownToggle } from 'reactstrap';
-import Radium from 'radium';
 import firebase from 'firebase';
 import { WidthProvider, Responsive } from "react-grid-layout";
-import ReactTooltip from 'react-tooltip';
+import { withStyles } from '@material-ui/core/styles';
+import { MenuItem, 
+          Select, 
+          InputLabel, 
+          FormControl, 
+          Dialog, 
+          DialogTitle,
+          DialogActions, 
+          DialogContent,
+          TextField, 
+          Button,
+          CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
-import Header from '../../components/UI/Header/Header';
 import AddMemo from '../../containers/AddMemo/AddMemo';
-import FilterMemos from '../FilterMemos/FilterMemos';
-import SideNav from '../../components/UI/SideNav/SideNav';
+import SideMenu from '../../components/UI/SideMenu/SideMenu';
 import './Memos.css';
 
-
+const styles = theme => ({
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
+  },
+  progress: {
+    marginTop: theme.spacing.unit * 20,
+  },
+  paper: {
+    margin: 0
+  }
+});
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -21,9 +45,6 @@ class Memos extends React.PureComponent {
 
   constructor(props) {
     super(props);
-
-    this.btnDropdownToggle = this.btnDropdownToggle.bind(this);
-    this.btnDropdownSelect = this.btnDropdownSelect.bind(this);
     this.onLayoutChange = this.onLayoutChange.bind(this);
     this.state = {
       hasTitle: false,
@@ -31,44 +52,15 @@ class Memos extends React.PureComponent {
       dropdownOpen: false,
       db: null,
       layouts: getFromLS('layouts'),
-      dragMode: false,
       memoStyle: {
         'YELLOW': {
           border: '1px solid #feef9c',
+          borderRadius: '3px',
           backgroundColor: '#feef9c',
-          // padding: '0px',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
           boxSizing: 'border-box',
           display: 'block',
-          // display: 'inline-block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'auto',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
-        },
-        'PURPLE': {
-          border: '1px solid #DCDFFF',
-          backgroundColor: '#DCDFFF',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          // display: 'inline-block',
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
@@ -76,10 +68,38 @@ class Memos extends React.PureComponent {
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
+            // boxShadow: '5px 5px 5px #ccc'
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
           },
           ':active': {
-            boxShadow: '10px 10px 10px #ccc'
+            // boxShadow: '10px 10px 10px #ccc'
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+          },
+          '@media only screen and (maxWidth: 500px)': {
+            // margin: '20px 20px',
+            padding: '5px',
+            display: 'block'
+          }
+        },
+        'PURPLE': {
+          border: '1px solid #dcdfff',
+          borderRadius: '3px',
+          backgroundColor: '#dcdfff',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
+          boxSizing: 'border-box',
+          display: 'block',
+          textAlign: 'left',
+          maxWidth: '800px',
+          maxHeight: '800px',
+          overflow: 'hidden',
+          whiteSpace: 'pre-wrap',
+          ':hover': {
+            cursor: 'pointer',
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
+          },
+          ':active': {
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
           },
           '@media (maxWidth: 500px)': {
             margin: '20px 20px',
@@ -88,13 +108,12 @@ class Memos extends React.PureComponent {
         },
         'ORANGE': {
           border: '1px solid #feccaf',
+          borderRadius: '3px',
           backgroundColor: '#feccaf',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
           boxSizing: 'border-box',
           display: 'block',
-          // display: 'inline-block',
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
@@ -102,10 +121,10 @@ class Memos extends React.PureComponent {
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
           },
           ':active': {
-            boxShadow: '10px 10px 10px #ccc'
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
           },
           '@media (maxWidth: 500px)': {
             margin: '20px 20px',
@@ -114,13 +133,12 @@ class Memos extends React.PureComponent {
         },
         'GREEN': {
           border: '1px solid #b1ffb1',
+          borderRadius: '3px',
           backgroundColor: '#b1ffb1',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
           boxSizing: 'border-box',
           display: 'block',
-          // display: 'inline-block',
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
@@ -128,10 +146,10 @@ class Memos extends React.PureComponent {
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
           },
           ':active': {
-            boxShadow: '10px 10px 10px #ccc'
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
           },
           '@media (maxWidth: 500px)': {
             margin: '20px 20px',
@@ -140,13 +158,12 @@ class Memos extends React.PureComponent {
         },
         'BLUE': {
           border: '1px solid #d8f1ff',
+          borderRadius: '3px',
           backgroundColor: '#d8f1ff',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
           boxSizing: 'border-box',
           display: 'block',
-          // display: 'inline-block',
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
@@ -154,10 +171,10 @@ class Memos extends React.PureComponent {
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
           },
           ':active': {
-            boxShadow: '10px 10px 10px #ccc'
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
           },
           '@media (maxWidth: 500px)': {
             margin: '20px 20px',
@@ -166,13 +183,12 @@ class Memos extends React.PureComponent {
         },
         'PINK': {
           border: '1px solid #feb0bc',
+          borderRadius: '3px',
           backgroundColor: '#feb0bc',
-          padding: '30px',
-          // margin: '10px 10px',
-          boxShadow: '3px 3px 2px #ccc',
+          padding: '1rem',
+          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
           boxSizing: 'border-box',
           display: 'block',
-          // display: 'inline-block',
           textAlign: 'left',
           maxWidth: '800px',
           maxHeight: '800px',
@@ -180,24 +196,22 @@ class Memos extends React.PureComponent {
           whiteSpace: 'pre-wrap',
           ':hover': {
             cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
+            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
           },
           ':active': {
-            boxShadow: '10px 10px 10px #ccc'
+            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
           },
           '@media (maxWidth: 500px)': {
             margin: '20px 20px',
             display: 'block'
           }
         }
-      }
+      },
+      showInnerModal: false
     };
-    // console.log(this.state.layouts);
   }
 
   componentWillMount() {
-    // console.log('componentWillMount');
-    // console.log(this.state.layouts);
     this.props.onFetchMemos();
   }
 
@@ -220,38 +234,12 @@ class Memos extends React.PureComponent {
   }
 
   onLayoutChange(layout, newLayout) {
-    // console.log('onLayoutChange');
-    // console.log(this.state.layouts); // correct first time
-
-    // console.log(layout); // missing the firebase widget here
-
-    // console.log(this.props.showAllMemos);
-    // console.log(this.state.layouts);
-    // if (this.props.showAllMemos === true) {
-      // setTimeout(()=>{}, 3000);
       saveToLS("layouts", newLayout);
       this.setState({ layouts: newLayout })
-        
-      // console.log("Inside:");
-      // console.log(this.state.layouts);
-      
-    // }
-    // saveToLS("layouts", newLayout);
-    // this.setState({ layouts: newLayout })
   }
 
-
-  btnDropdownToggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
-
-  btnDropdownSelect(event) {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-    this.changeColor(event.target.innerText);
+  colorSelected(event) {
+    this.changeColor(event.target.value);
   }
 
   memoClicked = (memo) => {
@@ -261,17 +249,32 @@ class Memos extends React.PureComponent {
     this.storeColor(memo);
   }
 
-  deleteBtnClicked = () => {
-    this.toggle();
-    this.deleteMemo();
+  OuterDeleteBtnClicked = () => {
+    this.setState({ 
+      showInnerModal: true
+    });
   }
 
+  // Really delete the memo
+  innerDeleteBtnClicked = () => {
+    this.innerModalToggle();  // Close inner modal
+    this.toggle();  // Close outer modal
+    this.deleteMemo();  // Delete the memo on Firebase
+  }
+
+  // Delete the memo on Firebase
   deleteMemo = () => {
     this.props.onDeleteMemo(this.props.selectedId, this.state.db)
   }
 
   toggle = () => {
     this.props.onToggleModal();
+  }
+
+  innerModalToggle = () => {
+    this.setState(state => ({ 
+      showInnerModal: !state.showInnerModal
+    }));
   }
 
   selectMemo = (memo) => {
@@ -332,68 +335,29 @@ class Memos extends React.PureComponent {
     this.props.onChangeColor(color, this.state.db);
   }
 
-  dragModeToggle = () => {
-    this.setState(prevState => ({ 
-      dragMode: !prevState.dragMode
-    }));
-  }
-
-
-
   generateAddedMemos = () => {
-    // let outputMemos = "";
-    // console.log('generateAddedMemos');
-    console.log(this.props.addedMemos);
     if (this.props.addedMemos.length > 0) {
-      // if (this.props.showAllMemos === true) {
-      //   // Show all of the memos
-      //   outputMemos = this.props.addedMemos;
-      // } else {
-      //   // Show filtered memos
-      //   outputMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
-      // }
-
-      // return outputMemos.map(memo => (
-      //   <div
-      //     key={memo.id}
-      //     onDoubleClick={() => this.memoClicked(memo)}
-      //     style={this.state.memoStyle[memo.color]}
-      //     className='memo'
-      //     data-grid={{ x: 0, y: 0, w: 4, h: 7 }}
-      //   >
-
-      //     <h3>{memo.title}</h3>
-      //     <hr />
-      //     <div>{memo.content}</div>
-      //     {this.state.dragMode
-      //       ? <div className='dragHandle'></div>
-      //       : null}
-      //   </div>
-
-      // ));
-
-
       return this.props.addedMemos.map(memo => (
         <div
           key={memo.id}
           onDoubleClick={() => this.memoClicked(memo)}
           style={this.state.memoStyle[memo.color]}
           className='memo'
-          data-grid={{ x: 0, y: 0, w: 4, h: 7 }}
+          data-grid={{ x: 0, y: 0, w: 3, h: 5 }}
         >
 
           <h3>{memo.title}</h3>
           <hr />
           <div>{memo.content}</div>
-          {this.state.dragMode
-            ? <div className='dragHandle'></div>
+          {this.props.draggable
+            ? <i className="material-icons dragHandle">drag_handle</i>
             : null}
         </div>
 
       ));
     } else {
       console.error('no firebase widgets available yet.');
-      return <div>loading...</div>;
+      return <div>Loading...</div>;
     }
   }
 
@@ -401,84 +365,108 @@ class Memos extends React.PureComponent {
   render() {
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
+    
+    const { classes } = this.props;
 
-    let modal = null;
+    let dialog = null;
     if (this.props.showStoredMemo) {
-      modal = (
+
+      dialog = (
         <div>
-          <Modal
-            centered
-            isOpen={this.props.showModal}
-            toggle={this.toggle}
-            modalTransition={{ timeout: 1 }}
-            size='lg'>
-            <ModalBody>
-              <Input
+          <Dialog
+            open={this.props.showModal}
+            onClose={this.toggle}
+            fullWidth
+            maxWidth="sm"
+            className={classes.paper}
+          >
+            {/* <DialogTitle id="form-dialog-title">Subscribe</DialogTitle> */}
+            <DialogContent>
+              <TextField
+                autoFocus
+                margin="normal"
+                id="memoTitle"
+                label="Title"
+                type="text"
+                fullWidth
+                required
                 onChange={this.titleChangedHandler}
                 value={this.props.selectedMemoTitle}
-                type='text'
-                placeholder='Title'
-                className='inputField' />
-              <hr />
-              <Input
+              />
+              <TextField
+                margin="normal"
+                id="memoContent"
+                label="Content"
+                type="text"
+                fullWidth
+                required
+                multiline
+                rows='10'
                 onChange={this.contentChangedHandler}
                 value={this.props.selectedMemoContent}
-                type='textarea'
-                rows='10'
-                placeholder='Content'
-                className='textArea' />
-            </ModalBody>
-            <ModalFooter className='modalFooter'>
-              <Button
-                outline
-                color="danger"
-                onClick={this.deleteBtnClicked}>DELETE</Button>
-              <Button
-                outline
-                color="secondary"
-                onClick={this.toggle}
-                title='Cancel update'>CANCEL</Button>
-              <ButtonDropdown
-                isOpen={this.state.dropdownOpen}
-                toggle={this.btnDropdownToggle}>
-                <DropdownToggle caret outline color="info">
-                  COLOR
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='blueItem'>BLUE</DropdownItem>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='greenItem'>GREEN</DropdownItem>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='orangeItem'>ORANGE</DropdownItem>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='pinkItem'>PINK</DropdownItem>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='purpleItem'>PURPLE</DropdownItem>
-                  <DropdownItem
-                    onClick={this.btnDropdownSelect}
-                    className='DropdownItem'
-                    id='yellowItem'>YELLOW</DropdownItem>
-                </DropdownMenu>
-              </ButtonDropdown>
-              <Button
-                outline
-                color="primary"
-                onClick={this.updateMemoClicked}
-                disabled={!atLeastOneInputHasValue}
-                className='updateBtn'>UPDATE</Button>
-            </ModalFooter>
-          </Modal>
+              />
+
+              <FormControl 
+                required 
+                className={classes.formControl}>
+                <InputLabel>Color</InputLabel>
+                  <Select
+                    value={this.props.selectedMemoColor}
+                    onChange={(event) => this.colorSelected(event)}
+                    name="color"
+                    className={classes.selectEmpty}
+                  >
+                    <MenuItem value="BLUE">Blue</MenuItem>
+                    <MenuItem value="GREEN">Green</MenuItem>
+                    <MenuItem value="ORANGE">Orange</MenuItem>
+                    <MenuItem value="PINK">Pink</MenuItem>
+                    <MenuItem value="PURPLE">Purple</MenuItem>
+                    <MenuItem value="YELLOW">Yellow</MenuItem>
+                  </Select>
+              </FormControl>
+
+            </DialogContent>
+            <DialogActions className={classes.root}>
+              <Button 
+                onClick={this.OuterDeleteBtnClicked} 
+                variant="text" 
+                color="primary" 
+                className={classes.button}>
+                DELETE
+              </Button>
+              <Button 
+                onClick={this.updateMemoClicked} 
+                variant="text" 
+                color="secondary" 
+                className={classes.button} 
+                disabled={!atLeastOneInputHasValue}>
+                UPDATE
+              </Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog
+            open={this.state.showInnerModal}
+            onClose={this.innerModalToggle}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">{"Really delete this memo?"}</DialogTitle>
+            <DialogActions>
+              <Button 
+                onClick={this.innerModalToggle} 
+                color="primary">
+                CANCEL
+              </Button>
+              <Button 
+                onClick={this.innerDeleteBtnClicked} 
+                variant="text" 
+                color="secondary" 
+                className={classes.button}>
+                DELETE
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       );
     }
@@ -486,38 +474,28 @@ class Memos extends React.PureComponent {
 
     return (
       <div>
-        <Header />
-        {/* <SideNav /> */}
+        <SideMenu history={this.props.history} />
         <AddMemo />
-        <FilterMemos history={this.props.history} />
-
-        <ReactTooltip effect="solid" className="tooltip" />
-
-        <div className='dragMode'>
-          <i className="fas fa-grip-lines"
-            onClick={this.dragModeToggle}
-            data-tip='Toggle Drag Mode'></i>
-        </div>
 
         {this.props.memosFetched
-          ?
+          ? 
           <ResponsiveReactGridLayout
             className="layout"
             breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 1 }}
+            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
             rowHeight={40}
             layouts={this.state.layouts}
             onLayoutChange={(layout, newLayout) =>
               this.onLayoutChange(layout, newLayout)
             }
-            isDraggable={this.state.dragMode}
+            isDraggable={this.props.draggable}
           >
             {this.generateAddedMemos()}
           </ResponsiveReactGridLayout>
-          : null
+          : (<CircularProgress color="secondary" className={classes.progress} />)
         }
 
-        {modal}
+        {dialog}
       </div>
     );
   }
@@ -559,11 +537,13 @@ export const mapStateToProps = state => {
     tempMemos: state.tempMemos,
     selectedMemoTitle: state.selectedMemoTitle,
     selectedMemoContent: state.selectedMemoContent,
+    selectedMemoColor: state.selectedMemoColor,
     showStoredMemo: state.showStoredMemo,
     showAllMemos: state.showAllMemos,
     selectedId: state.selectedId,
     memosFetched: state.memosFetched,
-    filterColor: state.filterColor
+    filterColor: state.filterColor,
+    draggable: state.draggable
   };
 };
 
@@ -582,5 +562,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-
-export default Radium(connect(mapStateToProps, mapDispatchToProps)(Memos));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Memos));
