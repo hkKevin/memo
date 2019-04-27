@@ -13,16 +13,28 @@ import { MenuItem,
   DialogContent,
   TextField, 
   Button,
-  DialogTitle } from '@material-ui/core';
+  DialogTitle, 
+  Paper } from '@material-ui/core';
   import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
-import { WidthProvider, Responsive } from "react-grid-layout";
 import firebase from 'firebase';
 
 import './FilteredMemos.css';
 import * as actions from '../../store/actions/index';
 
 const styles = theme => ({
+  paperContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: theme.spacing.unit * 9,
+    marginBottom: -theme.spacing.unit * 9
+  },
+  paper: {
+    ...theme.mixins.gutters(),
+    // paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit * 1,
+    maxWidth: 300,  
+  },
   button: {
     margin: theme.spacing.unit,
   },
@@ -36,10 +48,13 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 220,
   }
 });
-
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 class FilteredMemos extends Component {
 
@@ -53,157 +68,31 @@ class FilteredMemos extends Component {
       memoStyle: {
         'YELLOW': {
           border: '1px solid #feef9c',
-          borderRadius: '5px',
-          backgroundColor: '#feef9c',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media only screen and (maxWidth: 500px)': {
-            // margin: '20px 20px',
-            padding: '5px',
-            display: 'block'
-          }
+          backgroundColor: '#feef9c'
         },
         'PURPLE': {
           border: '1px solid #dcdfff',
-          borderRadius: '5px',
-          backgroundColor: '#dcdfff',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#dcdfff'
         },
         'ORANGE': {
           border: '1px solid #feccaf',
-          borderRadius: '5px',
-          backgroundColor: '#feccaf',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#feccaf'
         },
         'GREEN': {
           border: '1px solid #b1ffb1',
-          borderRadius: '5px',
-          backgroundColor: '#b1ffb1',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#b1ffb1'
         },
         'BLUE': {
           border: '1px solid #d8f1ff',
-          borderRadius: '5px',
-          backgroundColor: '#d8f1ff',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#d8f1ff'
         },
         'PINK': {
           border: '1px solid #feb0bc',
-          borderRadius: '5px',
-          backgroundColor: '#feb0bc',
-          padding: '1rem',
-          boxShadow: '3px 3px 2px #ccc',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '5px 5px 5px #ccc'
-          },
-          ':active': {
-            boxShadow: '10px 10px 10px #ccc'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#feb0bc'
         }
       },
-      showInnerModal: false
+      showInnerModal: false,
+      searchedWord: ""
     };
   }
 
@@ -319,19 +208,33 @@ class FilteredMemos extends Component {
     this.props.onChangeColor(color, this.state.db);
   }
 
+  searchOnChange = (event) => {
+    this.setState({
+      searchedWord: event.target.value
+    });
+  }
+
   generateAddedMemos = () => {
     if (this.props.addedMemos.length > 0) {
 
-      // Show filtered memos
-      const filteredMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
-
+      let filteredMemos = ""
+      if ( !this.props.searchingMemo ) {
+        // Show filtered memos
+        filteredMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
+      } else {
+        // Show memos that contain searched word
+        filteredMemos = this.props.addedMemos.filter(
+          memo => memo.title.toLowerCase().includes(this.state.searchedWord.toLowerCase()) || 
+                  memo.content.toLowerCase().includes(this.state.searchedWord.toLowerCase())
+        );
+      }
+      
       return filteredMemos.map(memo => (
         <div
           key={memo.id}
           onDoubleClick={() => this.memoClicked(memo)}
           style={this.state.memoStyle[memo.color]}
           className='memo'
-          data-grid={{ x: 0, y: 0, w: 3, h: 5 }}
         >
 
           <h3>{memo.title}</h3>
@@ -352,9 +255,31 @@ class FilteredMemos extends Component {
 
 	render() {
 
+    console.log(this.state.searchedWord)
+
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
     const { classes } = this.props;
+
+    let searchPaper = null;
+    searchPaper = (
+      <div className={classes.paperContainer}>
+        <Paper className={classes.paper} elevation={2}>
+          <TextField
+            id="standard-search"
+            key="searchField"
+            name="searchField"
+            label="Find..."
+            type="search"
+            className={classes.textField}
+            margin="normal"
+            autoFocus
+            onChange={this.searchOnChange}
+            value={this.state.searchedWord}
+          />
+        </Paper>
+      </div>
+    );
 
     let dialog = null;
     if (this.props.showStoredMemo) {
@@ -366,7 +291,6 @@ class FilteredMemos extends Component {
             fullWidth={true}
             maxWidth="sm"
           >
-            {/* <DialogTitle id="form-dialog-title">Subscribe</DialogTitle> */}
             <DialogContent>
               <TextField
                 autoFocus
@@ -408,7 +332,7 @@ class FilteredMemos extends Component {
                   </Select>
               </FormControl>
             </DialogContent>
-            <DialogActions className={classes.root}>
+            <DialogActions>
               <Button 
                 onClick={this.OuterDeleteBtnClicked} 
                 variant="text" 
@@ -453,11 +377,15 @@ class FilteredMemos extends Component {
       );
     }
 
+    
 		return (
 			<div>
         <AppBar color="default" position="fixed">
           <Toolbar>
-            <IconButton onClick={() => this.props.history.goBack()} className={classes.menuButton} aria-label="Menu">
+            <IconButton 
+              onClick={() => this.props.history.goBack()} 
+              className={classes.menuButton} 
+              aria-label="Menu">
               <ArrowBack color="primary" />
             </IconButton>
             <Typography variant="h6" color="primary">
@@ -466,18 +394,15 @@ class FilteredMemos extends Component {
           </Toolbar>
         </AppBar>
 
+        {this.props.searchingMemo ? (searchPaper) : null}
+
         {this.props.memosFetched
           ?
-          <ResponsiveReactGridLayout
-            className="layout"
-            breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-            cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
-            rowHeight={40}
-            layouts={this.state.layouts}
-            isDraggable={this.props.draggable}
-          >
+          (
+          <div className="filteredLayout">
             {this.generateAddedMemos()}
-          </ResponsiveReactGridLayout>
+          </div>
+          )
           : null
         }
 
@@ -500,7 +425,8 @@ const mapStateToProps = state => {
     selectedId: state.selectedId,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
-    draggable: state.draggable
+    draggable: state.draggable,
+    searchingMemo: state.searchingMemo
   };
 };
 

@@ -21,6 +21,7 @@ import {  ColorLens,
           DragHandle, 
           ExpandLess, 
           ExpandMore } from '@material-ui/icons';
+import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import './SideMenu.css';
@@ -35,6 +36,9 @@ const styles = theme => ({
   menuButton: {
     marginLeft: -12,
     marginRight: 20,
+  },
+  searchIcon: {
+    marginRight: -12
   },
   nestedBlue: {
     paddingLeft: theme.spacing.unit * 5,
@@ -115,6 +119,13 @@ class SideMenu extends Component {
     this.props.onFilterMemos(filterColor);  // Pass the filter color to Redux
     this.closeDrawer(); // Close the side menu
     this.setState({ openNestedList: false }); // Close sub-list of colors
+    this.props.onToggleDraggable(false);  // Turn drag mode OFF
+  }
+
+  // Search icon is clicked
+  searchClicked = () => {
+    this.props.onSearch();  // Show all memos and ready to filter memos by word
+    this.props.history.push('/filtered'); // Redirect to that path
     this.props.onToggleDraggable(false);  // Turn drag mode OFF
   }
 
@@ -218,12 +229,23 @@ class SideMenu extends Component {
       <div>
         <AppBar color="inherit" position="fixed" className={classes.root}>
           <Toolbar>
-            <IconButton onClick={this.openDrawer} className={classes.menuButton} aria-label="Menu">
-              <MenuIcon color="primary"/>
+            <IconButton 
+               color="primary"
+               onClick={this.openDrawer} 
+               className={classes.menuButton} 
+               aria-label="Menu">
+              <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="primary">
               Memo
             </Typography>
+            <div className={classes.grow} />
+            <IconButton 
+              color="primary" 
+              className={classes.searchIcon}
+              onClick={this.searchClicked}>
+              <SearchIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
@@ -272,6 +294,7 @@ export const mapDispatchToProps = dispatch => {
     onToggleDraggable: (draggable) => dispatch({ type: 'TOGGLE_DRAGGABLE', isDraggable: draggable }),
     onCreateMemo: () => dispatch({ type: 'CREATE_MEMO' }),
     onFilterMemos: (filterColor) => dispatch({ type: 'FILTER_MEMOS', filterColor: filterColor }),
+    onSearch: () => dispatch({ type: 'SEARCH_MEMO' })
   };
 };
 

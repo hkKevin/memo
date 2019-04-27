@@ -15,7 +15,8 @@ const initialState = {
   filterColor: "",
   arrIndex: 0,
   memosFetched: false,
-  draggable: false
+  draggable: false,
+  searchingMemo: false
 }
 
 const memos = (state = initialState, action) => {
@@ -196,7 +197,8 @@ const memos = (state = initialState, action) => {
       return { 
         ...state,
         showAllMemos: false,
-        filterColor: action.filterColor
+        filterColor: action.filterColor,
+        searchingMemo: false
       }
 
     case 'TOGGLE_DRAGGABLE':      
@@ -211,6 +213,14 @@ const memos = (state = initialState, action) => {
         showModal: true,
         showStoredMemo: false
       }
+    
+      // Filter memos by words
+    case 'SEARCH_MEMO':
+      return { 
+        ...state,
+        searchingMemo: true
+      }
+    
 
 
 

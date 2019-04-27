@@ -61,7 +61,7 @@ export const fetchMemos = () => {
         return response.json();
       })
       .then(response => {
-        // console.log(response);
+        console.log(response);
         for (let key in response) {
           fetchedMemos.push( response[key] );
         }

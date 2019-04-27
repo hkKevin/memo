@@ -55,156 +55,27 @@ class Memos extends React.PureComponent {
       memoStyle: {
         'YELLOW': {
           border: '1px solid #feef9c',
-          borderRadius: '3px',
-          backgroundColor: '#feef9c',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            // boxShadow: '5px 5px 5px #ccc'
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            // boxShadow: '10px 10px 10px #ccc'
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media only screen and (maxWidth: 500px)': {
-            // margin: '20px 20px',
-            padding: '5px',
-            display: 'block'
-          }
+          backgroundColor: '#feef9c'
         },
         'PURPLE': {
           border: '1px solid #dcdfff',
-          borderRadius: '3px',
-          backgroundColor: '#dcdfff',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#dcdfff'
         },
         'ORANGE': {
           border: '1px solid #feccaf',
-          borderRadius: '3px',
-          backgroundColor: '#feccaf',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#feccaf'
         },
         'GREEN': {
           border: '1px solid #b1ffb1',
-          borderRadius: '3px',
-          backgroundColor: '#b1ffb1',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#b1ffb1'
         },
         'BLUE': {
           border: '1px solid #d8f1ff',
-          borderRadius: '3px',
-          backgroundColor: '#d8f1ff',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#d8f1ff'
         },
         'PINK': {
           border: '1px solid #feb0bc',
-          borderRadius: '3px',
-          backgroundColor: '#feb0bc',
-          padding: '1rem',
-          boxShadow: '0px 1px 5px 0px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 3px 1px -2px rgba(0,0,0,0.12)',
-          boxSizing: 'border-box',
-          display: 'block',
-          textAlign: 'left',
-          maxWidth: '800px',
-          maxHeight: '800px',
-          overflow: 'hidden',
-          whiteSpace: 'pre-wrap',
-          ':hover': {
-            cursor: 'pointer',
-            boxShadow: '0px 1px 8px 0px rgba(0,0,0,0.2), 0px 3px 4px 0px rgba(0,0,0,0.14), 0px 3px 3px -2px rgba(0,0,0,0.12)'
-          },
-          ':active': {
-            boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
-          },
-          '@media (maxWidth: 500px)': {
-            margin: '20px 20px',
-            display: 'block'
-          }
+          backgroundColor: '#feb0bc'
         }
       },
       showInnerModal: false
