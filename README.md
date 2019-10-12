@@ -1,4 +1,4 @@
-[Live Website](https://vigilant-hawking-ade786.netlify.com/)
+[Live Website](https://hkkevin.github.io/memo)
 
 ![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/img/projects/memo.png)
 
