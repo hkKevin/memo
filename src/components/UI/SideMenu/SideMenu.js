@@ -115,7 +115,7 @@ class SideMenu extends Component {
 
   // One of the color is clicked
   colorClicked = (filterColor) => {
-		this.props.history.push('/filtered'); // Redirect to that path
+		this.props.history.push('/memo/filtered'); // Redirect to that path
     this.props.onFilterMemos(filterColor);  // Pass the filter color to Redux
     this.closeDrawer(); // Close the side menu
     this.setState({ openNestedList: false }); // Close sub-list of colors
@@ -124,8 +124,8 @@ class SideMenu extends Component {
 
   // Search icon is clicked
   searchClicked = () => {
-    this.props.onSearch();  // Show all memos and ready to filter memos by word
-    this.props.history.push('/filtered'); // Redirect to that path
+    this.props.onSearch();  // Show all memos and ready to filter memos by text
+    this.props.history.push('/memo/filtered'); // Redirect to that path
     this.props.onToggleDraggable(false);  // Turn drag mode OFF
   }
 
