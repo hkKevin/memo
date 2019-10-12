@@ -7,9 +7,10 @@
 * Resizes memos to adjust the width and height manually
 * Drags memos to reorder them
 * Stores memos layout on Local Storage
-* Sync. memos title, content and colors on Firebase
+* Sync. memos title, content and color on Firebase
 * Sync. creation, update, and deletion of memos on Firebase
 * Filters memos by color
+* Finds memos by word
 * Adapts Google's Material Design by using Material-UI
 * Supports responsive web design
 
