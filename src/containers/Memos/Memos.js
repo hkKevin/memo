@@ -14,9 +14,7 @@ import { MenuItem,
           TextField, 
           Button,
           CircularProgress,
-          Snackbar,
-          IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+          Snackbar } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -84,7 +82,8 @@ class Memos extends React.PureComponent {
           backgroundColor: '#feb0bc'
         }
       },
-      showInnerModal: false
+      showInnerModal: false,
+      showInitialToast: true
     };
     
   }
@@ -244,7 +243,14 @@ class Memos extends React.PureComponent {
     }
     this.props.onHideToast(); // trigger the change of Redux state
   }
+  
+  hideInitialToast = (event, reason) => {
 
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.setState(({ showInitialToast: false }));
+  }
 
   render() {
 
@@ -357,6 +363,7 @@ class Memos extends React.PureComponent {
 
     let toast = null;
     let showToast = false;
+    // Notify user when the web app finish an action
     if (this.props.toastMsg) {
       showToast = true;
     }
@@ -368,28 +375,35 @@ class Memos extends React.PureComponent {
             horizontal: 'left',
           }}
           open={showToast}
-          autoHideDuration={2000}
+          autoHideDuration={3000}
           onClose={this.hideToast}
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
           message={<span id="message-id">{this.props.toastMsg}</span>}
-          action={
-            <IconButton
-              key="close"
-              aria-label="close"
-              color="inherit"
-              className={classes.close}
-              onClick={this.hideToast}
-            >
-              <CloseIcon />
-            </IconButton>
-          }
         />
       </div>
     );
     
-    
+    let initialToast = null;
+    // Only show once when the web app loaded/ reloaded
+    initialToast = (
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={this.state.showInitialToast}
+          autoHideDuration={3000}
+          onClose={this.hideInitialToast}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Double-click to edit memo</span>}
+        />
+      </div>
+    );
     
 
 
@@ -417,6 +431,7 @@ class Memos extends React.PureComponent {
         }
 
         {dialog}
+        {initialToast}
         {toast}
       </div>
     );
