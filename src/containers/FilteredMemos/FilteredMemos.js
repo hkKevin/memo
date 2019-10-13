@@ -1,20 +1,21 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { MenuItem, 
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Select, 
-  InputLabel, 
-  FormControl, 
-  Dialog, 
-  DialogActions, 
-  DialogContent,
-  TextField, 
-  Button,
-  DialogTitle, 
-  Paper } from '@material-ui/core';
+          AppBar,
+          Toolbar,
+          IconButton,
+          Typography,
+          Select, 
+          InputLabel, 
+          FormControl, 
+          Dialog, 
+          DialogActions, 
+          DialogContent,
+          TextField, 
+          Button,
+          DialogTitle, 
+          Paper,
+          Snackbar } from '@material-ui/core';
   import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
 import firebase from 'firebase';
@@ -252,10 +253,18 @@ class FilteredMemos extends Component {
     }
   }
 
+  hideToast = (event, reason) => {
+
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.props.onHideToast(); // trigger the change of Redux state
+  }
+
 
 	render() {
 
-    console.log(this.state.searchedWord)
+    // console.log(this.state.searchedWord)
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
 
@@ -377,6 +386,30 @@ class FilteredMemos extends Component {
       );
     }
 
+    let toast = null;
+    let showToast = false;
+    // Notify user when the web app completed an action
+    if (this.props.toastMsg) {
+      showToast = true;
+    }
+    toast = (
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={showToast}
+          autoHideDuration={3000}
+          onClose={this.hideToast}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.props.toastMsg}</span>}
+        />
+      </div>
+    );
+
     
 		return (
 			<div>
@@ -407,6 +440,7 @@ class FilteredMemos extends Component {
         }
 
         {dialog}
+        {toast}
 			</div>
 		);
 	}
@@ -426,7 +460,8 @@ const mapStateToProps = state => {
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,
-    searchingMemo: state.searchingMemo
+    searchingMemo: state.searchingMemo,
+    toastMsg: state.toastMsg
   };
 };
 
@@ -441,7 +476,8 @@ const mapDispatchToProps = dispatch => {
     onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
-    onFetchMemos: () => dispatch(actions.fetchMemos())
+    onFetchMemos: () => dispatch(actions.fetchMemos()),
+    onHideToast: () => dispatch({ type: 'HIDE_TOAST' })
   };
 };
 

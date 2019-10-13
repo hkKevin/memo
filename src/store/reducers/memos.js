@@ -42,7 +42,8 @@ const memos = (state = initialState, action) => {
       return {
         ...state,
         memos: state.memos.concat(newMemo),
-        selectedId: newMemo.id
+        selectedId: newMemo.id,
+        toastMsg: "Memo saved" // Notify user when the new memo saved
       }
 
     case 'FETCH_MEMOS_SUCCESS':
@@ -50,7 +51,8 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: action.memos,
         memosFetched: true,
-        showAllMemos: true
+        showAllMemos: true,
+        toastMsg: "Double-click to edit memo" // Notify user when the web app loaded/ reloaded
       }
 
 
@@ -115,7 +117,8 @@ const memos = (state = initialState, action) => {
         })
       return { 
         ...state,
-        memos: state.memos.filter(memo => memo.id !== action.memoId)
+        memos: state.memos.filter(memo => memo.id !== action.memoId),
+        toastMsg: "Memo deleted"
       }      
 
 
@@ -169,7 +172,11 @@ const memos = (state = initialState, action) => {
         .catch((error) => {
           console.log(error);
         })
-      return state;    
+      // return state;
+      return {
+        ...state,
+        toastMsg: "Memo updated"
+      }
 
 
     case 'CHANGE_COLOR':
@@ -198,7 +205,7 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: colorChangedMemos,
         selectedMemoColor: action.memoColor,
-        toastMsg: "Memo Color Updated"
+        toastMsg: "Memo color updated"
       }
     
     // Only show memos with selected color
@@ -223,16 +230,13 @@ const memos = (state = initialState, action) => {
         showStoredMemo: false
       }
     
-      // Filter memos by words
+      // Filter memos by text
     case 'SEARCH_MEMO':
       return { 
         ...state,
         searchingMemo: true
       }
     
-
-
-
 
     default:
       return state;

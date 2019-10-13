@@ -82,8 +82,7 @@ class Memos extends React.PureComponent {
           backgroundColor: '#feb0bc'
         }
       },
-      showInnerModal: false,
-      showInitialToast: true
+      showInnerModal: false
     };
     
   }
@@ -243,14 +242,6 @@ class Memos extends React.PureComponent {
     }
     this.props.onHideToast(); // trigger the change of Redux state
   }
-  
-  hideInitialToast = (event, reason) => {
-
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState(({ showInitialToast: false }));
-  }
 
   render() {
 
@@ -363,7 +354,7 @@ class Memos extends React.PureComponent {
 
     let toast = null;
     let showToast = false;
-    // Notify user when the web app finish an action
+    // Notify user when the web app completed an action
     if (this.props.toastMsg) {
       showToast = true;
     }
@@ -385,28 +376,6 @@ class Memos extends React.PureComponent {
       </div>
     );
     
-    let initialToast = null;
-    // Only show once when the web app loaded/ reloaded
-    initialToast = (
-      <div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={this.state.showInitialToast}
-          autoHideDuration={3000}
-          onClose={this.hideInitialToast}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">Double-click to edit memo</span>}
-        />
-      </div>
-    );
-    
-
-
     return (
       <div>
         <SideMenu history={this.props.history} />
@@ -431,7 +400,6 @@ class Memos extends React.PureComponent {
         }
 
         {dialog}
-        {initialToast}
         {toast}
       </div>
     );
