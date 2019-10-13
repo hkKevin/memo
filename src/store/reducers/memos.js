@@ -16,7 +16,8 @@ const initialState = {
   arrIndex: 0,
   memosFetched: false,
   draggable: false,
-  searchingMemo: false
+  searchingMemo: false,
+  toastMsg: ""
 }
 
 const memos = (state = initialState, action) => {
@@ -55,29 +56,35 @@ const memos = (state = initialState, action) => {
 
     // Within Memos.js:
 
+    case 'HIDE_TOAST':
+      return {
+        ...state,
+        toastMsg: "" // Set toastMsg to empty string -> Hide the toast
+      }
+
     case 'UPDATE_ID':
-    const editedmemos = state.memos.map( (memo, index) => {
-    // Only edit the newly added memo in the memos array
-    if (memo.id === state.selectedId) {
-      memo.id = state.selectedId;
-      state.arrIndex = index
-    }
-    return memo;
-    })
-    
-    const firebaseDb = firebase.database();
-    const updateIdUpdates = {};
-    // Update the selected array element to specific child node of Firebase
-    updateIdUpdates['/memos/' + state.selectedId] = editedmemos[state.arrIndex];
-    firebaseDb.ref()
-      .update(updateIdUpdates)
-      .then(() => {
-        // memo updated in firebase.
+      const editedmemos = state.memos.map( (memo, index) => {
+      // Only edit the newly added memo in the memos array
+      if (memo.id === state.selectedId) {
+        memo.id = state.selectedId;
+        state.arrIndex = index
+      }
+      return memo;
       })
-      .catch((error) => {
-        console.log(error);
-      })
-    return state;
+      
+      const firebaseDb = firebase.database();
+      const updateIdUpdates = {};
+      // Update the selected array element to specific child node of Firebase
+      updateIdUpdates['/memos/' + state.selectedId] = editedmemos[state.arrIndex];
+      firebaseDb.ref()
+        .update(updateIdUpdates)
+        .then(() => {
+          // memo updated in firebase.
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      return state;
       
 
     case 'STORE_COLOR':
@@ -176,6 +183,7 @@ const memos = (state = initialState, action) => {
       })
 
       const changeColorUpdates = {};
+      
       // Update the selected array element to specific child node of Firebase
       changeColorUpdates['/memos/' + state.selectedId] = colorChangedMemos[state.arrIndex];
       action.firebaseDb.ref()
@@ -189,7 +197,8 @@ const memos = (state = initialState, action) => {
       return {
         ...state,
         memos: colorChangedMemos,
-        selectedMemoColor: action.memoColor
+        selectedMemoColor: action.memoColor,
+        toastMsg: "Color Changed"
       }
     
     // Only show memos with selected color

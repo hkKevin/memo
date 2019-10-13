@@ -13,7 +13,10 @@ import { MenuItem,
           DialogContent,
           TextField, 
           Button,
-          CircularProgress } from '@material-ui/core';
+          CircularProgress,
+          Snackbar,
+          IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import * as actions from '../../store/actions/index';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -36,6 +39,9 @@ const styles = theme => ({
   },
   paper: {
     margin: 0
+  },
+  close: {
+    padding: theme.spacing.unit * 0.5
   }
 });
 
@@ -80,6 +86,7 @@ class Memos extends React.PureComponent {
       },
       showInnerModal: false
     };
+    
   }
 
   componentWillMount() {
@@ -100,8 +107,6 @@ class Memos extends React.PureComponent {
     }
     // firebase.initializeApp(config);
     this.setState({ db: firebase.database() });
-
-    
   }
 
   onLayoutChange(layout, newLayout) {
@@ -232,6 +237,14 @@ class Memos extends React.PureComponent {
     }
   }
 
+  hideToast = (event, reason) => {
+
+    if (reason === 'clickaway') {
+      return;
+    }
+    this.props.onHideToast(); // trigger the change of Redux state
+  }
+
 
   render() {
 
@@ -342,6 +355,43 @@ class Memos extends React.PureComponent {
       );
     }
 
+    let toast = null;
+    let showToast = false;
+    if (this.props.toastMsg) {
+      showToast = true;
+    }
+    toast = (
+      <div>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          open={showToast}
+          autoHideDuration={2000}
+          onClose={this.hideToast}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{this.props.toastMsg}</span>}
+          action={
+            <IconButton
+              key="close"
+              aria-label="close"
+              color="inherit"
+              className={classes.close}
+              onClick={this.hideToast}
+            >
+              <CloseIcon />
+            </IconButton>
+          }
+        />
+      </div>
+    );
+    
+    
+    
+
 
     return (
       <div>
@@ -367,6 +417,7 @@ class Memos extends React.PureComponent {
         }
 
         {dialog}
+        {toast}
       </div>
     );
   }
@@ -414,7 +465,8 @@ export const mapStateToProps = state => {
     selectedId: state.selectedId,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
-    draggable: state.draggable
+    draggable: state.draggable,
+    toastMsg: state.toastMsg
   };
 };
 
@@ -429,7 +481,8 @@ const mapDispatchToProps = dispatch => {
     onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
-    onFetchMemos: () => dispatch(actions.fetchMemos())
+    onFetchMemos: () => dispatch(actions.fetchMemos()),
+    onHideToast: () => dispatch({ type: 'HIDE_TOAST' })
   };
 };
 
