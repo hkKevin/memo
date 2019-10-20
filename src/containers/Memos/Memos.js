@@ -13,12 +13,12 @@ import { MenuItem,
           DialogContent,
           TextField, 
           Button,
-          CircularProgress,
-          Snackbar } from '@material-ui/core';
+          CircularProgress } from '@material-ui/core';
 
 import * as actions from '../../store/actions/index';
 import AddMemo from '../../containers/AddMemo/AddMemo';
 import SideMenu from '../../components/UI/SideMenu/SideMenu';
+import Toast from '../../components/UI/Toast/Toast';
 import './Memos.css';
 
 const styles = theme => ({
@@ -235,14 +235,6 @@ class Memos extends React.PureComponent {
     }
   }
 
-  hideToast = (event, reason) => {
-
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.props.onHideToast(); // trigger the change of Redux state
-  }
-
   render() {
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
@@ -351,30 +343,6 @@ class Memos extends React.PureComponent {
         </div>
       );
     }
-
-    let toast = null;
-    let showToast = false;
-    // Notify user when the web app completed an action
-    if (this.props.toastMsg) {
-      showToast = true;
-    }
-    toast = (
-      <div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={showToast}
-          autoHideDuration={3000}
-          onClose={this.hideToast}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">{this.props.toastMsg}</span>}
-        />
-      </div>
-    );
     
     return (
       <div>
@@ -400,7 +368,7 @@ class Memos extends React.PureComponent {
         }
 
         {dialog}
-        {toast}
+        <Toast toastMsg={this.props.toastMsg} />
       </div>
     );
   }
@@ -464,8 +432,7 @@ const mapDispatchToProps = dispatch => {
     onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
-    onFetchMemos: () => dispatch(actions.fetchMemos()),
-    onHideToast: () => dispatch({ type: 'HIDE_TOAST' })
+    onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };
 

@@ -34,11 +34,11 @@ const styles = theme => ({
     flexGrow: 1,
     textAlign: 'left',
     paddingTop: 12,
-    paddingBottom: 12
+    paddingBottom: 12,
+    paddingLeft: 20
   },
   menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+    marginLeft: -12
   },
   searchIcon: {
     marginRight: -12
