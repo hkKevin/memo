@@ -92,9 +92,8 @@
 }
 
 .layout {
-  margin: 4rem .5rem 0 0;
+  margin: 4rem .5rem 1rem 0;
   position: relative;
-  transition: all .1s ease-out;
 }
 
 .react-grid-item:not(.react-grid-placeholder) {

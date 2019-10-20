@@ -30,8 +30,11 @@ const styles = theme => ({
   fullList: {
     width: 'auto',
   },
-  grow: {
+  title: {
     flexGrow: 1,
+    textAlign: 'left',
+    paddingTop: 12,
+    paddingBottom: 12
   },
   menuButton: {
     marginLeft: -12,
@@ -127,6 +130,12 @@ class SideMenu extends Component {
     this.props.onSearch();  // Show all memos and ready to filter memos by text
     this.props.history.push('/memo/filtered'); // Redirect to that path
     this.props.onToggleDraggable(false);  // Turn drag mode OFF
+  }
+
+  // When web app title is clicked, scroll to top
+  titleClicked = () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
   }
 
   render() {
@@ -236,10 +245,14 @@ class SideMenu extends Component {
                aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="primary">
+            <Typography
+              id="appTitle"
+              className={classes.title}
+              onClick={this.titleClicked}
+              variant="h6" 
+              color="primary">
               Memo
             </Typography>
-            <div className={classes.grow} />
             <IconButton 
               color="primary" 
               className={classes.searchIcon}
