@@ -205,7 +205,7 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: colorChangedMemos,
         selectedMemoColor: action.memoColor,
-        toastMsg: "Memo color updated"
+        toastMsg: "Color updated"
       }
     
     // Only show memos with selected color

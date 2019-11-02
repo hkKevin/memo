@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Snackbar } from '@material-ui/core';
 
+// Toast is same as Snackbar
 class Toast extends Component {
-  
+
   hideToast = (event, reason) => {
-    // if (reason === 'clickaway') {
-    //   return;
-    // }
-    this.props.onHideToast(); // trigger the change of Redux state
+    // Click away from the toast will not hide the toast
+    if (reason === 'clickaway') { 
+      return; 
+    }
+    // trigger the change of Redux state
+    this.props.onHideToast();
   }
 
   render() {
 
-    let showToast = false;
+ let showToast = false;
     // Notify user when the web app completed an action
     if (this.props.toastMsg) {
       showToast = true;

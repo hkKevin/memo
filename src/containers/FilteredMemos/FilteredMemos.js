@@ -1,27 +1,17 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { MenuItem, 
-          AppBar,
+import { AppBar,
           Toolbar,
           IconButton,
           Typography,
-          Select, 
-          InputLabel, 
-          FormControl, 
-          Dialog, 
-          DialogActions, 
-          DialogContent,
-          TextField, 
-          Button,
-          DialogTitle, 
-          Paper,
-          Snackbar } from '@material-ui/core';
-  import ArrowBack from '@material-ui/icons/ArrowBack';
+          TextField } from '@material-ui/core';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 
 import './FilteredMemos.css';
 import * as actions from '../../store/actions/index';
+import Toast from '../../components/UI/Toast/Toast';
+import Modal from '../../components/UI/Modal/Modal';
 
 const styles = theme => ({
   paperContainer: {
@@ -29,12 +19,6 @@ const styles = theme => ({
     justifyContent: 'center',
     marginTop: theme.spacing.unit * 9,
     marginBottom: -theme.spacing.unit * 9
-  },
-  paper: {
-    ...theme.mixins.gutters(),
-    // paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 1,
-    maxWidth: 300,  
   },
   button: {
     margin: theme.spacing.unit,
@@ -54,6 +38,13 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     width: 220,
+  },
+  title: {
+    flexGrow: 1,
+    textAlign: 'left',
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 20
   }
 });
 
@@ -65,7 +56,6 @@ class FilteredMemos extends Component {
       hasTitle: false,
       hasContent: false,
       dropdownOpen: false,
-      db: null,
       memoStyle: {
         'YELLOW': {
           border: '1px solid #feef9c',
@@ -92,28 +82,8 @@ class FilteredMemos extends Component {
           backgroundColor: '#feb0bc'
         }
       },
-      showInnerModal: false,
       searchedWord: ""
     };
-  }
-
-  componentDidMount() {
-    // Set up Firebase config here once, for connecting to the db.
-    var config = {
-      apiKey: 'AIzaSyDgZKmgW7LpUpJmHkMpF0II4AcfHyfZFuo',
-      authDomain: 'memo-a117b.firebaseapp.com',
-      databaseURL: 'https://memo-a117b.firebaseio.com/'
-    };
-    // Prevent duplicate firebase app
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    }
-    // firebase.initializeApp(config);
-    this.setState({ db: firebase.database() });
-  }
-
-  colorSelected(event) {
-    this.changeColor(event.target.value);
   }
 
   memoClicked = (memo) => {
@@ -123,32 +93,8 @@ class FilteredMemos extends Component {
     this.storeColor(memo);
   }
 
-  OuterDeleteBtnClicked = () => {
-    this.setState({ 
-      showInnerModal: true
-    });
-  }
-
-  // Really delete the memo
-  innerDeleteBtnClicked = () => {
-    this.innerModalToggle();  // Close inner modal
-    this.toggle();  // Close outer modal
-    this.deleteMemo();  // Delete the memo on Firebase
-  }
-
-  // Delete the memo on Firebase
-  deleteMemo = () => {
-    this.props.onDeleteMemo(this.props.selectedId, this.state.db)
-  }
-
   toggle = () => {
     this.props.onToggleModal();
-  }
-
-  innerModalToggle = () => {
-    this.setState(state => ({ 
-      showInnerModal: !state.showInnerModal
-    }));
   }
 
   selectMemo = (memo) => {
@@ -174,39 +120,8 @@ class FilteredMemos extends Component {
     this.props.onStoreId(memo.id)
   }
 
-  titleChangedHandler = (event) => {
-    if (event.target.value === null || event.target.value === '') {
-      this.setState({ hasTitle: false });
-    } else {
-      this.setState({ hasTitle: true });
-    }
-    this.props.onChangeTitle(event.target.value);
-  }
-
-  contentChangedHandler = (event) => {
-    if (event.target.value === null || event.target.value === '') {
-      this.setState({ hasContent: false });
-    } else {
-      this.setState({ hasContent: true });
-    }
-    this.props.onChangeContent(event.target.value);
-  }
-
-  updateMemoClicked = () => {
-    this.toggle();
-    this.updateMemo();
-  }
-
-  updateMemo = () => {
-    this.props.onUpdateMemo(this.state.db);
-  }
-
   storeColor = (memo) => {
     this.props.onStoreColor(memo.color)
-  }
-
-  changeColor = (color) => {
-    this.props.onChangeColor(color, this.state.db);
   }
 
   searchOnChange = (event) => {
@@ -235,7 +150,7 @@ class FilteredMemos extends Component {
           key={memo.id}
           onDoubleClick={() => this.memoClicked(memo)}
           style={this.state.memoStyle[memo.color]}
-          className='memo'
+          className='filteredMemo'
         >
 
           <h3>{memo.title}</h3>
@@ -253,163 +168,33 @@ class FilteredMemos extends Component {
     }
   }
 
-  hideToast = (event, reason) => {
-
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.props.onHideToast(); // trigger the change of Redux state
+  // When web app title is clicked, scroll to top
+  titleClicked = () => {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
   }
-
 
 	render() {
 
-    // console.log(this.state.searchedWord)
-
-    let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
-
     const { classes } = this.props;
 
-    let searchPaper = null;
-    searchPaper = (
+    let searchField = null;
+    searchField = (
       <div className={classes.paperContainer}>
-        <Paper className={classes.paper} elevation={2}>
-          <TextField
-            id="standard-search"
-            key="searchField"
-            name="searchField"
-            label="Find..."
-            type="search"
-            className={classes.textField}
-            margin="normal"
-            autoFocus
-            onChange={this.searchOnChange}
-            value={this.state.searchedWord}
-          />
-        </Paper>
-      </div>
-    );
-
-    let dialog = null;
-    if (this.props.showStoredMemo) {
-      dialog = (
-        <div>
-          <Dialog
-            open={this.props.showModal}
-            onClose={this.toggle}
-            fullWidth={true}
-            maxWidth="sm"
-          >
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="normal"
-                id="memoTitle"
-                label="Title"
-                type="text"
-                fullWidth
-                required
-                onChange={this.titleChangedHandler}
-                value={this.props.selectedMemoTitle}
-              />
-              <TextField
-                margin="normal"
-                id="memoContent"
-                label="Content"
-                type="text"
-                fullWidth
-                required
-                multiline
-                rows='10'
-                onChange={this.contentChangedHandler}
-                value={this.props.selectedMemoContent}
-              />
-              <FormControl required className={classes.formControl}>
-                <InputLabel>Color</InputLabel>
-                  <Select
-                    value={this.props.selectedMemoColor}
-                    onChange={(event) => this.colorSelected(event)}
-                    name="color"
-                    className={classes.selectEmpty}
-                  >
-                    <MenuItem value="BLUE">Blue</MenuItem>
-                    <MenuItem value="GREEN">Green</MenuItem>
-                    <MenuItem value="ORANGE">Orange</MenuItem>
-                    <MenuItem value="PINK">Pink</MenuItem>
-                    <MenuItem value="PURPLE">Purple</MenuItem>
-                    <MenuItem value="YELLOW">Yellow</MenuItem>
-                  </Select>
-              </FormControl>
-            </DialogContent>
-            <DialogActions>
-              <Button 
-                onClick={this.OuterDeleteBtnClicked} 
-                variant="text" 
-                color="primary" 
-                className={classes.button}>
-                DELETE
-              </Button>
-              <Button 
-                onClick={this.updateMemoClicked} 
-                variant="text" 
-                color="secondary" 
-                className={classes.button} 
-                disabled={!atLeastOneInputHasValue}>
-                UPDATE
-              </Button>
-            </DialogActions>
-          </Dialog>
-
-          <Dialog
-            open={this.state.showInnerModal}
-            onClose={this.innerModalToggle}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-          >
-            <DialogTitle id="alert-dialog-title">{"Really delete this memo?"}</DialogTitle>
-            <DialogActions>
-              <Button 
-                onClick={this.innerModalToggle} 
-                color="primary">
-                CANCEL
-              </Button>
-              <Button 
-                onClick={this.innerDeleteBtnClicked} 
-                variant="text" 
-                color="secondary" 
-                className={classes.button}>
-                DELETE
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      );
-    }
-
-    let toast = null;
-    let showToast = false;
-    // Notify user when the web app completed an action
-    if (this.props.toastMsg) {
-      showToast = true;
-    }
-    toast = (
-      <div>
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={showToast}
-          autoHideDuration={3000}
-          onClose={this.hideToast}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={<span id="message-id">{this.props.toastMsg}</span>}
+        <TextField
+          id="standard-search"
+          key="searchField"
+          name="searchField"
+          label="Find..."
+          type="search"
+          className={classes.textField}
+          margin="normal"
+          autoFocus
+          onChange={this.searchOnChange}
+          value={this.state.searchedWord}
         />
       </div>
     );
-
     
 		return (
 			<div>
@@ -421,13 +206,18 @@ class FilteredMemos extends Component {
               aria-label="Menu">
               <ArrowBack color="primary" />
             </IconButton>
-            <Typography variant="h6" color="primary">
+            <Typography 
+              id="appTitle"
+              className={classes.title}
+              onClick={this.titleClicked}
+              variant="h6" 
+              color="primary">
               Memo
             </Typography>
           </Toolbar>
         </AppBar>
 
-        {this.props.searchingMemo ? (searchPaper) : null}
+        {this.props.searchingMemo ? (searchField) : null}
 
         {this.props.memosFetched
           ?
@@ -439,8 +229,9 @@ class FilteredMemos extends Component {
           : null
         }
 
-        {dialog}
-        {toast}
+        {this.props.showStoredMemo ? <Modal /> : null}
+        
+        <Toast toastMsg={this.props.toastMsg} />
 			</div>
 		);
 	}
@@ -448,15 +239,10 @@ class FilteredMemos extends Component {
 
 const mapStateToProps = state => {
   return {
-    showModal: state.showModal,
     addedMemos: state.memos,
     tempMemos: state.tempMemos,
-    selectedMemoTitle: state.selectedMemoTitle,
-    selectedMemoContent: state.selectedMemoContent,
-    selectedMemoColor: state.selectedMemoColor,
     showStoredMemo: state.showStoredMemo,
     showAllMemos: state.showAllMemos,
-    selectedId: state.selectedId,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,
@@ -471,13 +257,8 @@ const mapDispatchToProps = dispatch => {
     onSelectMemo: (title, content) => dispatch({ type: 'SELECT_MEMO', memoTitle: title, memoContent: content }),
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
-    onChangeTitle: (title) => dispatch({ type: 'CHANGE_TITLE', memoTitle: title }),
-    onChangeContent: (content) => dispatch({ type: 'CHANGE_CONTENT', memoContent: content }),
-    onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
-    onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
-    onFetchMemos: () => dispatch(actions.fetchMemos()),
-    onHideToast: () => dispatch({ type: 'HIDE_TOAST' })
+    onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };
 
