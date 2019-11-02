@@ -226,6 +226,7 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
+    onDeleteMemo: (id, db) => dispatch({ type: 'DELETE_MEMO', memoId: id, firebaseDb: db }),
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onChangeTitle: (title) => dispatch({ type: 'CHANGE_TITLE', memoTitle: title }),
     onChangeContent: (content) => dispatch({ type: 'CHANGE_CONTENT', memoContent: content }),

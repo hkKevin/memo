@@ -227,7 +227,6 @@ export const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteMemo: (id, db) => dispatch({ type: 'DELETE_MEMO', memoId: id, firebaseDb: db }),
     onSelectMemo: (title, content) => dispatch({ type: 'SELECT_MEMO', memoTitle: title, memoContent: content }),
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
