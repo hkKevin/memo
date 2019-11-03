@@ -9,13 +9,13 @@ import { ListItemSecondaryAction,
           ListItemText, 
           ListItemIcon, 
           ListItem, 
-          Divider, 
           List, 
           SwipeableDrawer, 
           Switch,
           Collapse,
           Fab,
-          Icon } from '@material-ui/core';
+          Icon,
+          Link } from '@material-ui/core';
 import {  ColorLens, 
           Create, 
           DragHandle, 
@@ -72,6 +72,14 @@ const styles = theme => ({
     bottom: theme.spacing.unit * 2,
     right: theme.spacing.unit * 2,
     zIndex: theme.zIndex.tooltip
+  },
+  credit: {
+    bottom: theme.spacing.unit * 1,
+    position: 'absolute'
+  },
+  link: {
+    margin: theme.spacing.unit * 3,
+    display: 'block'
   }
 });
 
@@ -213,25 +221,29 @@ class SideMenu extends Component {
             </ListItemIcon>
             <ListItemText primary="Create New Memo" />
           </ListItem>
-          <Divider />
-          <ListItem 
-            button 
-            component="a" 
-            href="https://github.com/hkKevin/memo" 
-            target="_blank" rel="noopener">
-            <ListItemText secondary="GitHub Repository" />
-          </ListItem>
-          <ListItem 
-            button 
-            component="a" 
-            href="https://github.com/hkKevin" 
-            target="_blank" rel="noopener">
-            <ListItemText secondary="Developed by Pak Kiu Leung" />
-          </ListItem>
         </List>
-        
-          
       </div>
+    );
+
+    const links = (
+      <Typography className={classes.credit}>
+        <Link 
+          href="https://github.com/hkKevin/memo" 
+          target="_blank" 
+          rel="noopener" 
+          className={classes.link} 
+          color="textSecondary">
+          GitHub Repository
+        </Link>
+        <Link 
+          href="https://github.com/hkKevin" 
+          target="_blank" 
+          rel="noopener" 
+          className={classes.link} 
+          color="textSecondary">
+          Developed by Pak Kiu Leung (Kevin)
+        </Link>
+      </Typography>
     );
 
     return (
@@ -280,6 +292,7 @@ class SideMenu extends Component {
             tabIndex={0}
             role="button">
             {fullList}
+            {links}
           </div>
         </SwipeableDrawer>
       </div>

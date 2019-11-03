@@ -13,6 +13,8 @@ import { MenuItem,
           TextField, 
           Button } from '@material-ui/core';
 
+// Modal is same as Dialog
+
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
