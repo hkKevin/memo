@@ -4,6 +4,10 @@
   font-family: -apple-system,BlinkMacSystemFont,"Open Sans",Roboto;
 }
 
+/* .MuiTooltip-tooltip {
+  font-size: 90px;
+} */
+
 @media only screen and (max-width: 400px) {
   .App {
     font-size: .8rem;

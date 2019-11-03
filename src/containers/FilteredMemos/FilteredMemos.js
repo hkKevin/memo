@@ -4,7 +4,8 @@ import { AppBar,
           Toolbar,
           IconButton,
           Typography,
-          TextField } from '@material-ui/core';
+          TextField,
+          Tooltip } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/CancelOutlined';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
@@ -218,24 +219,36 @@ class FilteredMemos extends Component {
           />
         </div>
         <div className={classes.colorContainer}>
-          <div 
-            className="findColor colorBlue"
-            onClick={() => this.colorClicked("BLUE")}></div>
-          <div 
-            className="findColor colorGreen"
-            onClick={() => this.colorClicked("GREEN")}></div>
-          <div 
-            className="findColor colorOrange"
-            onClick={() => this.colorClicked("ORANGE")}></div>
-          <div 
-            className="findColor colorPink"
-            onClick={() => this.colorClicked("PINK")}></div>
-          <div 
-            className="findColor colorPurple"
-            onClick={() => this.colorClicked("PURPLE")}></div>
-          <div 
-            className="findColor colorYellow"
-            onClick={() => this.colorClicked("YELLOW")}></div>
+          <Tooltip title="Blue">
+            <div 
+              className="findColor colorBlue"
+              onClick={() => this.colorClicked("BLUE")}></div>
+          </Tooltip>
+          <Tooltip title="Green">
+            <div 
+              className="findColor colorGreen"
+              onClick={() => this.colorClicked("GREEN")}></div>
+          </Tooltip>
+          <Tooltip title="Orange">
+            <div 
+              className="findColor colorOrange"
+              onClick={() => this.colorClicked("ORANGE")}></div>
+          </Tooltip>
+          <Tooltip title="Pink">
+            <div 
+              className="findColor colorPink"
+              onClick={() => this.colorClicked("PINK")}></div>
+          </Tooltip>
+          <Tooltip title="Purple">
+            <div 
+              className="findColor colorPurple"
+              onClick={() => this.colorClicked("PURPLE")}></div>
+          </Tooltip>
+          <Tooltip title="Yellow">
+            <div 
+              className="findColor colorYellow"
+              onClick={() => this.colorClicked("YELLOW")}></div>
+          </Tooltip>
         </div>
       </>
       
@@ -251,20 +264,24 @@ class FilteredMemos extends Component {
               aria-label="Menu">
               <ArrowBack color="primary" />
             </IconButton>
-            <Typography 
-              id="appTitle"
-              className={classes.title}
-              onClick={this.titleClicked}
-              variant="h6" 
-              color="primary">
-              Memo
-            </Typography>
-            <IconButton 
-              color="primary"
-              className={classes.clearIcon}
-              onClick={this.clearFilterClicked}>
-              <ClearIcon />
-            </IconButton>
+            <Tooltip title="Scroll to top">
+              <Typography 
+                id="appTitle"
+                className={classes.title}
+                onClick={this.titleClicked}
+                variant="h6" 
+                color="primary">
+                Filter
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Clear filter">
+              <IconButton 
+                color="primary"
+                className={classes.clearIcon}
+                onClick={this.clearFilterClicked}>
+                <ClearIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
 
@@ -294,7 +311,6 @@ const mapStateToProps = state => {
     addedMemos: state.memos,
     tempMemos: state.tempMemos,
     showStoredMemo: state.showStoredMemo,
-    // showAllMemos: state.showAllMemos,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,

@@ -14,7 +14,8 @@ import { ListItemSecondaryAction,
           Switch,
           Fab,
           Icon,
-          Link } from '@material-ui/core';
+          Link,
+          Tooltip } from '@material-ui/core';
 import {  Create, 
           DragHandle } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
@@ -92,7 +93,7 @@ class SideMenu extends Component {
   // Search icon is clicked
   searchClicked = () => {
     this.props.onSearch();  // Show all memos and ready to filter memos by text
-    this.props.history.push('/memo/filtered'); // Redirect to that path
+    this.props.history.push('/memo/filter'); // Redirect to that path
     this.props.onToggleDraggable(false);  // Turn drag mode OFF
   }
 
@@ -165,31 +166,37 @@ class SideMenu extends Component {
                aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography
-              id="appTitle"
-              className={classes.title}
-              onClick={this.titleClicked}
-              variant="h6" 
-              color="primary">
-              Memo
-            </Typography>
-            <IconButton 
-              color="primary" 
-              className={classes.searchIcon}
-              onClick={this.searchClicked}>
-              <SearchIcon />
-            </IconButton>
+            <Tooltip title="Scroll to top">
+              <Typography
+                id="appTitle"
+                className={classes.title}
+                onClick={this.titleClicked}
+                variant="h6" 
+                color="primary">
+                MEMO
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Find">
+              <IconButton 
+                color="primary" 
+                className={classes.searchIcon}
+                onClick={this.searchClicked}>
+                <SearchIcon />
+              </IconButton>
+            </Tooltip>
           </Toolbar>
         </AppBar>
 
-        <Fab 
-          color="primary" 
-          aria-label="Edit" 
-          className={classes.fab}
-          size="medium"
-          onClick={this.createOnClick}>
-          <Icon>edit_icon</Icon>
-        </Fab>
+        <Tooltip title="New">
+          <Fab 
+            color="primary" 
+            aria-label="Edit" 
+            className={classes.fab}
+            size="medium"
+            onClick={this.createOnClick}>
+            <Icon>edit_icon</Icon>
+          </Fab>
+        </Tooltip>
 
         <SwipeableDrawer 
           anchor="left"

@@ -11,7 +11,7 @@ class App extends Component {
 
     let routes = (
       <Switch>
-        <Route path='/memo/filtered' component={FilteredMemos} />
+        <Route path='/memo/filter' component={FilteredMemos} />
         <Route path='/memo' exact component={Memos} />
         <Redirect to='/memo' />
       </Switch>
