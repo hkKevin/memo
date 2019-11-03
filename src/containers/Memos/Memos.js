@@ -217,7 +217,7 @@ export const mapStateToProps = state => {
     addedMemos: state.memos,
     tempMemos: state.tempMemos,
     showStoredMemo: state.showStoredMemo,
-    showAllMemos: state.showAllMemos,
+    // showAllMemos: state.showAllMemos,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,

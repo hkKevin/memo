@@ -11,7 +11,7 @@ const initialState = {
   showModal: false,
   showNewMemoDialog: false,
   showStoredMemo: false,
-  showAllMemos: true,
+  // showAllMemos: true,
   filterColor: "",
   arrIndex: 0,
   memosFetched: false,
@@ -51,7 +51,7 @@ const memos = (state = initialState, action) => {
         ...state,
         memos: action.memos,
         memosFetched: true,
-        showAllMemos: true,
+        // showAllMemos: true,
         toastMsg: "Double-click to edit memo" // Notify user when the web app loaded/ reloaded
       }
 
@@ -212,9 +212,17 @@ const memos = (state = initialState, action) => {
     case 'FILTER_MEMOS':      
       return { 
         ...state,
-        showAllMemos: false,
+        // showAllMemos: false,
         filterColor: action.filterColor,
         searchingMemo: false
+      }
+
+    case 'CLEAR_FILTER':
+      return { 
+        ...state,
+        // showAllMemos: true,
+        filterColor: "",
+        searchingMemo: true
       }
 
     case 'TOGGLE_DRAGGABLE':      

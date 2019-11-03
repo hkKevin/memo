@@ -1,6 +1,6 @@
 .filteredLayout {
   margin: 5rem .5rem .5rem .5rem;
-  position: relative;
+  position: absolute;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap; 
@@ -37,9 +37,56 @@
               0px 1px 10px 0px rgba(0,0,0,0.12);
 }
 
+.findColor {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  margin: 1rem;
+}
+
+.findColor:hover {
+  border: 2px solid #AAA;
+  cursor: pointer;
+}
+
+.colorBlue {
+  background-color: #d8f1ff;
+  border: 2px solid #d8f1ff;
+}
+
+.colorGreen {
+  background-color: #b1ffb1;
+  border: 2px solid #b1ffb1;
+}
+
+.colorOrange {
+  background-color: #feccaf;
+  border: 2px solid #feccaf;
+}
+
+.colorPink {
+  background-color: #feb0bc;
+  border: 2px solid #feb0bc;
+}
+
+.colorPurple {
+  background-color: #dcdfff;
+  border: 2px solid #dcdfff;
+}
+
+.colorYellow {
+  background-color: #feef9c;
+  border: 2px solid #feef9c;
+}
+
 @media only screen and (max-width: 500px) {
   .filteredMemo {
     margin: .5rem;
     padding: .5rem;
+  }
+  .findColor {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin: 0.2rem;
   }
 }

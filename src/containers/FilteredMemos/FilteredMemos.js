@@ -5,6 +5,7 @@ import { AppBar,
           IconButton,
           Typography,
           TextField } from '@material-ui/core';
+import ClearIcon from '@material-ui/icons/CancelOutlined';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
 
@@ -14,11 +15,19 @@ import Toast from '../../components/UI/Toast/Toast';
 import Modal from '../../components/UI/Modal/Modal';
 
 const styles = theme => ({
-  paperContainer: {
+  searchContainer: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
     marginTop: theme.spacing.unit * 9,
     marginBottom: -theme.spacing.unit * 9
+  },
+  colorContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: theme.spacing.unit * 10,
+    marginBottom: -theme.spacing.unit * 10,
   },
   button: {
     margin: theme.spacing.unit,
@@ -31,8 +40,7 @@ const styles = theme => ({
     minWidth: 120,
   },
   menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
+    marginLeft: -12
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -45,6 +53,9 @@ const styles = theme => ({
     paddingTop: 12,
     paddingBottom: 12,
     paddingLeft: 20
+  },
+  clearIcon: {
+    marginRight: -12
   }
 });
 
@@ -128,6 +139,8 @@ class FilteredMemos extends Component {
     this.setState({
       searchedWord: event.target.value
     });
+    this.props.onSearch();
+    this.generateAddedMemos();
   }
 
   generateAddedMemos = () => {
@@ -135,10 +148,10 @@ class FilteredMemos extends Component {
 
       let filteredMemos = ""
       if ( !this.props.searchingMemo ) {
-        // Show filtered memos
+        // Filtered memos by color
         filteredMemos = this.props.addedMemos.filter(memo => memo.color === this.props.filterColor);
       } else {
-        // Show memos that contain searched word
+        // Filtered memos by text
         filteredMemos = this.props.addedMemos.filter(
           memo => memo.title.toLowerCase().includes(this.state.searchedWord.toLowerCase()) || 
                   memo.content.toLowerCase().includes(this.state.searchedWord.toLowerCase())
@@ -156,9 +169,6 @@ class FilteredMemos extends Component {
           <h3>{memo.title}</h3>
           <hr />
           <div>{memo.content}</div>
-          {this.props.draggable
-            ? <i className="material-icons dragHandle">drag_handle</i>
-            : null}
         </div>
 
       ));
@@ -174,31 +184,66 @@ class FilteredMemos extends Component {
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
   }
 
+  // One of the color is clicked
+  colorClicked = (filterColor) => {
+    this.props.onFilterMemos(filterColor);  // Pass the filter color to Redux
+    this.setState({ searchedWord: "" }); // Clear the search text
+  }
+
+  clearFilterClicked = () => {
+    // Remove all filters
+    this.setState({ searchedWord: "" });
+    this.props.onClearFilter();
+  }
+
 	render() {
 
     const { classes } = this.props;
 
-    let searchField = null;
-    searchField = (
-      <div className={classes.paperContainer}>
-        <TextField
-          id="standard-search"
-          key="searchField"
-          name="searchField"
-          label="Find..."
-          type="search"
-          className={classes.textField}
-          margin="normal"
-          autoFocus
-          onChange={this.searchOnChange}
-          value={this.state.searchedWord}
-        />
-      </div>
+    let filterControl = null;
+    filterControl = (
+      <>
+        <div className={classes.searchContainer}>
+          <TextField
+            id="standard-search"
+            key="searchField"
+            name="searchField"
+            label="Find..."
+            type="search"
+            className={classes.textField}
+            margin="normal"
+            autoFocus
+            onChange={this.searchOnChange}
+            value={this.state.searchedWord}
+          />
+        </div>
+        <div className={classes.colorContainer}>
+          <div 
+            className="findColor colorBlue"
+            onClick={() => this.colorClicked("BLUE")}></div>
+          <div 
+            className="findColor colorGreen"
+            onClick={() => this.colorClicked("GREEN")}></div>
+          <div 
+            className="findColor colorOrange"
+            onClick={() => this.colorClicked("ORANGE")}></div>
+          <div 
+            className="findColor colorPink"
+            onClick={() => this.colorClicked("PINK")}></div>
+          <div 
+            className="findColor colorPurple"
+            onClick={() => this.colorClicked("PURPLE")}></div>
+          <div 
+            className="findColor colorYellow"
+            onClick={() => this.colorClicked("YELLOW")}></div>
+        </div>
+      </>
+      
     );
     
 		return (
 			<div>
-        <AppBar color="default" position="fixed">
+        <AppBar color="inherit" position="fixed">
           <Toolbar>
             <IconButton 
               onClick={() => this.props.history.goBack()} 
@@ -214,11 +259,18 @@ class FilteredMemos extends Component {
               color="primary">
               Memo
             </Typography>
+            <IconButton 
+              color="primary"
+              className={classes.clearIcon}
+              onClick={this.clearFilterClicked}>
+              <ClearIcon />
+            </IconButton>
           </Toolbar>
         </AppBar>
 
-        {this.props.searchingMemo ? (searchField) : null}
+        {/* {this.props.searchingMemo ? (searchField) : null} */}
 
+        {filterControl}
         {this.props.memosFetched
           ?
           (
@@ -242,7 +294,7 @@ const mapStateToProps = state => {
     addedMemos: state.memos,
     tempMemos: state.tempMemos,
     showStoredMemo: state.showStoredMemo,
-    showAllMemos: state.showAllMemos,
+    // showAllMemos: state.showAllMemos,
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,
@@ -257,7 +309,10 @@ const mapDispatchToProps = dispatch => {
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
-    onFetchMemos: () => dispatch(actions.fetchMemos())
+    onFetchMemos: () => dispatch(actions.fetchMemos()),
+    onFilterMemos: (filterColor) => dispatch({ type: 'FILTER_MEMOS', filterColor: filterColor }),
+    onSearch: () => dispatch({ type: 'SEARCH_MEMO' }),
+    onClearFilter: () => dispatch({ type: 'CLEAR_FILTER' })
   };
 };
 
