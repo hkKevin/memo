@@ -15,7 +15,7 @@ const initialState = {
   arrIndex: 0,
   memosFetched: false,
   draggable: false,
-  searchingMemo: false,
+  searchingMemo: true,
   toastMsg: ""
 }
 
@@ -148,7 +148,7 @@ const memos = (state = initialState, action) => {
 
 
     case 'UPDATE_MEMO':
-      const updatedmemos = state.memos.map( (memo, index) => {
+      const updatedMemos = state.memos.map( (memo, index) => {
       // Only edit the selected memo in the memos array
       if (memo.id === state.selectedId) {
         memo.id = state.selectedId;
@@ -161,7 +161,7 @@ const memos = (state = initialState, action) => {
       
       const updateMemoUpdates = {};
       // Update the selected array element to specific child node of Firebase
-      updateMemoUpdates['/memos/' + state.selectedId] = updatedmemos[state.arrIndex];
+      updateMemoUpdates['/memos/' + state.selectedId] = updatedMemos[state.arrIndex];
       action.firebaseDb.ref()
         .update(updateMemoUpdates)
         .then(() => {
@@ -174,6 +174,32 @@ const memos = (state = initialState, action) => {
       return {
         ...state,
         toastMsg: "Memo updated"
+      }
+
+    case 'ARCHIVE_MEMO':
+      const archivedMemos = state.memos.map( (memo, index) => {
+        // Only edit the selected memo in the memos array
+        if (memo.id === state.selectedId) {
+          memo.archived = true
+        }
+        return memo;
+        })
+        
+      const archiveMemoUpdates = {};
+      // Update the selected array element to specific child node of Firebase
+      archiveMemoUpdates['/memos/' + state.selectedId] = archivedMemos[state.arrIndex];
+      action.firebaseDb.ref()
+        .update(archiveMemoUpdates)
+        .then(() => {
+          // memo archived in firebase.
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      // return state;
+      return {
+        ...state,
+        toastMsg: "Memo archived"
       }
 
 

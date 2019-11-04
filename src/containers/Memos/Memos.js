@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { WidthProvider, Responsive } from "react-grid-layout";
 import { withStyles } from '@material-ui/core/styles';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress,
+          Typography } from '@material-ui/core';
+import NoteOutlinedIcon from '@material-ui/icons/NoteOutlined';
 
 import * as actions from '../../store/actions/index';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -12,24 +14,8 @@ import Modal from '../../components/UI/Modal/Modal';
 import './Memos.css';
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
   progress: {
     marginTop: theme.spacing.unit * 20,
-  },
-  paper: {
-    margin: 0
-  },
-  close: {
-    padding: theme.spacing.unit * 0.5
   }
 });
 
@@ -125,7 +111,11 @@ class Memos extends React.PureComponent {
 
   generateAddedMemos = () => {
     if (this.props.addedMemos.length > 0) {
-      return this.props.addedMemos.map(memo => (
+      // Show all memos except archived memos
+      let nonArchivedMemos = null;
+      nonArchivedMemos = this.props.addedMemos.filter(memo => memo.archived === false);
+      return nonArchivedMemos.map(memo => (
+      // return this.props.addedMemos.map(memo => (
         <div
           key={memo.id}
           onDoubleClick={() => this.memoClicked(memo)}
@@ -143,13 +133,28 @@ class Memos extends React.PureComponent {
         </div>
 
       ));
-    } else {
-      console.error('no firebase widgets available yet.');
-      return <div>Loading...</div>;
     }
   }
 
   render() {
+
+    // When No memos is stored
+    let memoEmpty = null
+    if ( this.props.memosFetched && this.props.addedMemos.length <= 0 ) {
+      memoEmpty = (
+        <div className="memo-empty">
+          <NoteOutlinedIcon 
+            fontSize="large"
+            color="disabled"
+            className="memo-empty-icon" />
+          <Typography
+            variant="h6"
+            color="textSecondary">
+            Saved memos appear here
+          </Typography>
+        </div>
+      );
+    }
 
     const { classes } = this.props;
     
@@ -157,6 +162,7 @@ class Memos extends React.PureComponent {
       <div>
         <SideMenu history={this.props.history} />
         <AddMemo />
+        {memoEmpty}
 
         {this.props.memosFetched
           ? 

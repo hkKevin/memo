@@ -17,7 +17,8 @@ import { ListItemSecondaryAction,
           Link,
           Tooltip } from '@material-ui/core';
 import {  Create, 
-          DragHandle } from '@material-ui/icons';
+          DragHandle,
+          ArchiveOutlined } from '@material-ui/icons';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -103,6 +104,11 @@ class SideMenu extends Component {
     document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
   }
 
+  showArchivedMemos = () => {
+    this.props.history.push('/memo/archive');
+    this.props.onToggleDraggable(false);  // Turn drag mode OFF
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -129,6 +135,15 @@ class SideMenu extends Component {
               <Create color="primary" />
             </ListItemIcon>
             <ListItemText primary="Create New Memo" />
+          </ListItem>
+
+          <ListItem
+            button
+            onClick={this.showArchivedMemos}>
+            <ListItemIcon>
+              <ArchiveOutlined color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Archive" />
           </ListItem>
         </List>
       </div>

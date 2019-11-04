@@ -5,7 +5,8 @@ import { AppBar,
           IconButton,
           Typography,
           TextField,
-          Tooltip } from '@material-ui/core';
+          Tooltip,
+          CircularProgress } from '@material-ui/core';
 import ClearIcon from '@material-ui/icons/CancelOutlined';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 import { connect } from 'react-redux';
@@ -30,16 +31,6 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 10,
     marginBottom: -theme.spacing.unit * 10,
   },
-  button: {
-    margin: theme.spacing.unit,
-  },
-  input: {
-    display: 'none',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
   menuButton: {
     marginLeft: -12
   },
@@ -57,6 +48,9 @@ const styles = theme => ({
   },
   clearIcon: {
     marginRight: -12
+  },
+  progress: {
+    marginTop: theme.spacing.unit * 30,
   }
 });
 
@@ -96,6 +90,10 @@ class FilteredMemos extends Component {
       },
       searchedWord: ""
     };
+  }
+
+  componentWillMount () {
+    this.props.onFetchMemos();
   }
 
   memoClicked = (memo) => {
@@ -173,10 +171,7 @@ class FilteredMemos extends Component {
         </div>
 
       ));
-    } else {
-      console.error('no firebase widgets available yet.');
-      return <div>Loading...</div>;
-    }
+    } 
   }
 
   // When web app title is clicked, scroll to top
@@ -295,7 +290,7 @@ class FilteredMemos extends Component {
             {this.generateAddedMemos()}
           </div>
           )
-          : null
+          : (<CircularProgress color="secondary" className={classes.progress} />)
         }
 
         {this.props.showStoredMemo ? <Modal /> : null}

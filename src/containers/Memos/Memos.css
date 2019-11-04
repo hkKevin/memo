@@ -1,84 +1,3 @@
-.modalFooter {
-  justify-content: space-between;
-}
-
-.updateBtn:disabled {
-  cursor: not-allowed;
-}
-
-.updateBtn:not(:disabled) {
-  animation: btn 0.5s linear 1s 1;
-}
-
-.DropdownItem:hover {
-  cursor: pointer;
-}
-
-#blueItem:hover {
-  background-color: #d8f1ff;
-}
-
-#yellowItem:hover {
-  background-color: #feef9c;
-}
-
-#purpleItem:hover {
-  background-color: #DCDFFF;
-}
-
-#orangeItem:hover {
-  background-color: #feccaf;
-}
-
-#greenItem:hover {
-  background-color: #b1ffb1;
-}
-
-#pinkItem:hover {
-  background-color: #feb0bc;
-}
-
-@keyframes btn {
-  0% {
-      transform: scale(1);
-  }
-  60% {
-      transform: scale(1.1);
-  }
-  100% {
-      transform: scale(1);
-  }
-}
-
-
-@media (max-width: 430px) {
-  .btn, .dropdown-menu {
-    font-size: 0.9rem;
-    padding: .3rem .5rem;
-  }
-}
-
-@media (max-width: 380px) {
-  .btn, .dropdown-menu {
-    font-size: 0.8rem;
-    padding: .3rem .5rem;
-  }
-}
-
-@media (max-width: 345px) {
-  .btn, .dropdown-menu {
-    font-size: 0.7rem;
-    padding: .3rem .3rem;
-  }
-}
-
-
-
-/**/
-
-
-
-
 .text {
   font-size: 24px;
   text-align: center;
@@ -242,10 +161,6 @@
   }
 }
 
-.tooltip {
-  font-size: 0.7rem;
-}
-
 hr {
   border: 0;
   height: 1px;
@@ -257,5 +172,13 @@ hr {
   .MuiDialog-paper-127 {
     margin: 0 2vw !important;
   }
+}
+
+.memo-empty-icon {
+  margin-bottom: 3rem;
+}
+
+.memo-empty {
+  margin: 15rem 0;
 }
 

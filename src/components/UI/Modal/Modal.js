@@ -113,6 +113,11 @@ class Modal extends Component {
     this.props.onDeleteMemo(this.props.selectedId, this.state.db)
   }
 
+  archiveMemo = () => {
+    this.toggle();
+    this.props.onArchiveMemo(this.state.db);
+  }
+
   render() {
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
@@ -171,16 +176,23 @@ class Modal extends Component {
               </FormControl>
             </DialogContent>
             <DialogActions>
+              <Button
+                onClick={this.archiveMemo}
+                variant="text"
+                color="default"
+                className={classes.button}>
+                ARCHIVE
+              </Button>
               <Button 
                 onClick={this.OuterDeleteBtnClicked} 
-                variant="text" 
+                variant="outlined" 
                 color="primary" 
                 className={classes.button}>
                 DELETE
               </Button>
               <Button 
                 onClick={this.updateMemoClicked} 
-                variant="text" 
+                variant="contained" 
                 color="secondary" 
                 className={classes.button} 
                 disabled={!atLeastOneInputHasValue}>
@@ -199,12 +211,13 @@ class Modal extends Component {
             <DialogActions>
               <Button 
                 onClick={this.innerModalToggle} 
+                variant="text" 
                 color="primary">
                 CANCEL
               </Button>
               <Button 
                 onClick={this.innerDeleteBtnClicked} 
-                variant="text" 
+                variant="outlined" 
                 color="secondary" 
                 className={classes.button}>
                 DELETE
@@ -234,6 +247,7 @@ export const mapDispatchToProps = dispatch => {
     onChangeContent: (content) => dispatch({ type: 'CHANGE_CONTENT', memoContent: content }),
     onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
+    onArchiveMemo: (db) => dispatch({ type:'ARCHIVE_MEMO', firebaseDb: db})
   };
 };
 

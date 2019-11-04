@@ -4,6 +4,7 @@ import { Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import './App.css';
 import Memos from './containers/Memos/Memos';
 import FilteredMemos from './containers/FilteredMemos/FilteredMemos';
+import ArchivedMemos from './containers/ArchivedMemos/ArchivedMemos';
 
 class App extends Component {
   
@@ -11,6 +12,7 @@ class App extends Component {
 
     let routes = (
       <Switch>
+        <Route path='/memo/archive' component={ArchivedMemos} />
         <Route path='/memo/filter' component={FilteredMemos} />
         <Route path='/memo' exact component={Memos} />
         <Redirect to='/memo' />

@@ -39,13 +39,14 @@ class AddMemo extends Component {
 			id: new Date().getTime(),
 			title: this.state.title,
 			content: this.state.content,
-			color: 'YELLOW'
+			color: 'YELLOW',
+			archived: false
 		}
 		this.props.onSaveMemo(memoData);
 	}
 
 	// Clear previous input fields
-	deleteInput() {
+	deleteInput = () => {
 		this.setState({
 			title: '',
 			content: '',
