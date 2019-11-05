@@ -80,6 +80,7 @@ class Modal extends Component {
     this.props.onChangeColor(color, this.state.db);
   }
 
+  // First deletion button is clicked -> Open final deletion modal for confirmation 
   OuterDeleteBtnClicked = () => {
     this.setState({ 
       showInnerModal: true
@@ -103,8 +104,8 @@ class Modal extends Component {
 
   // Really delete the memo
   innerDeleteBtnClicked = () => {
-    this.innerModalToggle();  // Close inner modal
-    this.toggle();  // Close outer modal
+    this.innerModalToggle();  // Close inner modal/ Close the final modal
+    this.toggle();  // Close outer modal/ Close the first modal
     this.deleteMemo();  // Delete the memo on Firebase
   }
 
@@ -207,7 +208,7 @@ class Modal extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">{"Really delete this memo?"}</DialogTitle>
+            <DialogTitle id="alert-dialog-title">{"Delete this memo?"}</DialogTitle>
             <DialogActions>
               <Button 
                 onClick={this.innerModalToggle} 

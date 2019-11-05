@@ -16,7 +16,8 @@ const initialState = {
   memosFetched: false,
   draggable: false,
   searchingMemo: true,
-  toastMsg: ""
+  toastMsg: "",
+  newMemoSaved: false
 }
 
 const memos = (state = initialState, action) => {
@@ -36,12 +37,13 @@ const memos = (state = initialState, action) => {
     case 'SAVE_MEMO_SUCCESS':
       const newMemo = {
         ...action.memoData,
-        id: action.firebaseItemId
+        id: action.firebaseItemId   // Replace the temp id in Redux state with firebaseItemId
       }
       return {
         ...state,
         memos: state.memos.concat(newMemo),
         selectedId: newMemo.id,
+        newMemoSaved: true,   // Ready to Update(Sync) memo ID
         toastMsg: "Memo saved" // Notify user when the new memo saved
       }
 
@@ -64,7 +66,7 @@ const memos = (state = initialState, action) => {
 
     case 'UPDATE_ID':
       const editedmemos = state.memos.map( (memo, index) => {
-      // Only edit the newly added memo in the memos array
+      // Only edit the newly added memo in the Redux memos array
       if (memo.id === state.selectedId) {
         memo.id = state.selectedId;
         state.arrIndex = index
@@ -79,12 +81,16 @@ const memos = (state = initialState, action) => {
       firebaseDb.ref()
         .update(updateIdUpdates)
         .then(() => {
-          // memo updated in firebase.
+          // Replaced the temp id in firebase with firebaseItemId
         })
         .catch((error) => {
           console.log(error);
         })
-      return state;
+      // return state;
+      return {
+        ...state,
+        newMemoSaved: false
+      };
       
 
     case 'STORE_COLOR':
@@ -96,7 +102,7 @@ const memos = (state = initialState, action) => {
 
     case 'DELETE_MEMO':
       const renewMemos = state.memos.map( (memo, index) => {
-        // Only delete selected memo that is in the memos array
+        // Only delete selected memo that is in the Redux memos array
         if (memo.id === action.memoId) {
           memo = null
           state.arrIndex = index
@@ -146,15 +152,14 @@ const memos = (state = initialState, action) => {
         selectedMemoContent: action.memoContent
       }
 
-
     case 'UPDATE_MEMO':
       const updatedMemos = state.memos.map( (memo, index) => {
-      // Only edit the selected memo in the memos array
+      // Only edit the selected memo in the Redux memos array
       if (memo.id === state.selectedId) {
         memo.id = state.selectedId;
         memo.title =  state.selectedMemoTitle;
         memo.content = state.selectedMemoContent;
-        state.arrIndex = index
+        state.arrIndex = index;
       }
       return memo;
       })
@@ -180,7 +185,8 @@ const memos = (state = initialState, action) => {
       const archivedMemos = state.memos.map( (memo, index) => {
         // Only edit the selected memo in the memos array
         if (memo.id === state.selectedId) {
-          memo.archived = true
+          memo.archived = true;
+          state.arrIndex = index;
         }
         return memo;
         })

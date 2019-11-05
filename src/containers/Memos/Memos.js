@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { WidthProvider, Responsive } from "react-grid-layout";
 import { withStyles } from '@material-ui/core/styles';
-import { CircularProgress,
-          Typography } from '@material-ui/core';
-import NoteOutlinedIcon from '@material-ui/icons/NoteOutlined';
+import { CircularProgress } from '@material-ui/core';
+import firebase from 'firebase';
 
 import * as actions from '../../store/actions/index';
 import AddMemo from '../../containers/AddMemo/AddMemo';
@@ -29,8 +28,6 @@ class Memos extends React.PureComponent {
     this.state = {
       hasTitle: false,
       hasContent: false,
-      dropdownOpen: false,
-      db: null,
       layouts: getFromLS('layouts'),
       memoStyle: {
         'YELLOW': {
@@ -63,6 +60,18 @@ class Memos extends React.PureComponent {
   }
 
   componentWillMount() {
+    // Set up Firebase config for connecting to the db.
+    var config = {
+      apiKey: 'AIzaSyDgZKmgW7LpUpJmHkMpF0II4AcfHyfZFuo',
+      authDomain: 'memo-a117b.firebaseapp.com',
+      databaseURL: 'https://memo-a117b.firebaseio.com/'
+    };
+    // Prevent duplicate firebase app
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    }
+    
+    // Fetch memos from firebase
     this.props.onFetchMemos();
   }
 
@@ -136,24 +145,13 @@ class Memos extends React.PureComponent {
     }
   }
 
+  
+
   render() {
 
-    // When No memos is stored
-    let memoEmpty = null
-    if ( this.props.memosFetched && this.props.addedMemos.length <= 0 ) {
-      memoEmpty = (
-        <div className="memo-empty">
-          <NoteOutlinedIcon 
-            fontSize="large"
-            color="disabled"
-            className="memo-empty-icon" />
-          <Typography
-            variant="h6"
-            color="textSecondary">
-            Saved memos appear here
-          </Typography>
-        </div>
-      );
+    // Sync newly added memo id from Redux to firebase
+    if ( this.props.newMemoSaved === true ) {
+      this.props.onUpdateId();
     }
 
     const { classes } = this.props;
@@ -162,7 +160,6 @@ class Memos extends React.PureComponent {
       <div>
         <SideMenu history={this.props.history} />
         <AddMemo />
-        {memoEmpty}
 
         {this.props.memosFetched
           ? 
@@ -226,7 +223,8 @@ export const mapStateToProps = state => {
     memosFetched: state.memosFetched,
     filterColor: state.filterColor,
     draggable: state.draggable,
-    toastMsg: state.toastMsg
+    toastMsg: state.toastMsg,
+    newMemoSaved: state.newMemoSaved
   };
 };
 
@@ -236,7 +234,8 @@ const mapDispatchToProps = dispatch => {
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
-    onFetchMemos: () => dispatch(actions.fetchMemos())
+    onFetchMemos: () => dispatch(actions.fetchMemos()),
+    onUpdateId: () => dispatch({ type: 'UPDATE_ID' })
   };
 };
 

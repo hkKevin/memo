@@ -92,10 +92,6 @@ class FilteredMemos extends Component {
     };
   }
 
-  componentWillMount () {
-    this.props.onFetchMemos();
-  }
-
   memoClicked = (memo) => {
     this.toggle();
     this.selectMemo(memo);

@@ -7,7 +7,6 @@ import { AppBar,
           Typography,
           Tooltip,
           CircularProgress } from '@material-ui/core';
-import { ArchiveOutlined } from '@material-ui/icons';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 import * as actions from '../../store/actions/index';
@@ -29,6 +28,8 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 20,
   }
 });
+
+let archivedMemos = ""
 
 class ArchivedMemos extends Component {
 
@@ -60,17 +61,12 @@ class ArchivedMemos extends Component {
       }
     }
   }
-
-  componentWillMount () {
-    this.props.onFetchMemos();
-  }
   
   generateAddedMemos = () => {
-    let archivedMemos = ""
 
     if (this.props.addedMemos.length > 0) {
 
-      archivedMemos = this.props.addedMemos.filter(memo => memo.archived === true)
+      archivedMemos = this.props.addedMemos.filter(memo => memo.archived === true);
       
       return archivedMemos.map(memo => (
         <div
@@ -137,24 +133,6 @@ class ArchivedMemos extends Component {
     
     const { classes } = this.props;
 
-    // When No memos is archived
-    let archiveEmpty = null
-    if ( this.props.memosFetched && this.archivedMemos === "" ) {
-      archiveEmpty = (
-        <div className="memo-empty">
-          <ArchiveOutlined 
-            fontSize="large"
-            color="disabled"
-            className="memo-empty-icon" />
-          <Typography
-            variant="h6"
-            color="textSecondary">
-            Archived memos appear here
-          </Typography>
-        </div>
-      );
-    }
-
     return (
       <>
         <AppBar color="inherit" position="fixed">
@@ -177,8 +155,6 @@ class ArchivedMemos extends Component {
             </Tooltip>
           </Toolbar>
         </AppBar>
-
-        {archiveEmpty}
 
         {this.props.memosFetched
           ?
