@@ -8,6 +8,7 @@ const initialState = {
   selectedMemoContent: null,
   selectedId: null,
   selectedMemoColor: null,
+  isMemoArchived: false,
   showModal: false,
   showNewMemoDialog: false,
   showStoredMemo: false,
@@ -99,6 +100,11 @@ const memos = (state = initialState, action) => {
         selectedMemoColor: action.memoColor
       }
 
+    case 'CHECK_ARCHIVED':
+      return {
+        ...state,
+        isMemoArchived: action.memoArchived
+      }
 
     case 'DELETE_MEMO':
       const renewMemos = state.memos.map( (memo, index) => {
@@ -207,6 +213,34 @@ const memos = (state = initialState, action) => {
         ...state,
         toastMsg: "Memo archived"
       }
+
+
+    case 'UNARCHIVE_MEMO':
+        const unarchivedMemos = state.memos.map( (memo, index) => {
+          // Only edit the selected memo in the memos array
+          if (memo.id === state.selectedId) {
+            memo.archived = false;
+            state.arrIndex = index;
+          }
+          return memo;
+          })
+          
+        const unarchiveMemoUpdates = {};
+        // Update the selected array element to specific child node of Firebase
+        unarchiveMemoUpdates['/memos/' + state.selectedId] = unarchivedMemos[state.arrIndex];
+        action.firebaseDb.ref()
+          .update(unarchiveMemoUpdates)
+          .then(() => {
+            // memo unarchived in firebase.
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+        // return state;
+        return {
+          ...state,
+          toastMsg: "Memo unarchived"
+        }
 
 
     case 'CHANGE_COLOR':

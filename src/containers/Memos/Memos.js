@@ -85,6 +85,7 @@ class Memos extends React.PureComponent {
     this.selectMemo(memo);
     this.storeId(memo);
     this.storeColor(memo);
+    this.archivedOrNot(memo);
   }
 
   toggle = () => {
@@ -111,11 +112,15 @@ class Memos extends React.PureComponent {
   }
 
   storeId = (memo) => {
-    this.props.onStoreId(memo.id)
+    this.props.onStoreId(memo.id);
   }
 
   storeColor = (memo) => {
-    this.props.onStoreColor(memo.color)
+    this.props.onStoreColor(memo.color);
+  }
+
+  archivedOrNot = (memo) => {
+    this.props.onCheckArchived(memo.archived);
   }
 
   generateAddedMemos = () => {
@@ -234,6 +239,7 @@ const mapDispatchToProps = dispatch => {
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
+    onCheckArchived: (archivedOrNot) => dispatch({ type: 'CHECK_ARCHIVED', memoArchived: archivedOrNot }),
     onFetchMemos: () => dispatch(actions.fetchMemos()),
     onUpdateId: () => dispatch({ type: 'UPDATE_ID' })
   };

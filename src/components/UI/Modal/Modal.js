@@ -18,6 +18,12 @@ import { MenuItem,
 const styles = theme => ({
   button: {
     margin: theme.spacing.unit,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: theme.spacing.unit * 1.5,
+      margin: theme.spacing.unit * 0.5,
+      paddingRight: theme.spacing.unit * 0.5,
+      paddingLeft: theme.spacing.unit * 0.5
+    },
   },
   input: {
     display: 'none',
@@ -119,6 +125,11 @@ class Modal extends Component {
     this.props.onArchiveMemo(this.state.db);
   }
 
+  unarchiveMemo = () => {
+    this.toggle();
+    this.props.onUnarchiveMemo(this.state.db);
+  }
+
   render() {
 
     let atLeastOneInputHasValue = this.state.hasTitle || this.state.hasContent;
@@ -177,13 +188,26 @@ class Modal extends Component {
               </FormControl>
             </DialogContent>
             <DialogActions>
-              <Button
-                onClick={this.archiveMemo}
-                variant="text"
-                color="default"
-                className={classes.button}>
-                ARCHIVE
-              </Button>
+              { this.props.isMemoArchived ? 
+                (
+                  <Button
+                    onClick={this.unarchiveMemo}
+                    variant="text"
+                    color="default"
+                    className={classes.button}>
+                    UNARCHIVE
+                  </Button>
+                ) : 
+                (
+                  <Button
+                    onClick={this.archiveMemo}
+                    variant="text"
+                    color="default"
+                    className={classes.button}>
+                    ARCHIVE
+                  </Button>
+                )
+              }
               <Button 
                 onClick={this.OuterDeleteBtnClicked} 
                 variant="outlined" 
@@ -237,6 +261,7 @@ export const mapStateToProps = state => {
     selectedMemoContent: state.selectedMemoContent,
     selectedMemoColor: state.selectedMemoColor,
     selectedId: state.selectedId,
+    isMemoArchived: state.isMemoArchived
   };
 };
 
@@ -248,7 +273,8 @@ export const mapDispatchToProps = dispatch => {
     onChangeContent: (content) => dispatch({ type: 'CHANGE_CONTENT', memoContent: content }),
     onUpdateMemo: (db) => dispatch({ type: 'UPDATE_MEMO', firebaseDb: db }),
     onChangeColor: (color, db) => dispatch({ type: 'CHANGE_COLOR', memoColor: color, firebaseDb: db }),
-    onArchiveMemo: (db) => dispatch({ type:'ARCHIVE_MEMO', firebaseDb: db})
+    onArchiveMemo: (db) => dispatch({ type:'ARCHIVE_MEMO', firebaseDb: db}),
+    onUnarchiveMemo: (db) => dispatch({ type: 'UNARCHIVE_MEMO', firebaseDb: db })
   };
 };
 

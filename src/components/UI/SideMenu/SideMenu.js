@@ -54,6 +54,9 @@ const styles = theme => ({
   link: {
     margin: theme.spacing.unit * 3,
     display: 'block'
+  },
+  switch: {
+    marginRight: theme.spacing.unit * 5
   }
 });
 
@@ -119,7 +122,7 @@ class SideMenu extends Component {
             <ListItemIcon>
               <DragHandle color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Drag Memo" />
+            <ListItemText primary="Drag Memo" className={classes.switch} />
             <ListItemSecondaryAction>
               <Switch
                 onChange={event => this.dragToggleSwitched(event)}
@@ -134,7 +137,7 @@ class SideMenu extends Component {
             <ListItemIcon>
               <Create color="primary" />
             </ListItemIcon>
-            <ListItemText primary="Create New Memo" />
+            <ListItemText primary="New Memo" />
           </ListItem>
 
           <ListItem
@@ -191,7 +194,7 @@ class SideMenu extends Component {
                 MEMO
               </Typography>
             </Tooltip>
-            <Tooltip title="Find">
+            <Tooltip title="Filter">
               <IconButton 
                 color="primary" 
                 className={classes.searchIcon}

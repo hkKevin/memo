@@ -90,6 +90,7 @@ class ArchivedMemos extends Component {
     this.selectMemo(memo);
     this.storeId(memo);
     this.storeColor(memo);
+    this.archivedOrNot(memo);
   }
 
   toggle = () => {
@@ -121,6 +122,10 @@ class ArchivedMemos extends Component {
 
   storeColor = (memo) => {
     this.props.onStoreColor(memo.color)
+  }
+
+  archivedOrNot = (memo) => {
+    this.props.onCheckArchived(memo.archived);
   }
 
   // When web app title is clicked, scroll to top
@@ -189,6 +194,7 @@ export const mapDispatchToProps = dispatch => {
     onToggleModal: () => dispatch({ type: 'TOGGLE_MODAL' }),
     onStoreId: (id) => dispatch({ type: 'STORE_ID', memoId: id }),
     onStoreColor: (color) => dispatch({ type: 'STORE_COLOR', memoColor: color }),
+    onCheckArchived: (archivedOrNot) => dispatch({ type: 'CHECK_ARCHIVED', memoArchived: archivedOrNot }),
     onFetchMemos: () => dispatch(actions.fetchMemos())
   };
 };

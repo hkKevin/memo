@@ -94,7 +94,7 @@ class AddMemo extends Component {
             fullWidth={true}
             maxWidth="sm"
           >
-            <DialogTitle id="form-dialog-title">Create New Memo</DialogTitle>
+            <DialogTitle id="form-dialog-title">New Memo</DialogTitle>
             <DialogContent>
               <TextField
                 autoFocus
