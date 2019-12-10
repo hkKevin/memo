@@ -1,10 +1,10 @@
-[Live Web App](https://hkkevin.github.io/memo)
+[LIVE WEB APP](https://hkkevin.github.io/memo)
 
 ![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/img/projects/memo.png)
 
 ## Features
 
-* Utilizing React, Redux, react-router, Firebase, Material-UI, React-grid-layout, etc.
+* Utilizes React, Redux, react-router, Firebase, Material-UI, React-grid-layout, etc.
 * Resizes memos to adjust the width and height manually
 * Drags memos to reorder them
 * Stores memos layout on Local Storage
