@@ -10,6 +10,7 @@
 * Stores memos layout on Local Storage
 * Sync. memos title, content and color on Firebase
 * Sync. creation, update, deletion, and archive of memos on Firebase
+* Notifies users when the above actions are completed.
 * Filters memos by color or text
 * Applies Google's Material Design by using Material-UI
 * Supports Responsive Web Design
