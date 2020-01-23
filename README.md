@@ -1,6 +1,6 @@
 [LIVE WEB APP](https://hkkevin.github.io/memo)
 
-![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/img/projects/memo.png)
+![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/images/projects/memo.png)
 
 ## Features
 
