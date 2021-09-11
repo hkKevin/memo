@@ -1,4 +1,4 @@
-[Live Demo](https://hkkevin.github.io/memo)
+Live Demo: [https://hkkevin.github.io/memo](https://hkkevin.github.io/memo)
 
 ![Screenshot of Memo app](https://raw.githubusercontent.com/hkKevin/hkKevin.github.io/master/images/projects/memo/on-load.png)
 
